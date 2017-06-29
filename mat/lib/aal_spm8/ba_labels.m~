@@ -1,0 +1,6 @@
+Num = 3;
+Dis = 8;
+Str = ['volume summary',...
+			' (labels and percentages per cluster)'];
+
+gin_clusters_plabels_batch('List',xSPM);

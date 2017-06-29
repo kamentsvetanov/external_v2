@@ -1,0 +1,48 @@
+ClPm		Cerebellar peduncle mid.	1
+MCPpons		Pontine crossing tract		2
+CCgenu		Cor. callosum genu      	3
+CCbody		Cor. callosum body			4
+CCsplen		Cor. callosum splenium		5
+Fornix		Fornix (column & body)		6
+CST_L		Corticospinal tract L		7
+CST_R		Corticospinal tract R		8
+Mlem_L		Medial lemniscus L			9
+Mlem_R		Medial lemniscus R			10
+ClPi_L		Cerebellar peduncle inf L	11
+ClPi_R		Cerebellar peduncle inf R	12
+ClPs_L		Cerebellar peduncle inf L	13
+ClPs_R		Cerebellar peduncle inf R	14
+CP_L		Cerebral peduncle L			15
+CP_R		Cerebral peduncle R			16
+ICant_L		Internal capsule ant. L		17
+ICant_R		Internal capsule ant. R		18
+ICpost_L	Internal capsule post. L	19
+ICpost_R	Internal capsule post. R	20
+ICretro_L	Int cap retrolenticular L	21
+ICretro_R	Int cap retrolenticular R	22
+CRant_L		Corona radiata anterior L	23
+CRant_R		Corona radiata anterior R	24
+CRsup_L		Corona radiata superior L	25
+CRsup_R		Corona radiata superior R	26
+CRpost_L	Corona radiata post L		27
+CRpost_R	Corona radiata post R		28
+PTR_L		Thalamic radiation post L	29
+PTR_R		Thalamic radiation post R	30
+SagStraL	Sag stratum (ILF+IFOF) L	31
+SagStraR	Sag stratum (ILF+IFOF) R	32
+ECL			External capsule L			33
+ECR			External capsule R			34
+CingGyrL	Cingulum (gyral) L			35
+CingGyrR	Cingulum (gyral) R			36
+CingHipL	Cingulum (hippocampal) L	37
+CingHipR	Cingulum (hippocampal) R	38
+ForStriL	Fornix/Stria terminalis L	39
+ForStriR	Fornix/Stria terminalis R	40
+SLFL		Sup longitudinal fascic L	41
+SLFR		Sup longitudinal fascic R	42
+SFOFL		Sup fronto-occip fascic L	43
+SFOFR		Sup fronto-occip fascic R	44
+UFL			Uncinate fasciculus L		45
+UFR			Uncinate fasciculus R		46
+TapL		Tapetum L					47
+TapR		Tapetum R					48

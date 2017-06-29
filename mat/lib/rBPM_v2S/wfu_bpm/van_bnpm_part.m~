@@ -1,0 +1,111 @@
+function van_bnpm_part(dim, rownum, colnum, slicenum, yfile_name, xfile_name, mask)
+% already cd Resultdir
+% cd(resultdir);
+
+nRows   = dim(1);
+nCols   = dim(2);
+nSlices = dim(3);
+rowpart = ceil(nRows/rownum);
+colpart = ceil(nCols/colnum);
+slicepart = ceil(nSlices/slicenum);
+nsubj = size(yfile_name,2);
+nr = size(xfile_name,2); % number of regressors
+
+for row = 1:rowpart
+    for col = 1:colpart
+        for slice = 1:slicepart
+            part = (row-1)*colpart*slicepart+(col-1)*slicepart+slice;
+            rowmin = rownum*(row-1)+1;
+            rowmax = rowmin+rownum-1;
+            colmin = 1+colnum*(col-1);
+            colmax = colmin+colnum-1;
+            slicemin = 1+slicenum*(slice-1);
+            slicemax = slicemin+slicenum-1;
+            if rowmax > nRows
+                rowmax = nRows;
+            end
+            if colmax > nCols
+                colmax = nCols;
+            end
+            if slicemax > nSlices
+                slicemax = nSlices;
+            end
+                
+            % For Y
+            yfolder = ['Y_Part',num2str(part)];
+            mkdir(yfolder);
+            for k = 1:nsubj
+                wholey = load_untouch_nii(yfile_name{k}); % use load_nii ? sometimes error
+                partimagey = make_nii(wholey.img(rowmin:rowmax,colmin:colmax,slicemin:slicemax));
+                cd(yfolder);
+                save_nii(partimagey, ['Y',num2str(k),'_part',num2str(part),'.nii']);
+                cd ..
+            end
+    
+            % For X
+            for m = 1:nr
+                xfolder = ['Regressor',num2str(m),'X_Part',num2str(part)];
+                mkdir(xfolder);
+                for k = 1:nsubj
+                    wholex = load_untouch_nii(xfile_name{m}{k});
+                    partimagex = make_nii(wholex.img(rowmin:rowmax,colmin:colmax,slicemin:slicemax));
+                    cd(xfolder);
+                    save_nii(partimagex, ['Reg',num2str(m),'X',num2str(k),'_part',num2str(part),'.nii']);
+                    cd ..
+                end
+            end
+    
+            % For results
+            pwd;
+            rfolder = ['Result_Part',num2str(part)];
+            mkdir(rfolder);
+            cd(rfolder); 
+            % master file
+            fid = fopen('master_flist.txt','w');
+            numfmod = nr+1;
+            fprintf(fid,'%d\n',numfmod);            
+            for m = 1:nr+1
+                fmod{m} = [...
+                    pwd,'//file_mod',num2str(m),'.txt'];
+                fprintf(fid,'%s\n',fmod{m});
+            end
+            fclose(fid);
+            % fmod file for y
+            yfile = [...
+                pwd,'/ypart',num2str(part),'.flist'];
+            fid = fopen('file_mod1.txt','w');
+            fprintf(fid,'%s',yfile);
+            fclose(fid);
+            % y file
+            fid = fopen(['ypart',num2str(part),'.flist'],'w');
+            fprintf(fid,'%d\n',nsubj);
+            for k = 1:nsubj
+                yname = ['./../Y_Part',num2str(part),'/Y',num2str(k),'_part',num2str(part),'.nii'];
+                fprintf(fid,'%s\n',yname);
+            end
+            fclose(fid);
+            % fmod file for x & x file
+            for m = 1:nr
+                xfile = [...
+                    pwd,'/Reg',num2str(m),'_xpart',num2str(part),'.flist'];
+                fid = fopen(['file_mod',num2str(m+1),'.txt'],'w');
+                fprintf(fid,'%s',xfile);
+                fclose(fid);
+                fid = fopen(['Reg',num2str(m),'_xpart',num2str(part),'.flist'],'w');
+                fprintf(fid,'%d\n',nsubj);
+                for k = 1:nsubj
+                    xname = ['./../Regressor',num2str(m),'X_Part',num2str(part),'/Reg',num2str(m),'X',num2str(k),'_part',num2str(part),'.nii'];
+                    fprintf(fid,'%s\n',xname);
+                end
+                fclose(fid);
+            end
+            % mask image
+            if ~isempty(mask)
+                wholemask = load_nii(mask);
+                tempmask = make_nii(wholey.img(rowmin:rowmax,colmin:colmax,slicemin:slicemax));
+                cd(yfolder);
+                save_nii(partimagey, ['Y',num2str(k),'_part',num2str(part),'.nii']);
+            cd ..
+        end
+    end
+end

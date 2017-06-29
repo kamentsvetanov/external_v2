@@ -1,0 +1,106 @@
+# GLMdenoise
+
+GLMdenoise is a MATLAB toolbox for analyzing and denoising task-based fMRI data.
+It is developed by Kendrick Kay (kendrick@post.harvard.edu).
+
+To use the toolbox, add it to your MATLAB path:
+  addpath(genpath('GLMdenoise'));
+
+To try the toolbox on an example dataset, change to the GLMdenoise directory 
+and then type:
+  example1;
+This script will download the example dataset (if it has not already been
+downloaded) and will run the toolbox on the dataset.
+
+For additional information, please visit:
+  http://kendrickkay.net/GLMdenoise/
+
+Terms of use: This content is licensed under a Creative Commons Attribution 3.0 
+Unported License (http://creativecommons.org/licenses/by/3.0/us/). You are free 
+to share and adapt the content as you please, under the condition that you cite 
+the appropriate manuscript (see below).
+
+If you use GLMdenoise in your research, please cite the following paper:
+  Kay KN, Rokem A, Winawer J, Dougherty RF and Wandell BA (2013) 
+    GLMdenoise: a fast, automated technique for denoising task-based fMRI data.
+    Front. Neurosci. 7:247. doi: 10.3389/fnins.2013.00247
+
+History of major code changes:
+- 2014/08/01:
+    Version 1.4.
+    - Add option for obtaining parametric GLM fits and error estimates.
+    - Add new DVARS sanity-check figures.
+    - Change the polynomial functions such that they are all mutually orthogonal
+      and unit-length.  This may cause slight changes to behavior due to numerical
+      precision issues.
+- 2014/07/14:
+    Version 1.31.
+    - Minor fixes to improve platform compatibility.
+    - Add additional input flexibility.
+- 2013/12/13:
+    Version 1.3.
+    - Added new example scripts.
+- 2013/11/18:
+    Version 1.2.
+    - The default canonical HRF has changed.  (It is now smoother/nicer than before.)
+    - Add additional input flexibility.
+    - If pcvoxels is determined to be empty (e.g. no voxels were above 0% for any number
+      of PCs), we now issue a warning (instead of crashing) and fallback to simply using 
+      the top 100 voxels to select the number of PCs.
+    - Change the colormap scaling for the PCcrossvalidationscaled*.png figures.
+    - Use fullfile to ensure compatibility with different platforms.
+    - In GLMestimatemodel.m, we now use the same default for opt.maxpolydeg that is
+      used in GLMdenoisedata.m (instead of defaulting to 2).
+    - Various small tweaks.
+- 2013/05/12:
+    Version 1.1.
+    - The experimental design can now be specified in terms of onset times.
+      This means that conditions do not have to exactly coincide with the TRs.
+    - Fixed a bug concerning extraregressors.
+    - Additional optional inputs, additional outputs, and additional figures.
+    - All-zero regressors (e.g. encountered via bootstrapping) are now assigned zero weight.
+- 2012/12/03 - Version 1.02. Various speed-ups and minor bug fixes.
+- 2012/11/24 - Version 1.0.
+
+## CONTENTS
+
+Contents:
+- example*.m - Example scripts
+- exampledataset.mat - Example dataset
+- GLMdenoisedata.m - The main top-level function that you probably want to call
+- GLMestimatemodel.m - Another top-level function that you may call
+- GLMpredictresponses.m - Another top-level function that you may call
+- README - The file you are reading
+- setup.m - A simple script that downloads the example dataset
+            and adds GLMdenoise to the MATLAB path
+- utilities - A directory containing various utility functions
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Copyright (c) 2012, Kendrick Kay
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer.
+
+Redistributions in binary form must reproduce the above copyright notice, this
+list of conditions and the following disclaimer in the documentation and/or
+other materials provided with the distribution.
+
+Neither the name of Stanford University nor the names of its contributors may be
+used to endorse or promote products derived from this software without specific
+prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

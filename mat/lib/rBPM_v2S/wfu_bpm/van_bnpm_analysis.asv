@@ -1,0 +1,635 @@
+function error = van_bnpm_analysis
+
+SCCSid = '1.4';
+SPMid  = spm('SFnBanner','bnpm toolbox','SCCSid');
+warning('off')
+H = spm('FnUIsetup','VAN BnPM Analysis',0);
+error = 0;
+
+%----- Result directory ---------%
+if exist('spm_get')
+    BnPMstr.result_dir  = spm_str_manip(spm_get(-1,'*','Results directory',pwd),'r');
+else
+    BnPMstr.result_dir  = spm_str_manip(spm_select(1, 'dir', 'Results directory', [], pwd), '.*');
+end
+wdir = BnPMstr.result_dir ;
+disp(['Results directory:  ' wdir]);
+cd(wdir);
+
+%------ Only do regression, BPM.type = 'REGRESSION' ------%
+swd = pwd;        
+[flist{1}{1}, swd] = wfu_bpm_get_any_file(sprintf('Dependent modality file list for %s',  'REGRESSION'), swd);
+title_group{1}{1}  = spm_input('Name of the main modality ','+2','s');
+
+% ------ Reading the main modality files ------%
+yfile_names = wfu_bpm_read_flist(flist{1}{1});
+nsubj = size(yfile_names,1); % number of subjects
+for k = 1:nsubj
+    yfile_names_subjs{k} = yfile_names(k,:); % name of each main modality image file
+    index = find(yfile_names_subjs{k}==' ');
+    if ~isempty(index)
+        yfile_names_subjs{k} = [yfile_names(k,1:index-1),yfile_names(k,index+1:size(yfile_names(k)))];
+    end
+end
+BnPMstr.fname = yfile_names_subjs{1};
+
+% ------- determining the size of the images ---------------------------%
+Vtemp = spm_vol(yfile_names_subjs{1});
+nRows      = Vtemp.dim(1);
+nCols      = Vtemp.dim(2);
+nSlices = Vtemp.dim(3);
+BnPMstr.dim = Vtemp.dim;
+
+% ------ imageing covariates ------ %        
+nModalities = spm_input('How many imaging covariates? ','+1');
+for cv = 1:nModalities
+    title_img_cov{cv} = spm_input(sprintf('Name of imaging covariate#%d ',cv),'+1','s');
+end
+       
+for m = 2:nModalities+1                
+    [flist{m}{1}, swd] = wfu_bpm_get_any_file(sprintf('Modality %d file list ', m), swd);                                     
+end
+% ------ Reading the regressors files ------%
+nr = nModalities; % number of regressors
+xfile_names = cell(1,nr);
+for m = 1:nr
+    xfile_names{m} = wfu_bpm_read_flist(flist{m+1}{1});
+    for k = 1:nsubj
+        xfile_names_subjs{m}{k} = xfile_names{m}(k,:);
+        index = find(xfile_names_subjs{m}{k}==' ');
+        if ~isempty(index)
+            xfile_names_subjs{m}{k} = [xfile_names{m}(k,1:index-1),xfile_names{m}(k,index+1:size(xfile_names{m}(k)))];
+        end
+    end
+end
+
+
+% ------ non-imaging covariates ------ %         
+niCov = spm_input('Any non-imaging covariates? ','+1','y/n',[1,0],2);
+        
+% ----- No regressors error ---------------------%
+if (nModalities == 0) & (niCov == 0)
+    display('Regression requires at least one covariate')
+    error = 1;
+    return
+end
+        
+% --- Selecting the file with non-imaging covariates information--%       
+% conf is no-image covariates        
+if niCov > 0
+    [conf, swd] = wfu_bpm_get_any_file(sprintf('Non-imaging covariates file for %s', 'REGRESSION'), swd);
+    col_cof = load(conf);
+    nIC = size(col_cof,2);
+    for cv = 1:nIC
+        title_ni_cov{cv} = spm_input(sprintf('Name of non-imaging covariates#%d ',cv),'+1','s');
+    end
+else
+    conf = [];
+end
+
+        
+%----- brain mask -----% 
+if spm_input('Apply a predefined brain mask? ','+1','y/n',[1 0],0)
+     %   ---------- Enter the mask ----------------%
+    [mask, swd]  = wfu_bpm_get_image_file('Select mask', swd);
+else
+    tt = spm_input('Threshold type', '+1', 'Proportional|Absolute',[],1);
+    if strcmp(tt, 'Proportional')
+        fthr = 1;
+        thr = spm_input('threshold ','+1','e',0.1);   
+    else
+        fthr = 2;
+        thr = spm_input('threshold ','+1','e',0.1);   
+    end
+    mask = [];
+end
+
+%-Ask about variance smoothing & volumetric computation
+%-----------------------------------------------------------------------
+vFWHM=[0,0,0];	% FWHM for variance smoothing
+bVarSm=0;	% Flag for variance smoothing
+
+vFWHM = spm_input('FWHM(mm) for Variance smooth','+1','e',0);
+if length(vFWHM)==1
+	vFWHM = vFWHM * ones(1,3);
+elseif length(vFWHM)==2
+	vFWHM = [vFWHM, 0];
+else
+	vFWHM = reshape(vFWHM(1:3),1,3);
+end
+if ~all(vFWHM==0), bVarSm=1; end
+
+% ------ input permutation times ------ %
+nPiCond = gamma(nsubj+1);
+bAproxTst = spm_input(sprintf('%d Perms. Use approx. test?',nPiCond),...
+							'+1','y/n')=='y';
+if bAproxTst
+      tmp = 0;
+      while ((tmp>nPiCond) | (tmp==0) )
+      tmp = spm_input(sprintf('# perms. to use? (Max %d)',nPiCond),'+0');
+      tmp = floor(max([0,tmp]));
+      end
+      if (tmp==nPiCond), bAproxTst=0; else nPiCond=tmp; end
+end
+BnPMstr.nPiCond = nPiCond;
+
+% ------ Contrast parameter ------ %
+tt = spm_input('Contrast Type', '+1', 'F|T',[],1);
+if strcmp(tt, 'F') 
+    STAT = 'F';
+    sr = spm_input(sprintf('Select the regressors (1/0)'),'+1','e'); 
+    c = sr(:);
+else
+    ts = spm_input('T-sign', '+1', '+|-',[],1);
+    STAT = 'T';
+    c = spm_input(sprintf('Enter new contrast '),'+1','e');   
+    c=c(:);
+    if strcmp(ts,'-')
+         c = -c;
+    end
+end
+
+% ------ SPM, BnPM directory ------%
+spm_dir  = spm_str_manip(spm_select(1, 'dir', 'SPM directory', [], pwd), '.*');
+bnpm_dir  = spm_str_manip(spm_select(1, 'dir', 'BnPM directory', [], pwd), '.*');
+
+% ------ Number of jobs ------%
+BnPMstr.njob = spm_input(sprintf('Enter # of jobs '),'+1','e'); 
+
+% input walltime
+walltime = spm_input(sprintf('Enter walltime hour:minute:second'),'+1','s');
+
+%-Compute permutations of conditions
+%=======================================================================
+
+if bAproxTst
+	%-Approximate test :
+	% Build up random subset of all (within nSubj) permutations
+	%===============================================================
+	rand('seed',sum(100*clock))	%-Initialise random number generator
+	PiCond      = zeros(nPiCond,nsubj);
+	PiCond(1,:) = 1+rem([0:nsubj-1],nsubj);
+	for i = 2:nPiCond
+		%-Generate a new random permutation - see randperm
+		[null,p] = sort(rand(nsubj,1)); p = p(:)';
+		%-Check it's not already in PiCond
+		while any(all((meshgrid(p,1:i-1)==PiCond(1:i-1,:))'))
+			[null,p] = sort(rand(nsubj,1)); p = p(:)';
+		end
+		PiCond(i,:) = p;
+	end
+	clear p
+
+else
+	%-Full permutation test :
+	% Build up exhaustive matrix of permutations
+	%===============================================================
+	%-Compute permutations for a single exchangability block
+	%---------------------------------------------------------------
+	%-Initialise XblkPiCond & remaining numbers
+	XblkPiCond = [];
+	lef = [1:nsubj]';
+	%-Loop through numbers left to add to permutations, accumulating PiCond
+	for i = nsubj:-1:1
+		%-Expand XblkPiCond & lef
+		tmp = round(exp(gammaln(nsubj+1)-gammaln(i+1)));
+		Exp = meshgrid(1:tmp,1:i); Exp = Exp(:)';
+		if ~isempty(XblkPiCond), XblkPiCond = XblkPiCond(:,Exp); end
+		lef = lef(:,Exp);
+		%-Work out sampling for lef
+		tmp1 = round(exp(gammaln(nsubj+1)-gammaln(i+1)));
+		tmp2 = round(exp(gammaln(nsubj+1)-gammaln(i)));
+		sam = 1+rem(0:i*tmp1-1,i) + ([1:tmp2]-1)*i;
+		%-Add samplings from lef to XblkPiCond
+		XblkPiCond   = [XblkPiCond; lef(sam)];
+		%-Delete sampled items from lef & condition size
+		lef(sam) = [];
+		tmp = round(exp(gammaln(nsubj+1)-gammaln((i-1)+1)));
+		lef = reshape(lef,(i-1),tmp);
+		%NB:gamma(nSubj+1)/gamma((i-1)+1) == size(XblkPiCond,2);
+	end
+	clear lef Exp sam i
+	%-Reorientate so permutations are in rows
+	XblkPiCond = XblkPiCond';
+	PiCond=XblkPiCond;
+end
+
+%-Check, condition and randomise PiCond
+%-----------------------------------------------------------------------
+%-Check PiConds sum within Xblks to sum to 1
+if ~all(all(sum(PiCond,2)== (nsubj+1)*nsubj/2 ))
+	error('Invalid PiCond computed!'), end
+%-Convert to full permutations from permutations within blocks
+nPiCond = size(PiCond,1);
+%-Randomise order of PiConds (except first) to allow interim analysis
+rand('seed',sum(100*clock))	%-Initialise random number generator
+PiCond=[PiCond(1,:);PiCond(randperm(nPiCond-1)+1,:)];
+%-Check first permutation is null permutation
+if ~all(PiCond(1,:)==[1:nsubj])
+	error('PiCond(1,:)~=[1:nsubj]'); end
+
+%=======================================================================
+% - C O R R E C T   P E R M U T A T I O N
+%=======================================================================
+% Work out correct permuation completely. Separating the first
+BPM.type = 'REGRESSION';
+BPM.result_dir = BnPMstr.result_dir;
+BPM.flist = wfu_bpm_write_flist_gen(wdir,flist,nModalities+1);
+BPM.conf = conf;
+BPM.mask = mask;
+if fthr == 1
+    BPM.mask_pthr = thr;
+else
+    BPM.mask_athr = thr;
+end
+BPM.DMS(1) = 1;
+% Add mean as part of titles
+
+BPM.titles{1} = title_group{1}{1};
+
+BPM.robust = 0;
+if niCov > 0
+    BPM.DMS(2) = size(col_cof,2);
+        
+    for k = 1:BPM.DMS(2)
+        BPM.titles{k+BPM.DMS(1)} = title_ni_cov{k};
+    end
+else
+    BPM.DMS(2) = 0;
+end
+if nModalities > 0
+    BPM.DMS(3) = nModalities;
+    for k = 1:BPM.DMS(3)
+        BPM.titles{1} = 'mean'; % add mean to contrast
+        BPM.titles{k+BPM.DMS(1)+BPM.DMS(2)} = title_img_cov{k};
+    end
+else
+    BPM.DMS(3) = 0;
+end
+
+% ----- Treatment of the mask ----------------%
+if nargin < 1  
+    master_name = fullfile(BPM.result_dir,'master_flist.txt');
+end    
+file_names_mod = wfu_bpm_read_flist(master_name);                     
+[file_names_subjs,no_grp] = wfu_bpm_get_file_names( file_names_mod(1,:) ); 
+
+if isempty(BPM.mask)
+    %  ---- Generating the default mask ------------- %    
+%     if nargin < 1  
+%         master_name = fullfile(BPM.result_dir,'master_flist.txt');
+%     end    
+%     file_names_mod = wfu_bpm_read_flist(master_name) ;                     
+%     [file_names_subjs,no_grp] = wfu_bpm_get_file_names( file_names_mod(1,:) ); 
+    k = 1;        
+    for m = 1:no_grp
+        for n = 1:size(file_names_subjs{m},1)
+            CP1{k} = file_names_subjs{m}(n,:);
+            k = k + 1;
+        end
+    end    
+    P1 = strvcat(CP1);
+    [inter_mask1] = wfu_bpm_mask(P1, BPM);
+    BPM.mask      = fullfile(BPM.result_dir,'mask.img')    ;
+else
+    % ----- mask provided by the user ----------%
+    Vmask  = spm_vol(BPM.mask);
+    Vsubj1 = spm_vol(file_names_subjs{1}(1,:));
+    if ~isequal(Vmask.dim(1:3),Vsubj1.dim(1:3))   
+        C{1}       = file_names_subjs{1}(1,:);
+        C{2}       = BPM.mask;
+        P          = strvcat(C);    
+        flag.mean  = 0;
+        flag.which = 1;
+        spm_reslice(P,flag);  
+        [filepath,fname,ext]  = fileparts(BPM.mask);
+        rfname                = strcat('r',fname);
+        BPM.mask              = fullfile(filepath,strcat(rfname,ext));
+    end
+end
+
+% ------ Reslicing the ROI mask -----------------------------%
+
+if isfield(BPM,'mask_ROI') | isfield(BPM,'mask_ancova_ROI')
+    Vmask      = spm_vol(BPM.mask);
+    C{1}       = BPM.mask;
+    if isfield(BPM,'mask_ROI') 
+        Vmask_ROI                = spm_vol(BPM.mask_ROI);
+        C{2}                     = BPM.mask_ROI;   
+    else
+        Vmask_ROI                = spm_vol(BPM.mask_ancova_ROI);
+        C{2}                     = BPM.mask_ancova_ROI;
+    end
+    
+    if ~isequal(Vmask.dim(1:3),Vmask_ROI.dim(1:3))              
+        P          = strvcat(C);    
+        flag.mean  = 0;
+        flag.which = 1;
+        spm_reslice(P,flag);
+        if isfield(BPM,'mask_ROI') 
+            [filepath,fname,ext]     = fileparts(BPM.mask_ROI);
+            rfname                   = strcat('r',fname);
+            BPM.mask_ROI             = fullfile(filepath,strcat(rfname,ext));
+        else
+            [filepath,fname,ext]     = fileparts(BPM.mask_ancova_ROI);
+            rfname                   = strcat('r',fname);
+            BPM.mask_ancova_ROI      = fullfile(filepath,strcat(rfname,ext));
+        end
+        
+    end
+end
+
+%  ------------ Reslicing the imaging modalities -------------%
+
+[BPM] = wfu_bpm_reslice_newflists(BPM);   
+
+% set file name for design matrix information file
+BPM.XtX = fullfile(BPM.result_dir, 'XtX');
+warning off MATLAB:divideByZero;
+
+% ---- deleting the content of the result directory ----------%
+
+ddir = pwd;
+cd(BPM.result_dir);
+
+delete('S*.img');delete('S*.hdr'); delete('S*.mat');
+delete('R*.img');delete('R*.hdr'); delete('R*.mat');
+delete('T*.img');delete('T*.hdr'); delete('T*.mat');
+delete('b*.img');delete('b*.hdr'); delete('b*.mat');
+delete('s*.img');delete('s*.hdr'); delete('s*.mat');
+delete('X.mat') ; delete('*PM.mat'); delete('X*.*');
+
+% -----execute after result dir files deleted----- %
+
+[results] = wfu_bpm_execute(BPM);
+results.V = wfu_bpm_hdr_struct(results.V);
+% ---------- storing the beta coefficients file names ------------ %
+
+%------ writing the results ------%        
+for k = 1:results.nr
+    BPM.beta{k} = fullfile(BPM.result_dir,sprintf('beta%03d.img', k));           
+end
+%         % ---------- storing the sig in an img file ---------------------- %
+%         results.V.fname = fullfile(BPM.result_dir,'sig.img');   
+%         BPM.sig    =  results.V.fname ;
+%         spm_write_vol(results.V, results.sig) ;                         
+        % --------- storing the residuals file names -------------------- % 
+for k = 1:results.nsubj
+    BPM.E{k} = fullfile(BPM.result_dir,sprintf('Res%03d.img', k));           
+end 
+P = strvcat(BPM.E);
+% ---------- storing the sig2 in an img file ---------------------- %
+results.V.fname = fullfile(BPM.result_dir,'sig2.img');   
+BPM.sig2    =  results.V.fname ;
+spm_write_vol(results.V, results.sig2) ;
+% ----------- storing X file -------------------------------------- %
+Xfname = fullfile(BPM.result_dir,'X');   
+X = results.X;
+save(Xfname, 'X')  ; 
+% ----------- filling other BPM fields ----------------------------- %
+BPM.X = Xfname     ;
+BPM.dof = results.dof      ;
+    
+%%%%%%%%%%%%% t statistic
+BPM.contrast{1} = c;
+% ---------- Deleting the residual files -------------------------%
+ddir = pwd ;
+cd(BPM.result_dir);
+delete('R*.img');
+delete('R*.hdr');
+delete('R*.mat');  
+BPM.Type_STAT = STAT;
+BPM.vFWHM = vFWHM;
+BPM.bVarSm = bVarSm;
+BPM = wfu_bpm_con_man(BPM);    
+Tmap0 = BPM.Stat{1};
+
+% if BnPMstr.njob == 1
+%     % save PiCond
+%     [fid, message] = fopen([BnPMstr.result_dir,'PiCond'], 'w', 'b');
+%     if fid == -1
+%         disp(message);
+%     end
+%     if fid ~= -1
+%         count = fwrite(fid, PiCond, 'double');
+%         if count ~= prod(size(PiCond))
+%             str = sprintf('error writing permutation order matrices at slice');
+%             disp(str);
+%         end
+%     end
+%     % close file
+%     if fid ~= -1
+%         fclose(fid);
+%     end
+%     van_bnpm('REGRESSION','master_flist.txt',[0 1],'T',[], [], [1 0.1], BnPMstr.result_dir,[], [],11, ...
+%         [BnPMstr.result_dir,'Picond'], [8 8 8], Tmap0);
+%     % read nPtmp and MaxT
+%     [fid, message] = fopen([BnPMstr.result_dir,'nPtmp'], 'r', 'b');
+%     if fid == -1
+%         error(message);
+%     end
+%     [nPtmp, count] = fread(fid, 'double');
+%     if fid ~= -1
+%         fclose(fid);
+%     end
+%     nPtmp = reshape(nPtmp,nRows,nCols,nSlices);
+%     
+%     [fid, message] = fopen([BnPMstr.result_dir,'MaxT'], 'r', 'b');
+%     if fid == -1
+%         error(message);
+%     end
+%     [MaxT, count] = fread(fid, 'double');
+%     if fid ~= -1
+%         fclose(fid);
+%     end
+%     MaxT = reshape(MaxT,nPiCond,2);
+%     punc = nPtmp/nPiCond;
+%     
+%     % corrected p value
+%     Vt   = spm_vol(Tmap0);
+%     T0 = spm_read_vols(Vt);
+%     tol = 1e-4;	% Tolerance for comparing real numbers
+%     Pc_pos = zeros(nRows,nCols,nSlices);
+%     MaxT_pos=MaxT(:,1);
+%     for t = MaxT_pos'
+%         %-FEW-corrected p is proportion of randomisation greater or
+%         % equal to statistic.
+%         %-Use a > b -tol rather than a >= b to avoid comparing
+%         % two reals for equality.
+%         Pc_pos = Pc_pos + (t > T0 -tol);
+%     end
+%     Pc_pos = Pc_pos./nPiCond;
+%     
+%     Pc_neg = zeros(nRows,nCols,nSlices);
+%     MaxT_neg=MaxT(:,2);
+%     for t = MaxT_neg'
+%         %-FEW-corrected p is proportion of randomisation greater or
+%         % equal to statistic.
+%         %-Use a > b -tol rather than a >= b to avoid comparing
+%         % two reals for equality.
+%         Pc_neg = Pc_neg + (t > -T0 -tol);
+%     end
+%     Pc_neg = Pc_neg./nPiCond;
+%     % Tmax = sort(MaxT_pos);
+%     % Threshold = Tmax(nPiCond-round(0.05*nPiCond));
+% end
+
+
+% ------ Create jobs ------%
+npicon = ceil((nPiCond-1)/BnPMstr.njob);
+picon = PiCond;
+clear PiCond
+for job = 1:BnPMstr.njob
+    % For results
+    pwd;
+    rfolder = ['Result_Job',num2str(job)];
+    mkdir(rfolder);
+    cd(rfolder); 
+    % master file
+    fid = fopen('master_flist.txt','w');
+    numfmod = nr+1;
+    fprintf(fid,'%d\n',numfmod);            
+    for m = 1:nr+1
+        fmod{m} = [...
+            pwd,'//file_mod',num2str(m),'.txt'];
+        fprintf(fid,'%s\n',fmod{m});
+    end
+    fclose(fid);
+    % fmod file for y
+    fid = fopen('file_mod1.txt','w');
+    fprintf(fid,'%s',flist{1}{1});
+    fclose(fid);
+    % fmod file for x
+    for m = 2:nModalities+1                                                    
+        fid = fopen(['file_mod',num2str(m),'.txt'],'w');
+        fprintf(fid,'%s',flist{m}{1});
+        fclose(fid);
+    end
+    % PiCond
+    startperm = 2+npicon*(job-1);
+    endperm = min((startperm+npicon-1),nPiCond);
+    PiCond = picon(startperm:endperm,:);
+    % save
+    piname = fullfile(pwd, 'PiCond');
+    [fid, message] = fopen(piname, 'w', 'b');
+    if fid == -1
+        disp(message);
+    end
+    if fid ~= -1
+        count = fwrite(fid, PiCond, 'double');
+        if count ~= prod(size(PiCond))
+            str = sprintf('error writing permutation order matrices at slice');
+            disp(str);
+        end
+    end
+    % close file
+    if fid ~= -1
+        fclose(fid);
+    end
+    cd ..
+    
+    % ------ write matlab command file ------%
+    fid = fopen(['bnpm_cluster',num2str(job),'.m'],'w');
+    path = ['addpath ',spm_dir,' ',bnpm_dir];
+    fprintf(fid,'%s\n',path);
+    fprintf(fid,'%s\n','bnpm_startup;');
+    % Replace the default stream at MATLAB startup, using a stream whose
+    % seed is based on clock, so that rand will return different values in
+    % different MATLAB sessions. 
+%     randinit = 'RandStream.setDefaultStream(RandStream(''mt19937ar'',''seed'',sum(100*clock)))';
+%     fprintf(fid,'%s\n',randinit);
+    
+    if isempty(mask) % no mask
+        if isempty(conf) % no nonimage
+            commend = ['van_bnpm(''REGRESSION'',''master_flist.txt'',[',num2str(c(1)),' ',num2str(c(2)),'],''',STAT,...
+                ''',[],[],[',num2str(fthr),' ',num2str(thr),'],''',BnPMstr.result_dir,'Result_Job',num2str(job),''',[],[],',num2str(npicon),...
+                ',''',piname,''',[',num2str(vFWHM(1)),' ',num2str(vFWHM(2)),' ',num2str(vFWHM(3)),'],''',Tmap0,''')'];
+        else % nonimage covariate
+            commend = ['van_bnpm(''REGRESSION'',''master_flist.txt'',[',num2str(c(1)),' ',num2str(c(2)),'],''',STAT,...
+                ''',[],''',conf,''',[',num2str(fthr),' ',num2str(thr),'],''',BnPMstr.result_dir,'Result_Job',num2str(job),''',[],[],',num2str(npicon),...
+                ',''',piname,''',[',num2str(vFWHM(1)),' ',num2str(vFWHM(2)),' ',num2str(vFWHM(3)),'],''',Tmap0,''')'];
+        end
+    else % mask
+        if isempty(conf) % no nonimage
+            commend = ['van_bnpm(''REGRESSION'',''master_flist.txt'',[',num2str(c(1)),' ',num2str(c(2)),'],''',STAT,...
+                ''',''',BnPMstr.result_dir,'mask.img'',[],[],''',BnPMstr.result_dir,'Result_Part',num2str(job),''',[],[],',...
+                num2str(npicon),',''',piname,''',[',num2str(vFWHM(1)),' ',num2str(vFWHM(2)),' ',num2str(vFWHM(3)),'],''',Tmap0,''')'];
+        else
+            commend = ['van_bnpm(''REGRESSION'',''master_flist.txt'',[',num2str(c(1)),' ',num2str(c(2)),'],''',STAT,...
+                ''',''',BnPMstr.result_dir,'mask.img'',''',conf,''',''',BnPMstr.result_dir,'Result_Part',BnPMstr.num2str(job),...
+                ''',[],[],',num2str(npicon),',''',piname,''',[',num2str(vFWHM(1)),' ',num2str(vFWHM(2)),' ',num2str(vFWHM(3)),'],''',Tmap0,''')'];
+        end
+    end
+    fprintf(fid,'%s',commend);
+    fclose(fid);
+end
+
+% save BnPM structure
+fname = fullfile(BnPMstr.result_dir,'BnPMstr');   
+save(fname, 'BnPMstr');
+
+% FOR loop here to create and submit all jobs
+for part = 1:BnPMstr.njob
+    fp = fopen(['MTbnpm',num2str(part),'.pbs'],'wt');
+
+    donefile = sprintf([BnPMstr.result_dir,'job%.0f.done'],rand()*100000);
+
+    fprintf(fp,'%s\n','#!/bin/bash');
+    fprintf(fp,'%s\n','#PBS -M xue.yang@vanderbilt.edu');
+    fprintf(fp,'%s\n','#PBS -l nodes=1:ppn=1:x86');
+    fprintf(fp,'#PBS -l walltime=%s\n',walltime);
+    fprintf(fp,'%s\n','#PBS -l mem=2000mb');
+    fprintf(fp,'%s\n','#PBS -o xue-cluster.txt');
+    fprintf(fp,'%s\n','#PBS -j oe');
+
+    fprintf(fp,'%s\n',['matlab -nodesktop < ',BnPMstr.result_dir,'bnpm_cluster',num2str(part),'.m >matlab.output']);
+    fprintf(fp,'touch %s\n',donefile);
+    fclose(fp);
+    
+    system(sprintf('qsub %s','-m ba MTbnpm1.pbs'));
+
+%     if part==1
+%         system(sprintf('qsub %s','-m ba MTbnpm1.pbs'));
+%     else
+%         if part == BnPMstr.njob
+%             system(sprintf('qsub %s',['-m e MTbnpm',num2str(part),'.pbs']));
+%         else
+%             system(sprintf('qsub %s',['MTbnpm',num2str(part),'.pbs']));
+%         end
+%     end
+    
+end
+
+% CLOSE FOR LOOP 
+
+% NEW FOR LOOP - wait fro all jobs to finish
+while(length(dir(donefile))<1)
+    disp('Looking...');
+    pause(10);
+end
+% END FOR LOOP
+return
+end
+
+
+
+%
+function [fileh, swd, name] = wfu_bpm_get_any_file(title, dir)
+if exist('spm_get')
+    fileh = spm_get(1, '*', title);
+else
+    fileh = spm_select(1, 'any', title, [], dir, '.*');
+end
+[swd, name] = fileparts(fileh);
+end
+
+
+%
+function [fileh, swd, name] = wfu_bpm_get_image_file(title, dir)
+if exist('spm_get')
+    fileh = spm_get(1, '*.img', title);
+else
+    fileh = spm_select(1, 'IMAGE', title, [], dir, '.*');
+end
+[swd, name] = fileparts(fileh);
+end

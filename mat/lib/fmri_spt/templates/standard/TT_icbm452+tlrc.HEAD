@@ -1,0 +1,213 @@
+
+type = string-attribute
+name = HISTORY_NOTE
+count = 896
+'[rwcox@ilmarin: Mon Jul 11 16:43:56 2005] to3d icbm452_atlas_warp5_sinc.hdr\n[rwcox@ilmarin: Mon Jul 11 16:49:44 2005] afni: transformed to AC-PC Aligned\n[rwcox@ilmarin: Mon Jul 11 16:51:49 2005] afni: transformed to Talairach View\n[rwcox@ilmarin: Mon Jul 11 16:51:56 2005] AFNI: resampled and rewritten\n[ziad@eomer.nimh.nih.gov: Wed Aug  3 18:08:27 2005] 3dcopy ../../../icbm452+tlrc. TLRC_TEMPLATES/icbm452+tlrc.\n[dglen@ndsl-lfmi-kocha.nih.gov: Thu Sep  9 14:00:34 2010] 3drefit -space TLRC /Users/dglen/abin/TT_EPI+tlrc.HEAD /Users/dglen/abin/TT_N27+tlrc.HEAD /Users/dglen/abin/TT_N27_CA_EZ_MPM+tlrc.HEAD /Users/dglen/abin/TT_N27_CA_EZ_PMaps+tlrc.HEAD /Users/dglen/abin/TT_N27_EZ_LR+tlrc.HEAD /Users/dglen/abin/TT_N27_EZ_ML+tlrc.HEAD /Users/dglen/abin/TT_avg152T1+tlrc.HEAD /Users/dglen/abin/TT_avg152T2+tlrc.HEAD /Users/dglen/abin/TT_icbm452+tlrc.HEAD /Users/dglen/abin/TTatlas+tlrc.HEAD~
+
+type = string-attribute
+name = TYPESTRING
+count = 15
+'3DIM_HEAD_ANAT~
+
+type = string-attribute
+name = IDCODE_STRING
+count = 27
+'XYZ_sk80oyfxXDP4H1m4Wf80jg~
+
+type = string-attribute
+name = IDCODE_DATE
+count = 25
+'Wed Aug  3 18:08:27 2005~
+
+type = string-attribute
+name = IDCODE_ANAT_PARENT
+count = 27
+'RWC_HZ6leNMfKwp10iTTg78zaA~
+
+type = string-attribute
+name = IDCODE_WARP_PARENT
+count = 27
+'RWC_hc0T0xqGPS-twm9aHDanwA~
+
+type = integer-attribute
+name = SCENE_DATA
+count = 8
+ 2 0 0 -999 -999
+ -999 -999 -999
+
+type = string-attribute
+name = LABEL_1
+count = 13
+'icbm452+orig~
+
+type = string-attribute
+name = LABEL_2
+count = 7
+'Viggo!~
+
+type = string-attribute
+name = DATASET_NAME
+count = 44
+'./icbm452+orig+AC-PC Aligned+Talairach View~
+
+type = integer-attribute
+name = ORIENT_SPECIFIC
+count = 3
+ 0 3 4
+
+type  = float-attribute
+name  = ORIGIN
+count = 3
+            -80            -80            -65
+
+type  = float-attribute
+name  = DELTA
+count = 3
+              1              1              1
+
+type = integer-attribute
+name = WARP_TYPE
+count = 8
+ 1 0 -999 -999 -999
+ -999 -999 -999
+
+type  = float-attribute
+name  = WARP_DATA
+count = 360
+         1.0303              0              0              0        1.04411
+     -0.0372897              0       0.036683        1.02712       0.970588
+             -0             -0             -0       0.956533      0.0347269
+              0     -0.0341619       0.972353       -3.09091       -14.8226
+       -8.27201              3        14.4656        7.53694          -9999
+          -9999              0              0              0         9999.9
+        1.01493              0              0              0        1.04411
+     -0.0372897              0       0.036683        1.02712       0.985294
+             -0             -0             -0       0.956533      0.0347269
+              0     -0.0341619       0.972353       -3.04478       -14.8226
+       -8.27201              3        14.4656        7.53694              0
+          -9999              0         9999.9              0         9999.9
+         1.0303              0              0              0       0.851852
+     -0.0304233              0       0.036683        1.02712       0.970588
+             -0             -0             -0        1.17242      0.0347269
+              0     -0.0418721       0.972353       -3.09091       -12.0933
+       -8.27201              3        14.4656        7.53694          -9999
+              0              0              0             23         9999.9
+        1.01493              0              0              0       0.851852
+     -0.0304233              0       0.036683        1.02712       0.985294
+             -0             -0             -0        1.17242      0.0347269
+              0     -0.0418721       0.972353       -3.04478       -12.0933
+       -8.27201              3        14.4656        7.53694              0
+              0              0         9999.9             23         9999.9
+         1.0303              0              0              0        1.02509
+     -0.0366104              0       0.036683        1.02712       0.970588
+             -0             -0             -0        0.97428      0.0347269
+              0     -0.0347957       0.972353       -3.09091       -9.87517
+       -8.27201              3        9.90845         7.6997          -9999
+             23              0              0           9999         9999.9
+        1.01493              0              0              0        1.02509
+     -0.0366104              0       0.036683        1.02712       0.985294
+             -0             -0             -0        0.97428      0.0347269
+              0     -0.0347957       0.972353       -3.04478       -9.87517
+       -8.27201              3        9.90845         7.6997              0
+             23              0         9999.9           9999         9999.9
+         1.0303              0              0              0        1.04411
+     -0.0372897              0      0.0374761        1.04933       0.970588
+             -0             -0             -0       0.956533      0.0339919
+              0     -0.0341619       0.951774       -3.09091       -14.8226
+       -8.45086              3        14.4656        7.53694          -9999
+          -9999          -9999              0              0              0
+        1.01493              0              0              0        1.04411
+     -0.0372897              0      0.0374761        1.04933       0.985294
+             -0             -0             -0       0.956533      0.0339919
+              0     -0.0341619       0.951774       -3.04478       -14.8226
+       -8.45086              3        14.4656        7.53694              0
+          -9999          -9999         9999.9              0              0
+         1.0303              0              0              0       0.851852
+     -0.0304233              0      0.0374761        1.04933       0.970588
+             -0             -0             -0        1.17242      0.0339919
+              0     -0.0418721       0.951774       -3.09091       -12.0933
+       -8.45086              3        14.4656        7.53694          -9999
+              0          -9999              0             23              0
+        1.01493              0              0              0       0.851852
+     -0.0304233              0      0.0374761        1.04933       0.985294
+             -0             -0             -0        1.17242      0.0339919
+              0     -0.0418721       0.951774       -3.04478       -12.0933
+       -8.45086              3        14.4656        7.53694              0
+              0          -9999         9999.9             23              0
+         1.0303              0              0              0        1.02509
+     -0.0366104              0      0.0374761        1.04933       0.970588
+             -0             -0             -0        0.97428      0.0339919
+              0     -0.0347957       0.951774       -3.09091       -9.87517
+       -8.45086              3        9.90845         7.6997          -9999
+             23          -9999              0           9999              0
+        1.01493              0              0              0        1.02509
+     -0.0366104              0      0.0374761        1.04933       0.985294
+             -0             -0             -0        0.97428      0.0339919
+              0     -0.0347957       0.951774       -3.04478       -9.87517
+       -8.45086              3        9.90845         7.6997              0
+             23          -9999         9999.9           9999              0
+
+type  = float-attribute
+name  = BRICK_STATS
+count = 2
+              0            712
+
+type = integer-attribute
+name = DATASET_RANK
+count = 8
+ 3 1 0 0 0
+ 0 0 0
+
+type = integer-attribute
+name = DATASET_DIMENSIONS
+count = 5
+ 161 191 151 0 0
+
+type = integer-attribute
+name = BRICK_TYPES
+count = 1
+ 1
+
+type  = float-attribute
+name  = BRICK_FLOAT_FACS
+count = 1
+              0
+
+type = string-attribute
+name = BRICK_LABS
+count = 3
+'#0~
+
+type = string-attribute
+name = BRICK_KEYWORDS
+count = 1
+'~
+
+type = string-attribute
+name = BYTEORDER_STRING
+count = 10
+'MSB_FIRST~
+
+type  = float-attribute
+name  = IJK_TO_DICOM
+count = 12
+              1              0              0            -80              0
+              1              0            -80              0              0
+              1            -65
+
+type  = float-attribute
+name  = IJK_TO_DICOM_REAL
+count = 12
+              1              0              0            -80              0
+              1              0            -80              0              0
+              1            -65
+
+type = string-attribute
+name = TEMPLATE_SPACE
+count = 5
+'TLRC~
+
+type = integer-attribute
+name = INT_CMAP
+count = 1
+ 0

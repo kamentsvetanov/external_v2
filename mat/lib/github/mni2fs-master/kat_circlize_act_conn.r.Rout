@@ -1,0 +1,135 @@
+
+R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-redhat-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(R.matlab)  # MATLAB interface
+R.matlab v3.4.0 (2016-02-03) successfully loaded. See ?R.matlab for help.
+
+Attaching package: ‘R.matlab’
+
+The following objects are masked from ‘package:base’:
+
+    getOption, isOpen
+
+> library(circlize)
+> library(RColorBrewer)
+> 
+> setwd('/imaging/camcan/sandbox/kt03/cc280/mri/release003/fmri_sng/taskICA/noderiv_20160413_IC049_n119_20160420/results/visualize')
+> 
+> 
+> # Import data
+> input <- readMat('matlab2r_circos_data.mat')
+> info <- read.table('matlab2r_circos_info.txt', header = TRUE)
+> fname <- read.table('matlab2r_circos_filename.txt',colClasses = "character")
+> 
+> 
+> # Assign inputs
+> fc = input$conn
+> a  = as.vector(input$act)
+> fc1 = input$conn.dummy
+> 
+> rownames(fc) = info$labels
+> colnames(fc) = info$labels
+> rownames(fc1) = info$labels
+> colnames(fc1) = info$labels
+> netnames = info$name_network
+> nodnames = rownames(fc)
+> 
+> # Set colors
+> colrange = range(c(fc,a))
+> 
+> pal <- colorRampPalette(rev(brewer.pal(9,"RdBu")))(1000)
+> pal[500] <- "#00000000"
+> col_a_num = round(((a/(max(abs(c(fc,a))))*500)+500))
+> col_a_num[is.element(col_a_num,0)] <- 1
+> col_fc_num = round(((fc/max(abs(c(fc,a))))*500)+500)
+> col_fc_num[is.element(col_fc_num,0)] <- 1
+> 
+> col_a = pal[col_a_num]
+> col_fc = pal[col_fc_num]
+> dim(col_fc) = dim(fc) # to make sure it is a matrix
+> col_net = structure(rev(brewer.pal(5,"Dark2")),names = as.character(unique(netnames)))
+> 
+> 
+> pdf(fname$V1)
+> #     type="pdf",
+> #     units="in",
+> #     width=5,
+> #     height=4,
+> #     pointsize=12,
+> #     res=96)
+> 
+> 
+> # Initialize
+> par(mar = c(1, 1, 1, 1))
+> gap = do.call("c",lapply(table(netnames),function(i) c(rep(1,i-1),15))) #  c(1,10,10,1,1,1,10,1,10,1,10)
+> circos.par( "track.height" = 2,gap.degree = gap)
+> maxval = ceiling(max(abs(a)))
+> lim = c(-maxval/2,maxval/2)
+> 
+> # Plot nodes without connectivity, by setting their diagonals to a given value
+> fc_sym <- fc
+> fc_sym[lower.tri(fc_sym)]<-fc_sym[upper.tri(fc_sym)]
+> fc_diag <- rowSums(fc_sym)
+> sizeemptycon <- min(abs(fc_diag[which(fc_diag != 0)]))
+> emptycon = is.element(fc_diag,0)
+> diag(fc)<-emptycon*(sizeemptycon)
+> 
+> 
+> chordDiagram(fc1,order = rownames(fc),directional = FALSE,
++              grid.col = col_a, 
++              col = col_fc,
++              transparency = 0,
++               annotationTrack = "grid", preAllocateTracks = list(
++                list(track.height = 0.02),
++                list(track.height = 0.02))
++ )
+> 
+> 
+> # Add node name to track
+> circos.trackPlotRegion(track.index = 3, panel.fun = function(x, y) {
++   xlim = get.cell.meta.data("xlim")
++   ylim = get.cell.meta.data("ylim")
++   sector.name = get.cell.meta.data("sector.index")
++   node = strsplit(sector.name,'_')[[1]][2]
++   circos.text(mean(xlim), mean(ylim), node, col = "black",cex = 0.8, facing = "bending.inside",
++               niceFacing = TRUE)
++ }, bg.border = NA) # here set bg.border to NA is important
+> 
+> # Add network name to the track
+> all_sectors = get.all.sector.index()
+> rou1 = get.cell.meta.data("yplot", sector.index = all_sectors[1], track.index = 2)[1]
+> rou2 = get.cell.meta.data("yplot", sector.index = all_sectors[1], track.index = 2)[2]
+> 
+> 
+> for(b in unique(netnames)) {
++     model = nodnames[netnames == b]
++     #model = as.character(info$labels[1:2])
++     highlight.sector(sector.index = model, track.index = 2, col = col_net[b], 
++                  text = b, text.vjust = -0.5 , facing = "bending.inside", niceFacing = TRUE)
++ }
+> 
+> dev.off()
+null device 
+          1 
+> 
+> circos.clear()
+> 
+> proc.time()
+   user  system elapsed 
+  4.090   0.123   4.578 
