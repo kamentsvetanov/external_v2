@@ -1,0 +1,41 @@
+-- Versioning --
+This repo contains the latest version of git.m.
+Whenever there is a stable release, the submission on MATLAB Central's File Exchange will be periodically synched from the latest stable release here.
+
+-- OS, Distributions --
+This version was developed on OS X, but is expected to work on POSIX-compliant systems like OS X, BSD, and GNU/Linux.
+Windows is a different beast, and it should work as well anecdotally, but your mileage may vary.
+
+-- To make changes --
+Fork this project from Github, make your changes, and issue a pull request so I can quickly consider them.
+If you're new to Git and Github, this is really easy:
+http://help.github.com/send-pull-requests/
+
+-- Usage --
+Documented examples of usage are listed here:
+http://manur.github.io/blog/2010/10/30/make-matlab-git-play-well-together/
+
+
+-- License --
+The MIT License (MIT)
+
+Copyright (c) 2013 Manu Raghavan
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
