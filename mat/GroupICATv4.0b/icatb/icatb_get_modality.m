@@ -18,7 +18,7 @@ if strcmpi(group_ica_modality, 'fmri')
     dataTitle = 'Functional';
     compSetFields = {'ic', 'tc'};
 elseif strcmpi(group_ica_modality, 'smri')
-    modalityType = 'sMRI';
+    modalityType = 'smri';% edit kat sMRI -> smri
     dataTitle = 'Structural';
     compSetFields = {'ic', 'tc'};
 else

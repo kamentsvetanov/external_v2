@@ -55,6 +55,7 @@ switch colors(1)
         vec(1,:)=[1 0 0];
     case 'g'
         vec(1,:)=[0 1 0];
+    case ''
     case 'b'
         vec(1,:)=[0 0 1];
     case 'c'
