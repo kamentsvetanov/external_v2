@@ -184,7 +184,7 @@ if ischar(models)
     
 elseif iscell(models)
     
-    % (RFX) BMA – define the model space in terms of a matrix
+    % (RFX) BMA ï¿½ define the model space in terms of a matrix
     %----------------------------------------------------------------------
     Nm    = length(models);
     Np    = length(PEB.Pind);

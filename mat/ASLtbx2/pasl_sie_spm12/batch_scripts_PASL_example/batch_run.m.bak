@@ -1,0 +1,31 @@
+
+% Batch mode scripts for running spm2 in TRC
+% Created by Ze Wang, 08-05-2004
+% zewang@mail.med.upenn.edu
+% use the following code to prepare the data
+% first convert DICOM into nifti
+ASLtbx_dicomconvert;
+
+%example code for processing PASL data
+
+%set the parameters
+par;
+
+% set the center to the center of each images
+batch_reset_orientation;
+
+
+%realign the functional images to the first functional image of eachsubject
+batch_realign;
+
+%coreg the functional images to the anatomical image
+batch_coreg;
+
+batch_filtering;
+%smooth the coreged functional images
+batch_smooth;
+
+batch_perf_subtract;
+
+
+%batch_outlier_clean;
