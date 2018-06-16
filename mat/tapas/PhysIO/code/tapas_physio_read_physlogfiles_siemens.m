@@ -71,7 +71,6 @@ if ~isempty(log_files.cardiac)
     if hasScanTimingDicomImage
         
         %Get time stamps from footer:
-        
         linesFooter = C{1}(2:end);
         LogStartTimeSeconds =   str2num(char(regexprep(linesFooter(~cellfun(@isempty,strfind(linesFooter,...
             'LogStartMDHTime'))),'\D',''))) / 1000;

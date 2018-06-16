@@ -101,7 +101,7 @@ if ~isempty(n) % probably no heartbeat after last scan found
             verbose, 1);
         
         for iVol = setdiff(iVolExamples, Nvol)
-            yiSli = Nsli - mod(Nsli - n(iVolinN(iVol)),Nsli);
+            iSli = Nsli - mod(Nsli - n(iVolinN(iVol)),Nsli);
             verbose = tapas_physio_log(sprintf('Volume %d, first occurence in slice %d\n', iVol, iSli), ...
                 verbose);  
         end

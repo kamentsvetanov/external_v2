@@ -19,7 +19,7 @@ function [za,zb,wa,wb,cc,ev] = cca_standard_regularised(X_a,X_b,c1,c2)
 %       cc: the canonical correlation (cosine of the enclosing angle)
 %       ev: the square roots of the eigenvalues 
 %--------------------------------------------------------------------------
-% © 19/01/2017 Viivi Uurtio, Aalto University
+% ï¿½ 19/01/2017 Viivi Uurtio, Aalto University
 % viivi.uurtio@aalto.fi
 %
 % This code is for academic purposes only.
@@ -49,8 +49,8 @@ for i = 1:size(wb,2)
     wa(:,i) = (inv(C_aa_reg) * C_ab * wb(:,i)) / ev(i); % positions in the data space of view a
 end
  
-za = normc(X_a * wa); % image of wa on the surface of the unit ball
-zb = normc(X_b * wb); % image of wb on the surface of the unit ball
+za = normc(X_a * real(wa)); % image of wa on the surface of the unit ball
+zb = normc(X_b * real(wb)); % image of wb on the surface of the unit ball
 
 for i = 1:r
     cc(i) = za(:,i)'*zb(:,i);

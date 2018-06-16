@@ -103,7 +103,7 @@ if isVerbose
             id = ismember(cpulse,t(s:e));
             stem(cpulse(id), c(timeCpulse(id)), 'r', 'LineWidth', 0.2,'MarkerSize',3);
             hold off;
-            s = e+n;
+            s = e;
             e = s + n;
         end
     end
