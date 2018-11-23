@@ -67,6 +67,8 @@ switch colors(1)
         vec(1,:)=[1 1 0];
     case 'k'
         vec(1,:)=[0 0 0];
+    case 'p' % pink edit kat
+        vec(1,:)=[1      0.75294      0.79608];
 end
 
 

@@ -1,0 +1,243 @@
+
+R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-redhat-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(R.matlab)  # MATLAB interface
+R.matlab v3.4.0 (2016-02-03) successfully loaded. See ?R.matlab for help.
+
+Attaching package: ‘R.matlab’
+
+The following objects are masked from ‘package:base’:
+
+    getOption, isOpen
+
+> library(circlize)
+> library(RColorBrewer)
+> library(fields)
+Loading required package: spam
+Loading required package: grid
+Spam version 1.3-0 (2015-10-24) is loaded.
+Type 'help( Spam)' or 'demo( spam)' for a short introduction 
+and overview of this package.
+Help for individual functions is also obtained by adding the
+suffix '.spam' to the function name, e.g. 'help( chol.spam)'.
+
+Attaching package: ‘spam’
+
+The following objects are masked from ‘package:base’:
+
+    backsolve, forwardsolve
+
+Loading required package: maps
+
+ # maps v3.1: updated 'world': all lakes moved to separate new #
+ # 'lakes' database. Type '?world' or 'news(package="maps")'.  #
+
+
+> library(lattice)
+> 
+> # library(png)
+> 
+> 
+> setwd('/imaging/camcan/sandbox/kt03/projects/beta/spDCM_PK/results')
+> source("/imaging/camcan/sandbox/kt03/projects/CC_JBR_2014_001/scripts/R/colorbar.R")
+> 
+> 
+> #files = list.files("Axial_IC49_20161107", full.names = TRUE)
+> # Import data
+> input <- readMat('matlab2r_circos_data.mat')
+> info <- read.table('matlab2r_circos_info.txt', header = TRUE)
+> fname <- read.table('matlab2r_circos_filename.txt',colClasses = "character")
+> 
+> directional <- as.numeric(fname$V1[3])
+> 
+> 
+> # Assign inputs
+> fc = input$conn
+> a  = as.vector(input$act)
+> fc1 = input$conn.dummy
+> a_sign = as.vector(input$act.sign)
+> 
+> 
+> rownames(fc) = info$name_node#labels
+> colnames(fc) = info$name_node#labels
+> rownames(fc1) = info$name_node#labels
+> colnames(fc1) = info$name_node#labels
+> netnames = info$name_network
+> #nodnames = rownames(fc)
+> nodnames = as.character(info$name_node)
+> # Set colors
+> colrange = range(c(fc,a))
+> 
+> pal <- colorRampPalette(rev(brewer.pal(9,"RdBu")),alpha=FALSE)(1000)
+> pal[500] <- "#00000000"
+> col_a_num = round(((a/(max(abs(c(fc,a))))*500)+500))
+> col_a_num[is.element(col_a_num,0)] <- 1
+> col_fc_num = round(((fc/max(abs(c(fc,a))))*500)+500)
+> col_fc_num[is.element(col_fc_num,0)] <- 1
+> pal_bw <- c("#00000000", "#000000")
+> 
+> 
+> col_a = pal[col_a_num]
+> col_fc = pal[col_fc_num]
+> dim(col_fc) = dim(fc) # to make sure it is a matrix
+> col_net = structure(rev(brewer.pal(4,"Dark2")),names = as.character(unique(netnames)))
+> border_a = pal_bw[a_sign+1]
+> colbar_quant <- quantile(range(c(fc,a)),seq(0,1,0.25))
+> 
+> pdf(fname$V1[1])
+> #     type="pdf",
+> #     units="in",
+> #     width=5,
+> #     height=4,
+> #     pointsize=12,
+> #     res=96)
+> 
+> 
+> # Eanble plotting nodes without connectivity, by setting their diagonals to a given value
+> fc_sym <- fc
+> fc_sym[lower.tri(fc_sym)]<-fc_sym[upper.tri(fc_sym)]
+> fc_diag <- rowSums(fc_sym)
+> sizeemptycon <- min(abs(fc_diag[which(fc_diag != 0)]))
+> emptycon = is.element(fc_diag,0)
+> diag(fc)<-emptycon*(sizeemptycon)
+> 
+> # Initialize
+> par(mar = c(1, 1, 1, 1))
+> gap = do.call("c",lapply((table(netnames)),function(i) c(rep(1,i-1),15))) #  c(1,10,10,1,1,1,10,1,10,1,10)
+> circos.par( "track.height" = 2,gap.degree = gap)
+> maxval = ceiling(max(abs(a)))
+> lim = c(-maxval/2,maxval/2)
+> 
+> 
+> if (directional == TRUE){
++ chordDiagram(fc1,order = rownames(fc),directional = TRUE,
++              direction.type = c('diffHeight','arrows'),
++              diffHeight = -0.05,
++              link.arr.type = "big.arrow",
++              grid.col = col_a, 
++              col = col_fc,
++              transparency = 0,             
++               annotationTrack = "grid", preAllocateTracks = list(
++                list(track.height = 0.3),
++                list(track.height = 0.02),
++                list(track.height = 0.001))
++ )
++ }
+> 
+> 
+> if (directional == FALSE){
++   chordDiagram(fc1,order = rownames(fc),directional = FALSE,
++                grid.col = col_a, 
++                col = col_fc,
++                transparency = 0,             
++                annotationTrack = "grid", preAllocateTracks = list(
++                  list(track.height = 0.3),
++                  list(track.height = 0.02),
++                  list(track.height = 0.001))
++   )
++ }
+> 
+> 
+> 
+> # 
+> # orig = c("IE","GB","US","ES","FI","US","IE","GB")
+> # dest = c("FI","FI","ES","ES","US","US","US","IE")
+> # direc = c("IB","OB","RETURN","DOM","OB","DOM","RETURN","IB")
+> # 
+> # df = data.frame(orig, dest, direc, stringsAsFactors = FALSE)
+> # 
+> # 
+> # diffHeight = c("IB" = -0.04,
+> #                "OB" = 0.04,
+> #                "RETURN" = 0,
+> #                "DOM" = 0)
+> # 
+> # diffHeight[df[[3]]]
+> 
+> 
+> # Add node name to track
+> circos.trackPlotRegion(track.index = 4, panel.fun = function(x, y) {
++   xlim = get.cell.meta.data("xlim")
++   ylim = get.cell.meta.data("ylim")
++   sector.name = get.cell.meta.data("sector.index")
++   node =  sector.name#strsplit(sector.name,'_')[[1]][2]
++   circos.text(mean(xlim), mean(ylim), node, col = "black",cex = 0.8, facing = "bending.inside",
++               niceFacing = TRUE)
++ }, bg.border = border_a) # here set bg.border to NA is important
+> 
+> 
+> # Add Node image
+> 
+> # circos.trackPlotRegion(track.index = 3, ylim = c(0, 1), panel.fun = function(x, y) {
+> #   xcenter = get.cell.meta.data("xcenter")
+> #   ycenter = get.cell.meta.data("ycenter")
+> #   
+> #   pos = circlize:::polar2Cartesian(circlize(xcenter, ycenter))
+> #   
+> #   f = sample(files, 1)
+> #   image = as.raster(readPNG(f))
+> #   
+> #   rasterImage(image, 
+> #               xleft = pos[1, 1] - 0.05,
+> #               ybottom = pos[1, 2] - 0.05,
+> #               xright = pos[1, 1] + 0.05,
+> #               ytop = pos[1, 2]+ 0.05)
+> # })
+> 
+> 
+> 
+> # Add network name to the track
+> all_sectors = get.all.sector.index()
+> rou1 = get.cell.meta.data("yplot", sector.index = all_sectors[1], track.index = 2)[1]
+> rou2 = get.cell.meta.data("yplot", sector.index = all_sectors[1], track.index = 2)[2]
+> for(b in unique(netnames)) {
++     model = nodnames[netnames == b]
++     #model = as.character(info$labels[1:2])
++     highlight.sector(sector.index = model, track.index = 2, col = col_net[b], 
++                  text = b, text.vjust = -0.5, facing = "bending.inside", niceFacing = TRUE)
++ }
+> 
+> # Legend
+> legend("bottomleft",pch = 15,legend=names(col_net),col=col_net)
+> 
+> 
+> # Color bar
+> colfun= colorRamp2(quantile(range(c(fc,a)),seq(0,1,.25)), rev(brewer.pal(5,"RdBu")))
+> maxval = max(abs(c(fc,a)))
+> colbar = seq(min(c(fc,a)),max(c(fc,a)),,1000)
+> zr <- rbind(c(-maxval,maxval))
+> # cbar <- rev(brewer.pal(5,"RdBu"))
+> # colorbar.plot(1,-0.8,colbar,strip.width = .05, strip.length = .25,zrange = zr, col = colfun(colbar), horizontal = FALSE)
+> # 
+> # idx=seq(0:1000,by=50)
+> # idx[1]=1
+> image.plot( smallplot =c(.8,.85,.1,.4), legend.only=TRUE, zlim= zr,col = pal)
+> # colorbar.plot(1,-.8,colbar,col=pal, horizontal = FALSE)
+> 
+> text(0, 0.99, fname$V1[2], cex = 2, font = 2)
+> 
+> dev.off()
+null device 
+          1 
+> 
+> circos.clear()
+> 
+> proc.time()
+   user  system elapsed 
+  6.152   0.218   6.528 
