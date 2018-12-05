@@ -126,7 +126,7 @@ if ~hasPhaseLogfile
             % Normalize and pad time series after read-In
             ons_secs = tapas_physio_preprocess_phys_timeseries(ons_secs, ...
                 scan_timing.sqpar, doNormalize);
-            
+%             
             
             hasCardiacData = ~isempty(ons_secs.c);
             hasRespData = ~isempty(ons_secs.r);
@@ -427,6 +427,6 @@ end % onset_slices
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 5. Save output figures to files
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-[physio.verbose] = tapas_physio_print_figs_to_file(physio.verbose);
+% edit kat do not output files using tapas
+% [physio.verbose] = tapas_physio_print_figs_to_file(physio.verbose);
 

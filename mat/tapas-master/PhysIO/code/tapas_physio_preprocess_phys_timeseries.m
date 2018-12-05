@@ -100,8 +100,8 @@ end
 tStartLog = t(1);
 ons_secs.t_start = tStartLog;
 
-ons_secs.t = ons_secs.t - tStartLog;
-
-if hasDetectedCardiacPulses
-    ons_secs.cpulse = ons_secs.cpulse - tStartLog;
-end
+% ons_secs.t = ons_secs.t - tStartLog; % kat commented out
+% kat commented out
+% if hasDetectedCardiacPulses
+%     ons_secs.cpulse = ons_secs.cpulse - tStartLog;
+% end

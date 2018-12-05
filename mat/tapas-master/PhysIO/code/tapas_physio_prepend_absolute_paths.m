@@ -40,10 +40,11 @@ if ~isequal(save_dir, fileparts(physio.model.output_multiple_regressors))
         physio.model.output_multiple_regressors);
 end
 
-if ~isequal(save_dir, fileparts(physio.model.output_physio))
-    physio.model.output_physio = fullfile(save_dir, ...
-        physio.model.output_physio);
-end
+% Commented out by kat, since we do our own save
+% if ~isequal(save_dir, fileparts(physio.model.output_physio))
+%     physio.model.output_physio = fullfile(save_dir, ...
+%         physio.model.output_physio);
+% end
 
 if ~isequal(save_dir, fileparts(physio.preproc.cardiac.initial_cpulse_select.file))
     physio.preproc.cardiac.initial_cpulse_select.file = fullfile(save_dir, ...

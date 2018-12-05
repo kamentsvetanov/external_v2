@@ -18,8 +18,8 @@ function [fh, prop, MyColors] = tapas_physio_get_default_fig_params(...
 % $Id$
 %
 if nargin < 1
-    convfac = 2; % conversion factor for figure scaling; for laptop display
-    % convfac = 4; % for prints in paper
+%     convfac = 2; % conversion factor for figure scaling; for laptop display
+    convfac = 0.5; % for prints in paper
 end
 
 if nargin < 2
@@ -34,7 +34,9 @@ scrsz = get(0,'ScreenSize');
 
 scrsz = min([1 1 1440 900], scrsz);
 fh = figure('Position',[scrsz(1:2) xscale*scrsz(3) yscale*scrsz(4)]);
-set(fh, 'WindowStyle', 'docked');
+% set(fh, 'WindowStyle', 'docked');
+set(fh,'Visible','off'); % edit kat do not show figures while processing
+
 %fh = figure('Position',[scrsz(1:2) xscale*scrsz(3) yscale*scrsz(4)], 'Hidden', 'on');
 
 MyColors = [ ...

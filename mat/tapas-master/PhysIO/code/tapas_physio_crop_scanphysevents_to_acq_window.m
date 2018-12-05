@@ -67,8 +67,8 @@ function [ons_secs, sqpar, verbose] = tapas_physio_crop_scanphysevents_to_acq_wi
 maxscan = Nscans + Ndummies;
 tmax    = ons_secs.spulse_per_vol{maxscan}(end);
 
-tstart  = ons_secs.spulse_per_vol{1}(1);
-tend    = ons_secs.spulse_per_vol{maxscan}(end);
+tstart  = ons_secs.spulse_per_vol{1}(1); % kat added + cpulse(1)
+tend    = ons_secs.spulse_per_vol{maxscan}(end);% kat added + cpulse(1)
 
 spulse((maxscan*Nslices+1):end) = [];
 

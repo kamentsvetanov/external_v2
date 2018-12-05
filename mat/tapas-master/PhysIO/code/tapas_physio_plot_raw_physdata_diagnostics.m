@@ -81,4 +81,70 @@ if hasRespData
 else
     r_hist = [];
 end
+
+
+% Added by kat
+samplingRate = t(2) - t(1);
+samplingFreq = 1/samplingRate;
+durRun = floor(numel(t)/samplingFreq);
+
+switch durRun
+    case num2cell(0:100)
+        nplots = 4;
+    case num2cell(101:200)
+        nplots = 5;
+    case num2cell(201:300)
+        nplots = 6;
+    case num2cell(301:400)
+        nplots = 7;
+    case num2cell(401:500)
+        nplots = 8;
+    case num2cell(501:600)
+        nplots = 9;
+    case num2cell(501:600)
+        nplots = 9;
+end
+durPlot = ceil(durRun/nplots);
+numTick = ceil(durPlot/5);
+durPlot = numTick*5;
+
+n = durPlot * samplingFreq;
+s = 1;
+e = s + n;
+if isVerbose
+    fh = tapas_physio_get_default_fig_params();
+    verbose.fig_handles(end+1) = fh;
+    set(fh, 'Name','Diagnostics for raw physiological time series segments');
+    
+    
+    if hasCardiacData
+        for ii = 1:nplots
+            subplot(nplots,1,ii);
+            try
+                plot(t(s:e), c(s:e), 'Color', [1 0.8, 0.8], 'LineWidth', 1) ; hold on;
+                id = ismember(cpulse,t(s:e));
+            catch
+                plot(t(s:end), c(s:end), 'Color', [1 0.8, 0.8], 'LineWidth', 1) ; hold on;
+                id = ismember(cpulse,t(s:end));
+            end
+           
+            stem(cpulse(id), c(timeCpulse(id)), 'r', 'LineWidth', 0.2,'MarkerSize',3);
+         
+            s = e;
+            e = s + n;
+            if ii ==1
+                title('Temporal lag between subsequent heartbeats (seconds)');
+                figHandle = get(gca);
+                xTick = figHandle.XTick;
+                xTick = xTick(xTick>=0);
+            end
+            xTickTemp = xTick + ((ii-1)*durPlot);
+            set(gca,'XTick',xTickTemp)
+            xlim([xTickTemp(1) xTickTemp(end)]);
+            hold off;
+        end
+    end
+end
+ 
+
 end

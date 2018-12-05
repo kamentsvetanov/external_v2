@@ -120,7 +120,7 @@ switch upper(cardiacModality) % ecg has two channels, resp and puls only one
             data_table(iRow,3) = codeNonEcgSignals(iTrigger);
         end
         
-    case {'RESP', 'PPU'} % only one channel available, fill second row with zeros
+    case {'RESP', 'PPU','OXY','PULS'} % only one channel available, fill second row with zeros
         nRows = nSamples;
         
         % create a table with channel_1 and trigger signal in

@@ -93,7 +93,7 @@ if hasScanTimingDicomImage
     tStartScanDicom    = dicomHeader{1}.AcquisitionTime;
     
     % TODO: Include AcquisitionNumber? InstanceNumber?
-    tStopScanDicom     = dicomHeader{1}.AcquisitionTime + ...
+    tStopScanDicom     = dicomHeader{end}.AcquisitionTime + ... % edited kt from dicomHeader{1} to dicomHeader{end}
         dicomHeader{1}.RepetitionTime/1000;
 end
 

@@ -12,7 +12,9 @@ function dphase = tapas_physio_downsample_phase(tphase, phase, tsample, rsampint
 
 n = zeros(size(tsample));
 for t=1:length(tsample)
-    n(t)=find(abs(tphase-tsample(t))<rsampint, 1, 'first');
+    try
+        n(t)=find(abs(tphase-tsample(t))<rsampint, 1, 'first');
+    end
 end
 dphase = phase(n);
 end
