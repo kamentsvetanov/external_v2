@@ -1,0 +1,306 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The 1D signals Multifractal Spectra pop-up menu: The Functions sub-menu</TITLE>
+ <LINK HREF="help_1D_spectra-3.html" REL=next>
+ <LINK HREF="help_1D_spectra-1.html" REL=previous>
+ <LINK HREF="help_1D_spectra.html#toc2" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_1D_spectra-3.html">Next</A>
+<A HREF="help_1D_spectra-1.html">Previous</A>
+<A HREF="help_1D_spectra.html#toc2">Contents</A>
+<HR>
+<H2><A NAME="s2">2. The <B>Functions</B> sub-menu</A></H2>
+
+<P>
+<P>In this part, you will compute the spectra for arbitrary 1D
+functions. You may choose to compute the <B>Legendre spectrum</B>, which
+is easier to estimate, or the <B>Large deviation
+Spectrum</B>, which contains more information.
+<P>
+<P>
+<H2><A NAME="ss2.1">2.1 The <B>Legendre spectrum</B></A>
+</H2>
+
+<P>
+<P>There are three algorithms: one based on the discrete wavelet transform (DWT), one on the
+continuous wavelet transform (CWT), and one on box counting.
+<P>
+<P>
+<A NAME="ss2.1.1"><H3>The <B>DWT based</B> Legendre spectrum</H3></A>
+
+<P>
+<P>If you don't want to set any parameters, just verify that the signal
+you want to process is selected at the time you launch the <B>DWT
+based</B> sub-menu, and hit <B>Compute</B>.  You should get an output
+called <EM>dwt_sig_LegSpec#</EM>, which is the estimated the Legendre
+spectrum. 
+<P>If you want more control, hit <B>Advanced compute</B>. Note that the
+signal which will be analyzed is the one highlighted when you press
+<B>Advanced compute</B>. Thus, if, for instance, you hit first
+<B>Compute</B> and then <B>Advanced compute</B>, you'll get an error. This
+is because after you press <B>Compute</B>, the current signal becomes
+<EM>dwt_sig_LegSpec#</EM>, which is not a 1D signal. When you hit <B>Advanced
+compute</B>, you get a new window, titled <B>DWT Based Legendre
+Spectrum</B>.  Choose as usual your <B>Input Signal</B> using the
+<B>Refresh</B> button. You may then choose the analyzing <B>Wavelet</B>
+from a choice of various Daubechies and Coiflet wavelets. Specify next
+the number of <B>Octaves</B>, i.e. on how many scale levels you wish to
+perform the analysis.
+<P>In the lower part of the window, you may specify three numerical
+values: <B>Qmin</B>, <B>Qmax</B>, and <B># of Q's</B>: As its name
+indicates, fl is computed as the Legendre transform of some auxiliary
+function T(q). This function T(q) is estimated for q ranging in
+[<B>Qmin</B>, <B>Qmax</B>], and <B># of Q's</B> values are computed in this
+interval. You may check the <B>Specify Regression Range</B>: In
+this case, as usual, a graphic window will appear after you hit
+<B>Compute</B>: You'll see a bunch of curves, one curve per value of
+q. For each q, T(q) is estimated as the slope of the the best linear
+fit of the corresponding curve. Thus, you will want to select, with
+the cross-shaped cursor, a range of scales (in abscissa), where an
+approximately linear behaviour holds for all or most of the curves.
+Once you have selected such a range, two new graphs will appear to the
+right: On the lower one, you'll see the estimate of T(q), while the
+upper one will be the Legendre spectrum fl. You may experiment with
+other ranges until you are satisfied with the result. Press then
+<B>return</B> on your keyboard to finish. If you uncheck <B>Specify
+Regression Range</B>, <B>Full Regression Range</B> will appear instead, and
+the estimate will be performed on the whole range of scales as defined
+by the number of <B>Octaves</B>. As in other windows of the same kind,
+you may also choose the <B>type of regression</B> from the usual choice.
+<P>In the advanced mode, you get two outputs: <EM>dwt_sig#</EM> is the
+discrete wavelet transform, while <EM>dwt_sig#_LegSpec0</EM> is the
+Legendre spectrum.
+<P>
+<P>
+<A NAME="ss2.1.2"><H3>The <B>CWT based</B> Legendre spectrum</H3></A>
+
+<P>
+<P>This is almost the same procedure as above, with only slightly
+different options due to the difference between the discrete and
+continuous wavelet transforms.
+<P>First, if you don't want to set any parameters, just verify that the
+signal you want to process is selected, then launch the
+<B>CWT based</B> sub-menu, and hit <B>Compute</B>.  You should get an
+output called <EM>sig_LegSpec#</EM>, which is the estimated the
+Legendre spectrum.
+<P>If you want more control, hit <B>Advanced compute</B>. Note that the
+signal which will be analyzed is the one highlighted when you press
+<B>Advanced compute</B>. Thus, if, for instance, you hit first
+<B>Compute</B> and then <B>Advanced compute</B>, you'll get an error. This
+is because after you press <B>Compute</B>, the current signal becomes
+<EM>sig_LegSpec#</EM>, which is not a 1D signal. When you hit <B>Advanced
+compute</B>, you get a new window, titled <B>CWT Based Legendre
+Spectrum</B>.  Choose as usual your <B>Input Signal</B> using the
+<B>Refresh</B> button. 
+<P>In the middle part of the window, you'll set the parameters pertaining
+to the computation of the CWT: <B>fmin</B> and <B>fmax</B> let you choose
+the minimum and maximum frequencies of analysis. The default values
+are the ones yielding maximal span compatible with the size of the
+signal. You may change the extreme frequencies either by typing values
+under <B>fmin</B> and <B>fmax</B>, or by using the predefined values on
+the menus to the right. The <B>Voices</B> parameters governs the number
+of intermediate frequencies at which the continuous wavelet
+coefficients will be computed. Be warned that giving an excessive
+number of voices may result in large computing times for long
+signals. Checking the <B>Mirror</B> item will deal the border effects by
+mirroring the signal at its extremities. Otherwise, zero-padding is
+used. Finally, you may choose the <B>Size</B> and <B>Type</B> of your
+analyzing wavelet: available wavelets are the <B>Mexican Hat</B>, and
+the real and analytic <B>Morlet</B> wavelet. The size may be any
+positive number (this parameter is not available for the Mexican
+hat). Once all the parameters that define the wavelet transform are
+chosen, hit <B>Compute WT</B>. The output signal is a matrix of size
+"number of voices" x "size of the original signal".  It is called
+<EM>cwt_signal#</EM>, if "signal" is the name of your data, and where # is as
+usual an incremental parameter. It should appear in the <B>Input CWT</B>
+box just below the <B>Compute WT</B> button. You may want to view the
+continuous wavelet transform using the <B>View</B> menu. Note that
+<B>Fraclab</B> recognizes wavelet transforms, and display them
+differently form regular images. In particular, it uses a fixed aspect
+ratio (this is useful for instance if the number of voices is much
+smaller than the size of the signal), and the "jet" color-map, which
+often allows to highlight the important structures. If you want to
+view the transform as a normal image, or make other changes in the
+appearance, use the functionalities of the <B>View</B> menu described in
+the <B>Overview</B> help file.
+<P>The <B>Refresh</B> button to the left of the <B>Input CWT</B> box lets you
+load a wavelet transform which would already be present in the
+<B>Variables</B> list of the main window. This avoids computing several
+times the same transform. Once you are happy with your transform, move
+to the lower part of the window, which performs the actual computation
+of the spectrum.
+<P>
+<P>In the lower part of the window, you may specify three numerical
+values: <B>Qmin</B>, <B>Qmax</B>, and <B># of Q's</B>: As its name
+indicates, fl is computed as the Legendre transform of some auxiliary
+function T(q). This function T(q) is estimated for q ranging in
+[<B>Qmin</B>, <B>Qmax</B>], and <B># of Q's</B> values are computed in this
+interval. You may check the <B>Specify Regression Range</B>: In
+this case, as usual, a graphic window will appear after you hit
+<B>Compute</B>: You'll see a bunch of curves, one curve per value of
+q. For each q, T(q) is estimated as the slope of the the best linear
+fit of the corresponding curve. Thus, you will want to select, with
+the cross-shaped cursor, a range of scales (in abscissa), where an
+approximately linear behaviour holds for all or most of the curves.
+Once you have selected such a range, two new graphs will appear to the
+right: On the lower one, you'll see the estimate of T(q), while the
+upper one will be the Legendre spectrum fl. You may experiment with
+other ranges until you are satisfied with the result. Press then
+<B>return</B> on your keyboard to finish. If you uncheck <B>Specify
+Regression Range</B>, <B>Full Regression Range</B> will appear instead, and
+the estimate will be performed on the whole range of scales as defined
+by the number of <B>Voices</B>. As in other windows of the same kind,
+you may also choose the <B>type of regression</B> from the usual choice.
+Finally, in many cases, more relevant estimates are obtained if one
+chooses, at each scale, the largest coefficients in given
+neighbourhoods, instead of a mean value. This is the default in
+<B>Fraclab</B>, as is indicated by the fact that the <B>Local Maxima</B>
+box is checked. If you unmark this box by pressing the button to the
+left of <B>Yes</B> (which subsequently becomes <B>No</B>), then the
+program will use mean values.
+<P>As above, in the advanced mode, you get two outputs: <EM>cwt_sig#</EM> is the
+continuous wavelet transform, while <EM>cwt_sig_LegSpec#</EM> is the Legendre
+spectrum.
+<P>Note the following weird naming convention: When you perform an
+advanced compute, the spectrum here is called <EM>cwt_sig_#LegSpec#</EM>,
+consistent with the case of the DWT method. The first # refers to the
+number of times you have computed the wavelet transform, while the
+second refers to the spectrum number. That is, if you compute several
+spectra with the same wavelet transform, only the second # is
+incremented. However, in the basic CWT method, the name of the
+spectrum is <EM>sig_LegSpec#</EM>, while in the basic DWT one it is
+<EM>dwt_sig_LegSpec#</EM>. We hope this does not introduce to much
+confusion.
+<P>
+<P>
+<A NAME="ss2.1.3"><H3>The <B>Box method</B> for the Legendre spectrum estimation</H3></A>
+
+<P>
+<P>As in the wavelet-based methods, you may decide to use the default
+parameters by choosing the menu <B>Basic parameters</B>. However, in
+this case, you don't get a new window as above: Rather, the output,
+called <EM>fcfl1d_sig#</EM> is computed right away and sent directly to your
+<B>Variables</B> list. The <B>Advanced parameters</B> choice is not
+included in the current release of <B>Fraclab</B>.
+<P>
+<P>
+<H2><A NAME="ss2.2">2.2 The <B>Large deviation Spectrum</B></A>
+</H2>
+
+<P>The large deviation spectrum fg is computed in <B>Fraclab</B> using pure
+time-domain algorithms. If you choose <B>Basic parameters</B>, the
+estimated spectrum, called <EM>fcfg1d_sig#</EM>, is computed right away and
+directly sent to your <B>Variables</B> list. You may have an idea of the
+default parameters used by the algorithm by viewing the output: You'll
+notice in the caption the numerical values for the various parameters.
+<P>Choosing <B>Advanced parameters</B> instead, you get a new window,
+titled <B>Large deviation spectrum estimation</B>. On the first line,
+the type of the <B>Input data</B>, i.e. <B>measure</B>, <B>function</B> or
+<B>cwt</B> is recalled. You may change (at your own risks - changing
+manually the type will usually result in an error) this type, by
+checking the appropriate box. As usual, you may <B>Refresh</B> the
+signal and view its <B>name</B> and <B>size</B>.
+<P>The second part of the window deals with the <B>Coarse grain Hölder
+exponents estimation</B>. Coarse grain Hölder exponents are the basic
+bricks for estimating fg. They just measure the scaling behaviour of
+the data at finite resolution (rather than at infinite resolution in
+the case of usual Hölder exponents). More precisely, for each
+resolution n, we consider the 2^n dyadic intervals that partition
+(0,1) (recall that, by convention, all the signals are assumed to be
+supported on (0,1)). For each interval, we compute a coarse grain
+Hölder exponent: This is just the logarithm of some quantity measuring
+the variation of the signal in the interval (this measure of variation
+is discussed below), divided by the logarithm of the size of the
+interval. Thus, we have one coarse grain exponent for each interval
+at each resolution. The minimum and maximum resolutions you wish to
+consider for computing these coarse grain exponents are set by the
+parameters <B>min size</B> and <B>max size</B>. Warning: The sliders that
+control these values have a somewhat strange behaviour, and you may
+want to enter the desired values directly from your keyboard. The
+number of resolutions you want to consider between <B>min size</B> and
+<B>max size</B> is set by the parameter <B># of scales</B>. Finally, you
+may decide how your <B># of scales</B> resolutions are distributed
+between <B>min size</B> and <B>max size</B>: This is the <B>progress.</B>
+parameter. <B>linear</B> means equispacing, <B>logarithmic</B> means
+log-uniform spacing, while <B>decimated</B> implies that your <B>min
+size</B> and <B>max size</B> are powers of 2: If you choose <B>decimated</B>,
+then the three parameters <B>min size</B>, <B>max size</B> and <B># of
+scales</B> are no longer independent: <B>Fraclab</B> will force them so
+that log(<B>max size</B>) - log(<B>min size</B>) +1 = <B># of
+scales</B>. Once you have decided your discretization of resolutions, you
+may choose which quantity to investigate: In other words, you need to
+decide how precisely you measure the variation of your signal in each
+interval, in order to determine its scaling behaviour. The default
+choice is the <B>oscillation</B>, i.e. the maximum minus the minimum of
+the signal in the dyadic interval. A second choice is the <B>lpnorm</B>,
+in which case you may specify the <B>power</B> p using the box on the
+right (the default is p = 2). Finally, you may go for the <B>linfty
+norm</B>, i.e. set p = infinity.
+<P>Once you're done with your settings, hit <B>Compute exponents</B>. The
+output, called <EM>fch1d_sig#</EM>, will appear in the Variables list. It is a
+matrix of size (<B># of scales</B>) x (length of the original
+signal). Each line in the matrix corresponds to the vector of coarse
+grain exponents at one of the considered resolution. Since at
+resolution n there are only 2^n points, and in order to deal with
+lines of constant sizes without resorting to zero-padding, each coarse
+grain exponent at resolution n is repeated the needed number of times.
+<P>The lower part of the window lets you perform the actual computation
+of the large deviation spectrum. The computation is based on
+techniques used in density estimation, and uses a kernel. You first
+need to tell <B>Fraclab</B> how the <B>density</B> of the coarse grain
+exponents will be estimated. In the current version of <B>Fraclab</B>,
+only the <B>continuous</B> choice is available. This simply means that a
+fully non parametric method is used. We hope to include the other
+choices, namely <B>discrete</B>, <B>wavelet</B> and <B>parametric</B> in
+future releases. The next parameter is the size of the kernel. You
+control this by selecting, in front of the item <B>adaptation</B>, one
+of <B>maxdev</B>, <B>diagonal</B>, <B>double kernel</B> and
+<B>manual</B>. Only <B>maxdev</B> and <B>manual</B> are implemented in the
+current version of <B>Fraclab</B>. Choosing <B>maxdev</B> will make
+<B>Fraclab</B> use an optimal size computed from some empirical
+statistical criterion. If you rather want to go for <B>manual</B>, then
+you may enter a numerical value in the box to the right, or use the
+slider (these box and slider are grayed out when you choose
+<B>maxdev</B>, since the choice is automated in this case). The default
+0.1 is often a good starting point. Larger values decrease variance at
+the expense of bias, resulting in smoother estimates, and
+vice-versa. You finally choose the shape of the kernel, by selecting
+in front of <B>kernel</B> one of <B>Gaussian</B>, <B>boxcar</B>,
+<B>epanechnikov</B>, <B>mollifier</B> and <B>triangle</B> (consult any book
+on density estimation to know more about these kernels).
+<P>Note that this routine will not estimate one but several spectra: One
+for each of the <B># of scales</B> resolutions. Thus, the output
+signal, called <EM>fcfg1d_sig#</EM>, is a structure that contains <B># of
+scales</B> graphs, each being a spectrum estimated at a given
+resolution. High resolution (i.e.close to <B>min size</B>) spectra have higher
+accuracy, while low resolution ones are more robust. In general, you
+should use a small number of different resolutions, i.e. around 4 or
+5, ranging from high to moderate resolutions (i.e. <B>min size</B> = 1
+or 2 and <B>max size</B> of the order of 10 to 100). You know that you
+have obtained a meaningful estimate if all the spectra coincide
+approximately. More precisely, you may trust that, for a given
+exponent a, the large deviation spectrum of your signal at point a has
+been well estimated if the values of most or all of your graphs almost
+coincide above abscissa a. You'll find that, in many cases, better
+agreements are obtained for large values of the spectra (large
+<EM>ordinates</EM>), and also for values of the exponent smaller than the mode of the
+spectra. On the contrary, values to the extreme right (large
+<EM>exponents</EM>) often show more discrepancy. Also, in many cases, the
+spectrum computed with the highest resolution significantly departs from
+the others. If all others agree reasonably, it is safe to discard the
+highest resolution one and use as an estimate the common value of the
+others.
+
+<H2><A NAME="ss2.3">Other functions</B></A>
+</H2>
+<P>
+<P>
+<HR>
+<A HREF="help_1D_spectra-3.html">Next</A>
+<A HREF="help_1D_spectra-1.html">Previous</A>
+<A HREF="help_1D_spectra.html#toc2">Contents</A>
+</BODY>
+</HTML>

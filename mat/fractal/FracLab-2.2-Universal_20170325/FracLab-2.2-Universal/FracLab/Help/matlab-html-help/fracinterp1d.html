@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>fracinterp1d :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="fl_regression.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="fracinterp2d.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">fracinterp1d</h1>
+        <p>Computes the interpolation of a 1D signal</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>XI = fracinterp1d(x,NI)<br>
+                XI = fracinterp1d(...,'Propertyname',Propertyvalue)    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>XI = fracinterp1d(x,NI)</tt> Computes the interpolated signal, <tt>XI</tt>, of the input signal, <tt>x</tt>, 
+            using a specific number of interpolation, <tt>NI</tt> and a Triangle biorthonormal quadrature mirror filter. 
+            Beware, if the number of interpolations is <tt>NI > 3</tt> the process will take a long time.
+        </p>
+        
+        <p><tt>XI = fracinterp1d(...,'Propertyname',Propertyvalue)</tt> Computes the denoised signal, <tt>XI</tt>, 
+            applying the specified property settings. The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'levels'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>XI</tt> is computed with specific <tt>[START, END]</tt> levels vector.
+                                    The parameters <tt>START</tt> and <tt>END</tt> are positive integers that specify the minimum and maximum scales 
+                                    which are used to compute the interpolation. The <tt>START</tt> value must be at least equal to 2
+                                    and the <tt>END</tt> level must be lower than <tt>log2</tt> of the length input signal.
+                                    If <tt>'levels'</tt> is not specified, the default vector is <tt>[START,END] = [2,log2(length(X))]</tt>.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Interpolation of a 1D fractional Brownian motion</h3>
+            <p class="synopsis">
+                <tt>N = 1024; H = 0.5;<br>
+                    x = fbmwoodchan(N,H);<br>
+                    y = fracinterp1d(x,1,'levels',[2,10]);<br>
+                    figure; plot(x); hold on; plot(y,'r');<br>
+                    title('Interpolation of a 1D signal');<br>
+                    xlim([0 length(y)]); legend('input signal','interpolated signal');
+                </tt>
+            </p>
+            <p><img src="images_examples/Interpolation/fracinterp1d_ex1.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="fl_regression.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">fl_regression</td><td>&nbsp;</td><td align="right">fracinterp2d</td>
+                <td align="right" width="20"><a href="fracinterp2d.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

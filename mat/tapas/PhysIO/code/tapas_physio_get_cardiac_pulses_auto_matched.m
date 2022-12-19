@@ -39,7 +39,7 @@ function [cpulse, verbose] = tapas_physio_get_cardiac_pulses_auto_matched(...
 % (either version 3 or, at your option, any later version). For further details, see the file
 % COPYING or <http://www.gnu.org/licenses/>.
 %
-% $Id: tapas_physio_get_cardiac_pulses_auto_matched.m 755 2015-07-08 16:15:22Z kasperla $
+% $Id$
 if nargin < 5
     verbose.level = 0;
     verbose.fig_handles = [];
@@ -81,20 +81,26 @@ switch methodPeakDetection
             ECG_min, kRpeak, inp_events);
 end
 
-cpulse = t(cpulse);
-
-if verbose.level >=2
-    verbose.fig_handles(end+1) = tapas_physio_get_default_fig_params();
-    titstr = 'Peak Detection from Automatically Generated Template';
-    set(gcf, 'Name', titstr);
-    plot(t, c, 'k');
-    hold all;
-    stem(cpulse,4*ones(size(cpulse)), 'r');
-    legend('Raw time course',...
-        'Detected maxima (cardiac pulses / max inhalations)');
-    title(titstr);
+if isempty(cpulse)
+    [verbose, msg] = tapas_physio_log('No super-threshold peaks found by auto_matched algorithm', verbose, 1);  
+else
+    
+    % remove pulses out of range for time vector, convert to time
+    cpulse = cpulse(cpulse>0 & cpulse < numel(t));
+    cpulse = t(cpulse);
+    
+    if verbose.level >=2
+        verbose.fig_handles(end+1) = tapas_physio_get_default_fig_params();
+        titstr = 'Peak Detection from Automatically Generated Template';
+        set(gcf, 'Name', titstr);
+        plot(t, c, 'k');
+        hold all;
+        stem(cpulse,4*ones(size(cpulse)), 'r');
+        legend('Raw time course',...
+            'Detected maxima (cardiac pulses / max inhalations)');
+        title(titstr);
+    end
+    
 end
-
-
 
 

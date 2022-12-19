@@ -336,12 +336,12 @@ for iter=iterrange
     
     % Save clusters
     if FIVEF
-        T=peakcluster(transpose(A(:,3:5)),mapparameters.conn,infoI1,[pwd filesep 'tmp']);
+        T=peakcluster(transpose(A(:,3:5)),mapparameters.conn,infoI1,mapparameters.out); % [pwd filesep 'tmp'] kat editchanged with mapparemeter.out
         A(:,2)=T(:,1); clear T
         A=unique(A(:,1:2),'rows','first');
         A(:,1)=n';
         voxelsT=[A(:,1) NaN(size(A,1),5) A(:,2)];
-        Iclust=spm_read_vols(spm_vol([pwd filesep 'tmp_clusters.nii']));
+        Iclust=spm_read_vols(spm_vol([mapparameters.out '_clusters.nii']));% [pwd filesep 'tmp'] kat editchanged with mapparemeter.out
     else
         T=peakcluster(transpose(A(:,3:5)),mapparameters.conn,infoI1,[mapparameters.out '_thresh' num2str(mapparameters.thresh2) '_extent' num2str(mapparameters.cluster) mapparameters.maskname]);
         A(:,2)=T(:,1); clear T    % Save significant data

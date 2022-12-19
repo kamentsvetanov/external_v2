@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The 1D signals Multifractal Spectra pop-up menu: Homework</TITLE>
+ <LINK HREF="help_1D_spectra-6.html" REL=next>
+ <LINK HREF="help_1D_spectra-4.html" REL=previous>
+ <LINK HREF="help_1D_spectra.html#toc5" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_1D_spectra-6.html">Next</A>
+<A HREF="help_1D_spectra-4.html">Previous</A>
+<A HREF="help_1D_spectra.html#toc5">Contents</A>
+<HR>
+<H2><A NAME="s5">5. Homework</A></H2>
+
+<P>
+<P>We'll start with a simple test on the paradigm of multifractals,
+i.e. a multinomial measure. Synthesize first a multinomial measure: Go
+to <B>Synthesis</B>/<B>Measures</B>. We'll generate a measure with the
+default parameters, i.e. a 1D trinomial deterministic measure at
+resolution 7. This results in 3^7=2187 intervals. The reason why we
+generate a trinomial measure and not a binomial one is that many
+algorithms use (sometimes implicitly) at some point a dyadic
+partition of space, and it would be cheating to match the structure of
+the data to that of the algorithm. Since there is a closed formed
+formula for the multifractal spectrum of such measures, we'll check
+the box to the right of <B>Compute theoretical spectrum</B>, so that
+<B>Yes</B> appears. Recall finally that, in this case, all three
+spectra, i.e. the Hausdorff, large deviation and Legendre spectra,
+coincide. Hit <B>Compute</B>, and view the two generated signals:
+<EM>mu_n0</EM> is the trinomial measure, and <EM>theof0</EM> the associated
+multifractal spectrum. Let us now try to estimate the spectrum from
+the data <EM>mu_n0</EM>. We'll try first the enhanced box method
+implemented in <B>Fraclab</B>: With <EM>mu_n0</EM> selected, go to <B>1D
+signals Multifractal Spectra</B>/<B>Measures</B>/<B>Legendre
+Spectrum</B>/<B>Box Method</B>/<B>Basic parameters</B>. The estimated spectrum
+<EM>mdfl1d_mu_n00</EM> appears in the <B>Variables</B> list. View it, and
+compare it with the theoretical one <EM>theof0</EM> (you can superpose
+them using the <B>hold</B> facility of the <B>View</B> menu). As you can
+see, the match is almost perfect. As a second test, we'll try the
+discrete wavelet based method. With <EM>mu_n0</EM> selected, go to <B>1D
+signals Multifractal Spectra</B>/<B>Measures</B>/<B>Legendre
+Spectrum</B>/<B>DWT based</B>. Hit <B>Compute</B> to get the estimated
+spectrum <EM>dwt_mu_n00_LegSpec0</EM>. You'll notice that although not
+completely off, this estimate is quite wrong on its left part. The
+fact that it is not smooth but rather displays angles is not a serious
+problem: It is just that the discretization in the q parameter is too
+coarse. To get rid of this artifact, let us try the <B>Advanced
+compute</B> method (recall to select <EM>mu_n0</EM> before clicking on
+<B>Advanced compute</B>, otherwise you'll get an error <B>Error : Input
+must be a Matrix or Vector !</B> in the <B>Message</B> zone of the main
+window). Change <B>Qmin</B> to -10, <B>Qmax</B> to 10, and <B># of Q's</B>
+to 30, and hit <B>Compute</B>. You get the usual window that allows you
+to select a range where approximate linearity holds. Note that,
+although the data are strictly multifractal, the scaling does not
+appear so good on the graph, i.e. there is no region where a linear
+behaviour is observed. If however you select the whole range, you'll
+get a spectrum which is not too bad: Hit return to validate your
+choice and view the resulting spectrum <EM>dwt_mu_n01_LegSpec0</EM>. This
+one is smoother, but it is still wrong on the left part. This
+discrepancy as well as the non linear behaviour noticed above are
+probably due to the fact that we are analyzing a triadic structure
+with a dyadic wavelet. As you may care to try, changing the wavelet
+will not improve the result. Let us now see what happens with a
+continuous wavelet transform based algorithm. Select again <EM>mu_n0</EM>
+and go to <B>1D signals Multifractal
+Spectra</B>/<B>Measures</B>/<B>Legendre Spectrum</B>/<B>CWT based</B>. Hit
+<B>Compute</B> to get the estimated spectrum <EM>mu_n0_LegSpec0</EM>. On
+viewing the result, you'll notice that it is completely false: It has
+no decreasing part. Let us now try the <B>Advanced compute</B> menu
+(recall to select <EM>mu_n0</EM> before clicking on <B>Advanced
+compute</B>). Use the default parameters or change them as you like, and
+hit <B>Compute WT</B>, then <B>Compute</B>. In the new window that
+appears, you'll see why we get only an increasing part for the
+spectrum: This comes from the fact that the curves on the left do not
+cross as they should.
+<P>Let us now try to estimate the spectrum of a Weierstrass
+function. Synthesize a deterministic Weierstrass function with the
+default parameters except you require that 1024 samples are generated.
+The theoretical Legendre and large deviation spectra coincide in this
+case: it is a half line with slope -1 starting from the point
+(H,1). If however one computes the spectrum with a wavelet with a
+sufficient number of vanishing moments, the spectra reduce to the
+point (H,1). Let us first compute the Legendre spectrum. Since this is
+a function and not a measure, go to <B>1D signals Multifractal
+Spectra</B>/<B>Functions</B>/<B>Legendre Spectrum</B>/<B>DWT based</B>.  Hot
+<B>Compute</B>. The result is correct, as you will check by viewing
+<EM>dwt_Wei0_LegSpec0</EM>, although there is some lack of precision that
+you can correct by using the <B>Advanced compute</B> features. Set
+<B>Qmin</B> to -10, <B>Qmax</B> to 10, and <B># of Q's</B> to 30, and hit
+<B>Compute</B>. You get the usual window that allows you to select a
+range where approximate linearity holds. Again, the scaling is not so
+good, although it should be from a theoretical point of view.  Select
+the whole range and hit return to get the spectrum
+<EM>dwt_Wei00_LegSpec0</EM>. View it and notice how we have gained
+precision in the location of the maximum, which is quite close to
+0.5. Try now a wavelet with a high number of vanishing moments,
+e.g. the Daubechies 20. The graphs do not look more linear, but,
+selecting again the whole range will give you an almost perfect
+result, i.e. a spectrum reduced to a single point with abscissa 0.5
+and ordinate which is a bit underestimated around 0.85. Note finally
+that with a Coiflet 6, you do get a large region (between log scale 0
+and 9) where approximate linearity holds, with corresponding spectrum
+comparable to the one obtained with the Daubechies wavelet. As you may
+care to check, the spectra obtained with the CWT method are not good,
+for the same reasons as the ones exposed in the case of the multinomial
+measure. The spectrum obtained using <B>1D signals Multifractal
+Spectra</B>/<B>Functions</B>/<B>Legendre Spectrum</B>/<B>Box
+Method</B>/<B>Basic parameters</B> is not too far from the theoretical one,
+with however a noticeable bias on the maximum (0.6 instead of
+0.5). Let us now estimate the large deviation spectrum. Go to <B>1D
+signals Multifractal Spectra</B>/<B>Functions</B>/<B>Large deviation
+Spectrum</B>/<B>Basic parameters</B>. You get the estimate called
+<EM>fcfg1d_Wei00</EM>: this is almost the same spectrum as the one
+obtained using the Legendre approach in the box method implementation.
+<P>Our last test on a synthetic signal is with an IFS: synthesize an IFS
+in <B>Synthesis</B>/<B>Functions</B>/<B>Deterministic</B>/<B>IFS</B> with the
+default parameters. We shall analyze the signal called
+<EM>ifs_ord_0</EM>. This IFS has a (Legendre and large deviation) spectrum
+which assumes the same shape as the one of a deterministic multinomial
+measure. It has the following features: the Hölder exponent ranges in
+the interval (0.0959, 1.4650) with a mode at 0.7306. Let us see if we
+can recover this shape and values with our estimators. As you may care
+to check, the CWT method and its variants do not perform good in this
+case either. To test the DWT method, go to <B>1D signals Multifractal
+Spectra</B>/<B>Functions</B>/<B>Legendre Spectrum</B>/<B>DWT based</B> and hit
+<B>Advanced compute</B>. Choose <B>Daubechies 12</B> as a wavelet, and set
+<B>Qmin</B> to -10, <B>Qmax</B> to 10, <B># of Q's</B> to 30 and hit
+<B>Compute</B>. Select the whole range and hit return. The obtained
+spectrum is not too bad, with a minimum at 0.01, a maximum at 1.65,
+and a mode at 0.69. These values depend however heavily on the choice
+of the analyzing wavelet. We will now see how the Box method
+behaves. Select <EM>ifs_ord_0</EM> and go to <B>1D signals Multifractal
+Spectra</B>/<B>Functions</B>/<B>Legendre Spectrum</B>/<B>Box
+Method</B>/<B>Basic parameters</B>. The computation will unfortunately take
+a while. However, the result is quite good: You get the correct shape,
+with a minimum at 0.26, a maximum at 1.43 and a mode at 0.72. In
+contrast, the computation of the estimate of the large deviation
+spectrum, obtained through <B>1D signals Multifractal
+Spectra</B>/<B>Functions</B>/<B>Large deviation Spectrum</B>/<B>Basic
+parameters</B>, is very fast: You'll verify that you get roughly the same
+estimate as with the Legendre spectrum with the box method. The
+important fact here is that, contrarily to the Legendre one, the
+estimated large deviation spectrum does not have to be concave. The
+fact that we do obtain a perfectly concave spectrum is thus already an
+important piece of information.
+<P>We end this section with the multifractal analysis of a real world
+signal, namely an Internet traffic log. It has been discovered (see
+reference (4)) that Internet traffic does exhibit, in certain
+conditions, a strong multifractal behaviour. Although the mechanisms
+behind this are not yet completely understood, this fact yields
+interesting information on the structure of Internet traffic and on
+its small scale behaviour. We shall analyze here the data called
+<EM>traffic.txt</EM> that you will find in the <B>DATA</B> directory that
+comes with the <B>Fraclab</B> release.  Load first these data into
+<B>Fraclab</B>: Press the <B>Load</B> button in the main window. A new
+window appears, showing the files of your current directory. Change
+directory to the <B>DATA</B> directory.  Choose the file called
+<EM>traffic.txt</EM> by clicking on it. Its name is then displayed at the
+top of the window, in the <B>Name:</B> box. Since this file is plain
+text, click on the button to the right of <B>Load as:</B>, and select
+the item <B>ASCII</B>. Then press <B>Load</B>, and <B>Close</B> the loading
+window.  The <EM>traffic.txt</EM> file should appear in your
+<B>Variables</B> list of the main window, under the name <EM>ftraffic</EM>.
+View this signal, and notice how irregular it is. This is a high
+frequency log of a TCP trace. More precisely, the values in this graph
+corresponds to the number of packets that went through a gateway at
+the French CNET during successive very short periods of time. Since
+all ordinates must be positive, it is natural to treat these data as a
+measure. In that view, we need to normalize it, so that the "total
+mass" is one. To do this, type <EM>n_traffic =
+ftraffic</EM>/<EM>sum(ftraffic);</EM> in the matlab window, and import
+<EM>n_traffic</EM> in <B>Fraclab</B>: Hit <B>Scan Workspace</B> and select
+<EM>n_traffic</EM> in the windows that appears. Click on <B>Import</B> and
+close that window. You may view <EM>n_traffic</EM> to check that it is the
+same as <EM>f_traffic</EM> except the scale in ordinate has been divided
+roughly by 10^8. Now go to <B>1D signals Multifractal
+Spectra</B>/<B>Measures</B>/<B>Large deviation Spectrum</B>/<B>Basic
+parameters</B>. You'll get the output <EM>mcfg1d_n_traffic0</EM>. View
+it. You'll see that the estimated spectrum is not concave (compare
+with the ones obtained above on the synthetic signals). Indeed, there
+is a small but noticeable "bump" on the increasing part of the
+spectrum. As a consequence, this estimate looks like a superposition
+of two "basic" spectra, i.e. spectra like the ones of a multinomial
+measure. This can be taken as an indication that we have here (at
+least) two different phenomena. This view is further supported by a
+more refined analysis: Indeed, if one separates the above aggregated
+traffic into an incoming traffic and an outgoing one, then one gets
+that each of these two traffics has a concave spectrum. Multifractal
+analysis thus allows us in this case to separate the two kinds of
+traffic on the basis of their high frequency behaviour. We shall not
+pursue this here, and refer the interested to reference (4).
+<P>Finally, recall that another example of the computation and use of a
+multifractal spectrum on real data (segmentation of an optical image)
+has been described in the homework section of the help file
+<B>Overview and main functionalities of Fraclab</B>.
+<P>
+<P>
+<P>
+<HR>
+<A HREF="help_1D_spectra-6.html">Next</A>
+<A HREF="help_1D_spectra-4.html">Previous</A>
+<A HREF="help_1D_spectra.html#toc5">Contents</A>
+</BODY>
+</HTML>

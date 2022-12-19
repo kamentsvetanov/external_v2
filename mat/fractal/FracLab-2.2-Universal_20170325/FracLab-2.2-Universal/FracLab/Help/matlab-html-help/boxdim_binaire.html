@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>boxdim_binaire :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="asmornhulen.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="boxdim_classique.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">boxdim_binaire</h1>
+        <p>Box dimension, computed with the box method, of the white points in a black and white image or,
+           more generally, of non-zero-points in an N-dimensional array.</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>[boxdim,Nboxes,handlefig]=boxdim_binaire(BWimg, Size, Ratio, Axes, Waitbar ,reg, lrstr, optvarargin)</tt>
+        </p>
+        
+        <h3>Inputs</h3>
+        <p><b><tt>BWimg :</tt></b><br> 
+            N-dimensional array. Usually, it is a matrix containing 0 and 1.
+            If BWImg contains values different from 0 and 1, all non-zero values are trated as ones.
+        </p>
+        
+        <p><b><tt>Size, Ratio :</tt></b><br>
+            Ratio defines the lengths of the sides of a "first box". If BWimg is an image, it is a 1x2 array. (1xN array if BWimg is an N dimensional array). 
+            The successive boxes will be deduced from this first box by homotheties with ration Size(i). More precisely, the box at at the i - th iteration will have a length along the k - th axis equal to Ratio(k)*Size(i)
+        </p>
+        
+        <p><b><tt>Axes :</tt></b>
+        <ul type="circle">
+            <li>If BWImg is an array, Axes is a 1x2 array : [Xmin,Xmax]. Xmin is the abscissa corresponding to Signal(1) and Xmax the abscissa corresponding to Signal(end).
+            <li>If BWImg is a matrix(black and white image), Axes is a 2 x 2 matrix containing the coordinates of its corners : [Xmin Xmax ; Ymin Ymax].
+            <li>If BWImg is an N-dimensional array, Axes is an Nx2 matrix.
+        </ul>
+            For a graphical explanation of Size, Ratio and Axes, see <a href="#example1">Example 1</a>
+        </p>
+        
+        <p><b><tt>Waitbar :</tt></b><br> 1 if you want a waitbar to appear during the calculation, else 0</p>
+        
+        <p><b><tt>reg :</tt></b><br> The way you choose the bounds. See the help on fl_regression for more information.</p>
+
+        <p><b><tt>lrstr,optvarargin :</tt></b><br> Regression parameters. They define the regression type. Type " help monolr" for more information</p>
+        
+        <h3>Outputs</h3>
+        <p><b><tt>boxdim :</tt></b><br>The estimated box dimension</p>
+        
+        <p><b><tt>Nboxes :</tt></b><br>
+            Nboxes is a vector. Nboxes(i) is the number of non-empty boxes at the i - th iteration. A non-empty box is a box that contains at least one point of the graph of the function.
+        </p>
+        
+        <p><b><tt>handlefig :</tt></b><br>
+            If reg~=0, a window appears to help you choosing the linearity bounds. handlefig is the handle of this figure.
+        </p>
+        
+        <p><b><tt>bounds :</tt></b><br>
+            Bounds of linearity of log2(Nboxes) in function of log2(Size). Interesting if reg==1.
+        </p>
+        
+        <h3>Optional arguments</h3>
+        <p>All arguments except BWImg are optional. For example, the syntax : boxdim_classique(PointsList) is correct.
+           If you don't want to precise an argument, you can also type []. The missing arguments take their default values:
+        </p>
+        <p class="synopsis">
+            <tt>Size=[1 1/2 1/4 ... 1/2048 1/4096]<br>Ratio =[1 1 ...]<br>
+                Axes=[0 1;0 1 ; ...]<br>Waitbar = 0<br>reg=0<br>lrstr='ls'</tt><br>
+        </p>
+        <p>These default values are not always relevant, especially Size, so when you don't know how to define Size, try to use reg ~= 0 in order to precise 
+           manually the correct box sizes.
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1</h3>
+            <p>This drawing may help you to understand the roles of Size and Ratio.</p>
+            
+            <p><center><img src="expl_boxdim_binaire.png"></center>It corresponds to the following intructions :</p>
+            
+            <p class="synopsis">
+                <tt>load('image_Weierstrass.mat');<br>imagesc(C);colormap('gray');%display C<br>
+                    Size=[1/2,1/4]; Ratio=[1,4]; Axes=[0,1;0,4];<br>
+                    % To avoid the extrema points to be counted in separated boxes<br>
+                    epsi=10^(-3); Axes=Axes+[epsi,-epsi;epsi,-epsi];<br>
+                    % Calculation<br>
+                    [boxdim,Nboxes,handlefig]=boxdim_binaire(C, Size, Ratio,Axes)
+                </tt>
+            </p>
+
+            <p>These instructions will return Nboxes=[4,10]. It is consistent with the drawing. 
+               The computed dimension isn't meaningfull, because of the low number of iterations. The goal of this example is just to show how the boxes are defined.
+            </p>
+            
+            <h3>Example 2</h3>
+            <p> Example: Computes the box dimension of a self-similar image. Its theorical dimension is log(7)/log(3)=1.77</p>
+
+            <p class="synopsis">
+                <tt>% load the image<br>
+                    load('fleche.mat');<br>
+                    % Plot the image<br>
+                    figure;imagesc(fleche);colormap('gray');pause;<br>
+                    % Compute its box dimension<br>
+                    reg=1; Waitbar=1;<br>
+                    [boxdim,Ntailles,handlefig,bounds]=boxdim_binaire(fleche,[],[],[],Waitbar,reg);<br>
+                    boxdim<br>bounds<br>
+                    % You should find bounds = -9 -3. It means that<br>
+                    % the progression is linear when log2(size) is in [-9 -3]. You may keep these<br>
+                    % bounds, take more points and try another regression type.<br>
+                    reg=0; Size=2.^[-9 : 0.5 : 0-3];<br>
+                    boxdim=boxdim_binaire(fleche,Size,[],[],Waitbar,reg,'pls',30);<br>
+                    boxdim<br>
+                </tt>
+            </p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p>  
+            <a href="boxdim_classique.html"><tt>boxdim_classique</tt></a><tt>,</tt>
+            <a href="boxdim_listepoints.html"><tt>boxdim_listepoints</tt></a><tt>,</tt>
+            <a href="fl_regression.html"><tt>fl_regression</tt></a>
+        </p>
+
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="asmornhulen.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">asmornhulen</td><td>&nbsp;</td><td align="right">boxdim_classique</td>
+                <td align="right" width="20"><a href="boxdim_classique.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

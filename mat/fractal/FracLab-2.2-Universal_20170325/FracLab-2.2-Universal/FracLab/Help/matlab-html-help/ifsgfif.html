@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>ifsgfif :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="ifsfif.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="ifstfif.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">ifsgfif</h1>
+        <p>Generates Generates a Generalized Fractal Interpolation function with prescribed Holder function based on Iterated Function System</p>  
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>IFS = ifsgfif(N,MI,H)</tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>IFS = ifsgfif(N,MI,H)</tt> Generates the generalized fractal interpolation function, <tt>IFS</tt>, using a sample size, <tt>N</tt>, 
+            3 interpolation points, arranged as a <tt>3x2</tt> matrix, <tt>MI</tt>, and Holder function, <tt>H</tt>. This allows to model a
+            process the pointwise regularity of which varies in time. The parameter <tt>N</tt> is a positive, power of 2, integer 
+            and the parameter <tt>MI</tt> is real and the parameter <tt>H</tt> must be a function from <tt>R to (0,1)</tt>, <b>written in a symbolic way</b>.
+        </p>
+                
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of signals with different prescribed Holder functions</h3>
+            <p class="synopsis">
+                <tt>N = 2048; t = linspace(0,1,N); Mxx = [0 0;0.5 1;1 -1]<br>
+                    H1 = 'abs(sin(3*pi*t))'; H2 = '0.2*(1-floor(2*t))+0.8*floor(2*t)';<br>
+                    x1 = ifsgfif(N,Mxx,H1); x2 = ifsgfif(N,Mxx,H2);<br>
+                    figure; plot(t,x1); hold on; plot(t,x2,'r')<br>
+                    legend('Ht = abs(sin(3*pi*t))','Ht = 0.2*(1-floor(2*t))+0.8*floor(2*t)','Location','NorthEast');<br>    
+                    title('Generalized Fractal Interpolation Function'); xlabel('time');
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/ifsgfif_ex1.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p><a href="ifsfif.html"><tt>ifsfif</tt></a>, <a href="ifstfif.html"><tt>ifstfif</tt></a></p>
+        
+        <h2>References</h2>
+        <p>
+            [1] K. Daoudi, J. Levy Vehel and Y. Meyer "Construction of continuous functions with prescribed local regularity", Constructive Approximation, Vol. 014(03) (1998), 349-385.<br><br>  
+            [2] J. Levy Vehel and K. Daoudi "Generalized IFS for Signal Processing", IEEE DSP Workshop, Loen, Norway, September 1-4, 1996.
+        </p>
+                
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="ifsfif.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">ifsfif</td><td>&nbsp;</td><td align="right">ifstfif</td>
+                <td align="right" width="20"><a href="ifstfif.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

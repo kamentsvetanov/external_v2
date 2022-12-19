@@ -1,0 +1,166 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>srmpmidpoint :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="srmpfbm2d.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="synth2.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">srmpmidpoint</h1>
+        <p>Generates a Self-Regulating Multifractional Process using an iterative midpoint displacement method</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>SRMP = srmpmidpoint(N,GZ)<br>
+                SRMP = srmpmidpoint(N,GZ,'Propertyname',Propertyvalue)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>SRMP = srmpmidpoint(N,GZ)</tt> Generates the self-regulating multifractional process, <tt>SRMP</tt>, using a sample size, <tt>N</tt>,
+            and a function of z, <tt>GZ</tt>. The parameter <tt>N</tt> is a positive, power of 2, integer and the parameter <tt>GZ</tt> must be a function 
+            from R to <tt>(0,1)</tt>, <b>written in a symbolic way</b>.
+           <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p><b>The function <tt>G(z)</tt> link the pointwise Holder exponent to the amplitude</b><br><br>
+                        It means that almost surely at every point <tt>t</tt> is posible to verify the relation <tt>alpha(t) = G(z(t))</tt><br>
+                        Where <tt>alpha</tt> is the pointwise Holder exponent of the signal <tt>z</tt>.
+                    </p>
+                </td></tr></table>
+            </ul>              
+        </p>
+        
+        <p><tt>SRMP = srmpmidpoint(...,'Propertyname',Propertyvalue)</tt> Generates the self-regulating multifractional process, <tt>SRMP</tt>,
+            applying the specified property settings. The Property setting can be choosen from the list below:
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'limits'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>SRMP</tt> is computed using specific <b>initial</b> and <b>final</b> values for the output <tt>SRMP</tt>.<br>
+                                    If <tt>'limits'</tt> is not specified, the default value is <tt>[initial, final] = [0,0]</tt>
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'ampli'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>SRMP</tt> is computed using a specific multiplication factor of the regularity or <b>texture amplitude</b>, <tt>M</tt>.
+                                    This influences the amplitude of the variations of the output signal which will be multiplied by the texture amplitude <tt>M</tt>.<br>
+                                    The higher is M, the more the process can vary and the more unpredictible it is 
+                                    (even if the link between Holder exponent and value of the process is always preserved).<br>
+                                    If <tt>'ampli'</tt> is not specified, the default value is <tt>M = 0.8</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'seed'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>SRMP</tt> is computed with a specific random seed, <tt>SEED</tt>. This is useful to generate the same path several times
+                                    or to compare the paths of different <tt>SRMPs</tt>.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <p><b>Note: It is interesting to run the code of these examples and zoom on the synthetized signals. 
+              This allows to observe their regularity very finely (much more precisely than shown by the drawings)</b>
+        </p>
+        <ul>    
+            <h3>Example 1 : generation of an SRMP.</h3>
+            <p class="synopsis">
+                <tt>gz = 'max(0.5,min(z+0.7,1))'; N = 2^16;<br>
+                    srmp = srmpmidpoint(N,gz,'seed',100);<br>
+                    z = [-0.5:0.01:0.5]; t = [0:N-1]/N;<br>
+                    figure; subplot(1,2,1); plot(z,eval(gz)); ylim([0.45 1.05]); title('function GZ');<br>
+                    xlabel('Value of the process'); ylabel('Pointwise exponent');<br>
+                    subplot(1,2,2); plot(t,srmp); XLabel('time'); Ylabel('Value of the process');<br>
+                    <b>% Remark: The process is smoother when its values are high</b>    
+                </tt>
+            </p>
+        </ul>
+        <p><img src="images_examples/Synthesis/srmpmidpoint_ex1.png" height="460" width="1000" alt=""></p>
+        <ul>    
+            <h3>Example 2 : Comparison of several realizations of the same SRMP.</h3>
+			<p class="synopsis">
+                <tt>gz = 'max(0.5,min(z+0.7,1))'; N = 2^16; t = [0:N-1]/N;<br>
+                    srmp1 = srmpmidpoint(N,gz);<br>
+					srmp2 = srmpmidpoint(N,gz);<br>
+					srmp3 = srmpmidpoint(N,gz);<br>
+                    figure; hold on; plot(t,srmp1,'b'); plot(t,srmp2,'r'); plot(t,srmp3,'g');<br>
+					xLabel('time'); ylabel('Value of the process');<br>
+                    <b>% Remark: The regularity of the process depends only on its value</b>
+                </tt>
+			</p>
+            <p><img src="images_examples/Synthesis/srmpmidpoint_ex2.png" height="420" width="561" alt=""></p>
+			
+            <h3>Example 3 : Comparison of SRMPs with prescribed initial/final values. The GZ function takes its maximum at 0.</h3>
+			<p class="synopsis">
+                <tt>gz = '1./(1+abs(z))'; N = 2^16;<br>
+                    srmp1 = srmpmidpoint(N,gz,'limits',[-1,1]);<br>
+					srmp2 = srmpmidpoint(N,gz,'limits',[-1,1]);<br>
+					srmp3 = srmpmidpoint(N,gz,'limits',[-1,1]);<br>
+                    z = [-5:0.01:5]; t = [0:N-1]/N;<br>
+                    figure; subplot(1,2,1); plot(z,eval(gz)); title('function GZ');<br>
+                    xlabel('Value of the process'); ylabel('Pointwise exponent');<br>
+                    subplot(1,2,2); hold on; plot(t,srmp1,'b'); plot(t,srmp2,'r'); plot(t,srmp3,'g');<br>
+					xLabel('time');ylabel('Value of the process');<br>
+                    <b>% Remark: The process is smoother when its values are near of 0. The value of each realization is -1 at t = 0 and 1 at t = 1</b>
+                </tt>
+			</p>
+         </ul>
+         <p><img src="images_examples/Synthesis/srmpmidpoint_ex3.png" height="460" width="1000" alt=""></p>
+         <ul>
+            <h3>Example 4 : influence of the amplitude parameter.</h3>
+            <p class="synopsis">
+                <tt>gz = '1/pi*atan(z)+0.5'; N = 2^16; z = [-5:0.01:5]; M = 0.5;<br>
+                    figure; subplot(1,2,1); plot(z,eval(gz)); title('function GZ');<br>
+                    xlabel('Value of the process');ylabel('Pointwise exponent');<br>
+                    Z1 = srmpmidpoint(N,gz,'ampli',M);<br>
+                    Z2 = srmpmidpoint(N,gz,'ampli',M);<br>
+                    Z3 = srmpmidpoint(N,gz,'ampli',M);<br>    
+                    subplot(1,2,2); hold on; plot(Z1,'b'); plot(Z2,'r'); plot(Z3,'g');<br>
+                    xLabel('number of points'); ylabel('Value of the process'); xlim([0 N]);<br>
+                    title(['Amplitude parameter M=',num2str(M)]);<br>    
+                    figure;<br>
+                    for M = [1,2]<br>
+                    &nbsp;&nbsp;Z1 = srmpmidpoint(N,gz,'ampli',M);<br>
+                    &nbsp;&nbsp;Z2 = srmpmidpoint(N,gz,'ampli',M);<br>
+                    &nbsp;&nbsp;Z3 = srmpmidpoint(N,gz,'ampli',M);<br>
+                    &nbsp;&nbsp;subplot(1,2,M); hold on; plot(Z1,'b'); plot(Z2,'r'); plot(Z3,'g');<br>
+					&nbsp;&nbsp;xLabel('number of points'); ylabel('Value of the process'); xlim([0 N]);<br>
+                    &nbsp;&nbsp;title(['Amplitude parameter M=',num2str(M)]);<br>
+					end<br>
+                    <b>% Remark: The higher is M, the more the process vary</b>
+                </tt>
+            </p>
+		</ul>
+        <p><img src="images_examples/Synthesis/srmpmidpoint_ex4a.png" height="460" width="1000" alt=""></p>
+        <p><img src="images_examples/Synthesis/srmpmidpoint_ex4b.png" height="460" width="1000" alt=""></p>
+        
+        <h2>See Also</h2>
+        <p>  
+            <a href="srmpfbm.html"><tt>srmpfbm</tt></a><tt>,</tt>
+            <a href="srmpfbm2d.html"><tt>srmpfbm2d</tt></a>
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="srmpfbm2d.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">srmpfbm2d</td><td>&nbsp;</td><td align="right">synth2</td>
+                <td align="right" width="20"><a href="synth2.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

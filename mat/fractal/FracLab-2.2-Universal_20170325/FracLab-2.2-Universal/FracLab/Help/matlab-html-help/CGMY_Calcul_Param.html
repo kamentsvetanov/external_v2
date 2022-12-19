@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>CGMY_Calcul_Param :: Functions(FracLab)</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.4.1  (Win32)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="Jacques ">
+	<META NAME="CHANGED" CONTENT="20121119;14281249">
+	<META NAME="chunktype" CONTENT="refpage">
+	<SCRIPT LANGUAGE="JavaScript" SRC="Fraclab/fraclab/Help/matlab-html-help/docscripts.js"></SCRIPT>
+    <link rel="stylesheet" href="docstyle.css" type="text/css">
+	<!--
+		P { color: #000000 }
+		TD P { color: #000000 }
+		H1 { color: #000000 }
+		H1.reftitle { color: #990000; font-weight: normal }
+		H2 { color: #990000 }
+		H2.cjk { font-family: "SimSun" }
+		H2.ctl { font-family: "Mangal" }
+		P.synopsis { margin-left: 0.85cm }
+		A:link { color: #0000ff }
+		TT.cjk { font-family: "NSimSun", monospace }
+	-->
+	</STYLE>
+</HEAD>
+<BODY>
+<a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+<table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="help_1D_exponents-5.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="help_1D_exponents-6.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+<H1 CLASS="reftitle">CGMY_Calcul_Param</H1>
+<P>Estimates the parameters of a tempered alpha-stable L&eacute;vy
+Motion 
+</P>
+<H2 CLASS="western">Syntax</H2>
+<P CLASS="synopsis"><TT CLASS="western">[Estim_Param]=CGMY_Calcul_Param(sig);</TT></P>
+<H2 CLASS="western">Description</H2>
+<P><TT CLASS="western">[Estim_Param]=CGMY_Calcul_Param(sig)</TT>
+Assuming <TT CLASS="western">sig </TT>is a tempered alpha-stable L&eacute;vy
+motion, estimates its parameters. More precisely, the 1D signal <FONT FACE="Courier New, monospace">sig</FONT>
+is  assumed to be a CGMY process, and we estimate the parameters
+alpha (or Y), G, M and Y using a maximum likelihood approach in the
+Fourier domain [1].</P>
+<P><TT CLASS="western"><FONT FACE="Times New Roman, serif">The input</FONT></TT><TT CLASS="western">
+sig </TT><TT CLASS="western"><FONT FACE="Times New Roman, serif">is
+any 1D signal. The output</FONT></TT><TT CLASS="western"> Estim_Param
+</TT><TT CLASS="western"><FONT FACE="Times New Roman, serif">is a
+vector with four components, [C,G,M,Y=alpha]. The estimated
+parameters appear in the window after computation is completed. </FONT></TT>
+</P>
+<H2 CLASS="western">Example : synthesis of a tempered L&eacute;vy
+motion and estimation</H2>
+<UL>
+	<P CLASS="synopsis"><TT CLASS="western"></TT></P>
+	<P CLASS="synopsis"><TT CLASS="western">N=16000; alpha= 1.5;
+	C=0.001;G=2;M=2;<BR>sig = CGMY_Principal(alpha,C,G,M,N,NaN);<br>[Estim_Param3]=CGMY_Calcul_Param(sig)</TT></P>
+</UL>
+<H2 CLASS="western">See Also</H2>
+<P><TT CLASS="western"><FONT FACE="Courier New, monospace">CGMY_principal</FONT></TT></P>
+<H2 CLASS="western">Reference</H2>
+<P>[1]  Carr, P., Geman, H., Madan, D., and Yor, M. (2002). The &#64257;ne
+structure of asset returns: an empirical investigation. Journal of
+Business 75, 305&ndash;332.</P>
+
+<table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="help_1D_exponents-5.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">Stable processes</td><td>&nbsp;</td><td align="right">2-microlocal frontier</td>
+                <td align="right" width="20"><a href="help_1D_exponents-6.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+</BODY>
+</HTML>

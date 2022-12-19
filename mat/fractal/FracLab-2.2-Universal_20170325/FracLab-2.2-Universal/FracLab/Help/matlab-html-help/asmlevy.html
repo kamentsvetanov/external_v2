@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>asmlevy :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="alphaimage.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="CGMY_compute.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">asmlevy</h1>
+        <p>Generates an Alpha-Stable Levy Motion </p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>ASM = asmlevy(N,ALPHA,BETA)<br>
+                ASM = asmlevy(...,SEED)    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>ASM = asmlevy(N,ALPHA,BETA)</tt> Generates the alpha-stable Levy motion, <tt>ASM</tt>, using a sample size, <tt>N</tt>, a stability parameter,
+            <tt>ALPHA</tt>, and a skewness parameter, <tt>BETA</tt>. <tt>N</tt> is a positive integer, <tt>ALPHA</tt> is a real in (0,2) and <tt>BETA</tt>
+            is a real in [-1,1]. The symetric distribution corresponds to <tt>BETA = 0</tt>.
+        </p>
+                
+        <p><tt>ASM = asmlevy(...,SEED)</tt> Generates the alpha-stable Levy motion, <tt>ASM</tt>, with a specific random seed, <tt>SEED</tt>.
+            This is useful to generate the same path several times or to compare the paths of different <tt>ASMs</tt>.
+        </p>
+                
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of a Levy Motion with a specific alpha parameter</h3>
+            <p class="synopsis">
+                <tt>N = 1000; A = 1.5; B = 0; t = linspace(0,1,N);<br>
+                    asm = asmlevy(N,A,B);<br>
+                    figure; plot(t,asm);<br>
+                    title('Levy Motion with alpha = 1.5 and beta = 0'); xlabel('time')
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/asmlevy_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Comparison of different Levy Motion processes using a specific random seed</h3>
+            <p class="synopsis">
+                <tt>N = 2000; A1 = 1.5; A2 = 1.8; B = 0;<br>
+                    asm1 = asmlevy(N,A1,B,1000);<br>
+                    asm2 = asmlevy(N,A2,B,1000);<br>    
+                    figure; plot(asm1,'k'); hold on; plot(asm2,'r');<br> 
+                    legend('asm1: alpha = 1.5','asm2: alpha = 1.8','Location','NorthWest');<br>
+                    title('Levy Motion with different values of alpha parameter');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/asmlevy_ex2.png" height="420" width="561" alt=""></p>
+            
+            <p class="synopsis">
+                <tt>N = 2000; A = 1.5; B1 = 0; B2 = -0.1;<br>
+                    asm1 = asmlevy(N,A,B1,10);<br>
+                    asm2 = asmlevy(N,A,B2,10);<br>    
+                    figure; plot(asm1,'k'); hold on; plot(asm2,'r');<br> 
+                    legend('asm1: beta = 0','asm2: beta = -0.1','Location','NorthWest');<br>
+                    title('Levy Motion with different values of beta parameter');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/asmlevy_ex3.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p>  
+            <a href="asmlinfrac.html"><tt>asmlinfrac</tt></a><tt>,</tt>
+            <a href="asmornhulen.html"><tt>asmornhulen</tt></a><tt>,</tt>
+            <a href="msmlevy.html"><tt>msmlevy</tt></a>
+        </p>
+        
+        <h2>References</h2>
+        <p>
+            [1] P. Bratley, B.L. Fox, and L.E. Schrage "A guide to simulation",Springer-Verlag (1983).<br><br>  
+            [2] J.M. Chambers, C.L. Mallows, B.W. Stuck "A method for simulating stable random variables", JASA,VOL.71, NO. 354, PP.340-344 (1976, correction in 1986).
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="alphaimage.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">alphaimage</td><td>&nbsp;</td><td align="right">CGMY_principal</td>
+                <td align="right" width="20"><a href="CGMY_compute.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

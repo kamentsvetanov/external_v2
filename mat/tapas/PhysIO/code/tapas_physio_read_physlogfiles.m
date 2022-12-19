@@ -4,7 +4,8 @@ function [c, r, t, cpulse, acq_codes, verbose] = tapas_physio_read_physlogfiles(
 % MR scanner vendor and the modality of peripheral cardiac monitoring (ECG
 % or pulse oximetry)
 %
-%   [cpulse, rpulse, t, c] = tapas_physio_read_physlogfiles(log_files, vendor, cardiac_modality)
+% [c, r, t, cpulse, acq_codes, verbose] = tapas_physio_read_physlogfiles(log_files, cardiac_modality, ...
+%    verbose)
 %
 % IN
 %   log_files   is a structure containing the following filenames (with full
@@ -28,6 +29,9 @@ function [c, r, t, cpulse, acq_codes, verbose] = tapas_physio_read_physlogfiles(
 %   cpulse              time events of R-wave peak in cardiac time series (seconds)
 %   acq_codes           slice/volume start events marked by number <> 0
 %                       for time points in t
+%                       10/20 = scan start/end; 
+%                       1 = ECG pulse; 2 = OXY max; 3 = Resp trigger; 
+%                       8 = scan volume trigger
 %
 % EXAMPLE
 %   [ons_secs.cpulse, ons_secs.rpulse, ons_secs.t, ons_secs.c] =
@@ -43,8 +47,6 @@ function [c, r, t, cpulse, acq_codes, verbose] = tapas_physio_read_physlogfiles(
 % Licence (GPL), version 3. You can redistribute it and/or modify it under the terms of the GPL
 % (either version 3 or, at your option, any later version). For further details, see the file
 % COPYING or <http://www.gnu.org/licenses/>.
-%
-% $Id: tapas_physio_read_physlogfiles.m 791 2015-08-05 21:54:21Z kasperla $
 
 if nargin < 2
     cardiac_modality = 'ECG';
@@ -55,30 +57,41 @@ if nargin < 3
 end
 
 switch lower(log_files.vendor)
-    case 'philips'
+    case 'biopac_mat'
         [c, r, t, cpulse, acq_codes] = ...
-            tapas_physio_read_physlogfiles_philips(log_files, cardiac_modality);
-    case 'ge'
-        [c, r, t, cpulse] = ...
-            tapas_physio_read_physlogfiles_GE(log_files, verbose);
-        acq_codes = [];
-    case 'siemens'
-        [c, r, t, cpulse, verbose] = ...
-            tapas_physio_read_physlogfiles_siemens(log_files, verbose);
-        acq_codes = [];
-    case 'siemens_tics'
-        [c, r, t, cpulse, verbose] = ...
-            tapas_physio_read_physlogfiles_siemens_tics(log_files, verbose);
-        acq_codes = [];
+            tapas_physio_read_physlogfiles_biopac_mat(log_files, cardiac_modality, verbose);
     case 'custom'
         [c, r, t, cpulse] = ...
             tapas_physio_read_physlogfiles_custom(log_files, verbose);
         acq_codes = [];
+    case 'brainproducts'
+        [c, r, t, cpulse, acq_codes] = ...
+            tapas_physio_read_physlogfiles_brainproducts(log_files, cardiac_modality, verbose);
+    case 'ge'
+        [c, r, t, cpulse] = ...
+            tapas_physio_read_physlogfiles_GE(log_files, verbose);
+        acq_codes = [];
+    case 'philips'
+        [c, r, t, cpulse, acq_codes] = ...
+            tapas_physio_read_physlogfiles_philips(log_files, cardiac_modality);
+    case 'siemens'
+        [c, r, t, cpulse, verbose] = ...
+            tapas_physio_read_physlogfiles_siemens(log_files, cardiac_modality, verbose);
+        acq_codes = [];
+    case 'siemens_tics'
+        [c, r, t, cpulse, acq_codes, verbose] = ...
+            tapas_physio_read_physlogfiles_siemens_tics(log_files, cardiac_modality, verbose);
+    case 'siemens_hcp'
+        [c, r, t, cpulse, acq_codes, verbose] = ...
+            tapas_physio_read_physlogfiles_siemens_hcp(log_files, cardiac_modality, verbose);
 end
+
+% Do not prepend for Siemens Tics, since can be as long as a day
+isSiemensTics = strcmpi(log_files.vendor, 'siemens_tics');
 
 % prepend all data with zeros for better processing, if scan starts before
 % physiological data
-if t(1) > 0
+if ~isempty(t) && t(1) > 0 && ~isSiemensTics
     dt = t(2) - t(1);
     nPrependSamples = ceil(t(1)/dt);
     t = [(0:nPrependSamples-1)'*dt;t];
@@ -87,6 +100,9 @@ if t(1) > 0
     end
     if ~isempty(log_files.respiration)
         r = [zeros(nPrependSamples,1);r];
+    end
+    if ~isempty(acq_codes)
+        acq_codes = [zeros(nPrependSamples,1);acq_codes];
     end
 end
 end

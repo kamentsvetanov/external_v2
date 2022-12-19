@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# MUST BE RUN AS:
+# . waitfor 4
+# NOT
+# waitfor 4
+
+TARGET=$1
+if test -z "$TARGET" || test "$TARGET" == auto
+then
+	TARGET=3
+	case $(hostname) in 
+		jalapeno00*)
+			TARGET=11
+			;;
+		ws*)
+			TARGET=2
+			;;
+		jalapeno*)
+			TARGET=1
+			;;
+		pepper*)
+			TARGET=3
+			;;
+	esac
+	test "$1" == auto || echo "For $(hostname), default TARGET=$TARGET"
+fi
+
+if [[ x == x$COLUMNS ]]
+then
+	COLUMNS=50
+fi
+
+
+it=0
+while [[ `jobs | grep Running | wc -l` -gt $TARGET ]]; 
+do
+	if [[ it -ne 0 ]]
+	then
+		let it=it-1
+	else
+		echo ======= More than $TARGET jobs, so waiting ========
+		jobs | grep Running # | sed 's/^.*fabber/fabber/' | pr -TW$COLUMNS
+		echo ==============================================
+		it=120
+	fi
+	sleep 0.5
+	# Checks every half-second, prints a message every it/2 seconds.
+	# This means we can watch for silence, even if the programs we're waiting
+	# for are very quiet!
+done
+

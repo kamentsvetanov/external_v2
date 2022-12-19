@@ -1,0 +1,119 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>mfdnolinear1d :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="mfdbayesian2d.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="mfdnolinear2d.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">mfdnolinear1d</h1>
+        <p>Performs the Multifractal Denoising of a 1D signal using a Multifractal Non Linear method</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>DENX = mfdnolinear1d(x,QMF)<br>
+                DENX = mfdnolinear1d(...,'Propertyname',Propertyvalue)<br>
+                [DENX,S] = mfdnolinear1d(...,'autothreshold')    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>DENX = mfdnolinear1d(x,QMF)</tt> Computes the denoised signal, <tt>DENX</tt>, of the input signal <tt>x</tt>
+            using a specific quadrature mirror filter, <tt>QMF</tt>.
+        </p>
+        
+        <p><tt>DENX = mfdnolinear1d(...,'Propertyname',Propertyvalue)</tt> Computes the denoised signal, <tt>DENX</tt>, 
+            applying the specified property settings. The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'increase'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>DENX</tt> is computed with a specific regularity increase, <tt>R</tt>. The parameter <tt>R</tt>
+                                    is a real number. If <tt>R</tt> is negative the signal is actually "noised".<br> 
+                                    If <tt>'increase'</tt> is not specified, the default value is <tt>R = 0.5</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'threshold'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>DENX</tt> is computed with a specific threshold, <tt>S</tt>. The parameter <tt>S</tt> is a
+                                    positive real.<br> If <tt>'threshold'</tt> is not specified, the default value is <tt>S = 0.5</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'level'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>DENX</tt> is computed with a specific start level, <tt>L</tt>. The parameter <tt>L</tt> is a positive
+                                    integer in <tt>(1,log2(length(x)))</tt> that defines the start level where the computation begins.<br> 
+                                    If <tt>'level'</tt> is not specified, the default value is <tt>L = log2(length(x))/2</tt>.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>[DENX,S] = mfdnolinear1d(...,'autothreshold')</tt> Computes the denoised signal, <tt>DENX</tt>, of the input signal <tt>x</tt>
+            using an estimated threshold value, <tt>S</tt>, this value can be then returned if wanted.<br>
+            If <tt>'autothreshold'</tt> is not specified, the default value is <tt>S = 0.5</tt>.<br>
+            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p><b>The estimation of threshold value</b><br><br>
+                        If <tt>N</tt> is the lenght of the signal <tt>x</tt>, <tt>n = log2(N)</tt>.<br>
+                        We estimate the standard deviation of the signal <tt>x</tt> : <tt>sigma = (median(abs(WT(WTI(1):(WTI(1)+WTL(1)-1)))))/0.6745</tt>,<br>
+                        where WT,WTI,WTL are respectevly the discrete wavelet transform of the signal, the indexes of the projection and the dimension of each projection.<br>
+                        Then the threshold value is defined by <tt>S = sigma*2^(-n/2)*sqrt(2*n)</tt>    
+                    </p>
+                </td></tr></table>
+            </ul>          
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Denoising of a 1D signal</h3>
+            <p class="synopsis">
+                <tt>N = 1024 ; H = 0.5 ; t = linspace(0,1,N);<br>
+                    x = fbmwoodchan(N,H); b = randn(N,1);<br>
+                    xb = x + b/8;<br>
+                    QMF = MakeQMF('daubechies',4);<br>
+                    y = mfdnolinear1d(xb,QMF,'increase',0.3);<br>
+                    figure; plot(t,xb); hold on; plot(t,x,'r');<br>
+                    title ('Multifractal non linear denoising');<br>
+                    xlabel ('time'); legend('Noised Signal','Signal');<br>
+                    figure; plot(t,y); hold on; plot(t,x,'r');<br>
+                    title ('Multifractal non linear denoising');<br> 
+                    xlabel ('time'); legend('Denoised Signal','Signal');
+                </tt>
+            </p>
+            <p><img src="images_examples/Denoising/mfdnolinear1d_ex1a.png" height="420" width="561" alt=""></p>
+            <p><img src="images_examples/Denoising/mfdnolinear1d_ex1b.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p>  
+            <a href="mfdbayesian1d.html"><tt>mfbayesian1d</tt></a><tt>,</tt>
+            <a href="mfdnorm1d.html"><tt>mfdnorm1d</tt></a><tt>,</tt>
+            <a href="mfdpumping1d.html"><tt>mfdpumping1d</tt></a><tt>,</tt>
+            <a href="waveshrink1d.html"><tt>waveshrink1d</tt></a>
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="mfdbayesian2d.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">mfdbayesian2d</td><td>&nbsp;</td><td align="right">mfdnolinear2d</td>
+                <td align="right" width="20"><a href="mfdnolinear2d.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>estimirs :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="flvariaIR.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="estimGQV1DH.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">estimirs</h1>
+        <p>Computes the Hurst parameter based on a increment ratio statistic method for a 1D signal</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>H = estimirs(X)<br>
+                H = estimirs(X,EPS)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>H = estimirs(X)</tt> Estimates the Hurst parameter of the 1D signal <tt>X</tt>.</p>
+        
+        <p><tt>H = estimirs(X,EPS)</tt> Estimates the Hurst parameter using a specific tolerence, <tt>EPS</tt>. 
+            If the tolerence is not specified <tt>EPS = 1e-5</tt>. 
+        </p>
+                
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example : Computation of Hurst parameter for a synthesized fractional Brownian motion</h3>
+            <p class="synopsis">
+                <tt>N = 50000; H = 0.3;<br>
+                    fbm = fbmwoodchan(N,H);<br>
+                    Hfbm = estimirs(fbm); t = linspace(Hfbm,Hfbm,N);<br>
+                    figure; plot(fbm); hold on; plot(t,'r');<br>
+                    legend('Generated fbm', ['Hfbm = ' num2str(Hfbm)]);<br>    
+                    title('Fractional Brownian Motion with H = 0.3');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Exponent_estimation/estimirs_ex1.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>References</h2>
+        <p>
+            [1] Bardet, J-M. & Surgailis, D. Measuring the roughness of random paths by increment ratios. hal-00238556, version 1 - 4 Feb 2008
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="flvariaIR.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">flvariaIR</td><td>&nbsp;</td><td align="right">estimGQV1DH</td>
+                <td align="right" width="20"><a href="estimGQV1DH.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Overview and main functionalities of Fraclab: Overview</TITLE>
+ <LINK HREF="help_aidegen-2.html" REL=next>
+
+ <LINK HREF="help_aidegen.html#toc1" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_aidegen-2.html">Next</A>
+Previous
+<A HREF="help_aidegen.html#toc1">Contents</A>
+<HR>
+<H2><A NAME="s1">1. Overview</A></H2>
+
+<P>
+<P><B>Fraclab</B> is general purpose signal processing toolbox based on
+fractal and multifractal methods. It allows to perform many basic
+tasks in signal processing, including estimation, detection,
+regularization, denoising, modeling, segmentation
+and synthesis. Let us stress that <B>Fraclab</B> is not intended to
+process "fractal" signals (whatever meaning is given to this word),
+but rather to apply fractal tools to the study of irregular but
+otherwise arbitrary signals : just as e.g. gradient-based algorithms
+are often successfully applied for image segmentation even when there
+are no mathematical or physical reasons for the original signal to
+possess an ordinary derivative, a fractal analysis may yield useful
+insights for non ``fractal'' data. Of course, it does not in general
+give relevant indications when the signal is mainly regular or smooth,
+and reveals its interest only if there is enough singularity in the
+data.
+<P>
+<P>
+<P>A comparison with classical signal processing may be in order to make
+things clearer. In many cases, one assumes that the meaningful
+information is regular in essence, and that the irregular aspect of
+the observed data is due to noise coming from various sources: captor,
+thermal, coding, etc. A most useful tool is then filtering, using for
+instance Fourier analysis, in order to get rid of the noise. This
+approach has of course proven extremely valuable in many applications.
+<P>
+<P>
+<P>However, there are cases where the irregular part of the observed data
+contains useful information that cannot be recovered if only the
+smooth part is kept. It can even be the case that most or all of the
+relevant information is carried in the singular structure of the
+observation. Let us give some examples. It is well known that some
+useful information about a heart condition is contained in the
+``fractal dimension'' (more precisely the correlation dimension, a
+feature related with the irregularity of the signal) of the ECG. 
+The lower this dimension, the worse the condition of the
+heart.  Although it is possible to assess the heart condition using
+classical methods, a regularity analysis seems to be a good
+alternative in this case. A second example is the case of radar
+images. These are difficult to process because of the presence of a
+specific noise, the speckle ("chatoiement" in French). However, speckle is not
+pure noise, but rather a genuine part of the signal, caused by the
+interferometric nature of radar images. In this
+respect, it contains information which is essential about the imaged
+region. Although removing the speckle can be
+useful for purposes of e.g. segmentation, analyzing it is a necessary
+task for other applications, as for instance classification, simply
+because the smoothed signal does not contain the necessary
+information. From a broader point of view, one may even argue that,
+though many image processing techniques aim at getting rid of
+irregularities in the data, the segmentation of simple, non noisy
+optical images should more logically be based on singularity analysis:
+one is indeed mostly interested in singularities, since edges are
+basically discontinuities in the grey levels. In that respect, the
+classical approaches, based on smoothing, do not appear as natural as is
+usually assumed.
+<P>
+<P>
+<P>Many tools in <B>Fraclab</B> are thus designed to measure different
+kinds of irregularity, and use these measures to perform signal
+processing.  The regularity is analyzed either from a global point of
+view, or from a local one. In the first case, <B>Fraclab</B> allows to
+compute various fractional dimensions. In the second case, the Holder
+exponent is used.  The exploitation of this local singularity
+information for signal processing can be performed in two different
+ways in <B>Fraclab</B> :
+<P>
+<P>
+<UL>
+<LI> By keeping all the information, which basically means that, starting
+from the signal s(t), one builds a new function a(t) which
+gives the Holder exponent of s at t. This is
+useful either when the singularity function a(t) is simpler than the
+original signal, or for purposes of e.g. detection or denoising.</LI>
+<LI> By using a global description of the singularity :
+while the use of fractional dimensions, such as the box or regularization
+dimension will be sufficient if the signal is ``fractally
+homogeneous'', in more general situations, a finer analysis is needed:
+Multifractal analysis aims at extracting higher level information from
+the singularity function associated with the
+signal, in cases where a(t) is as complex as, or more complex than
+s(t) (this happens for instance for self-affine functions), or if
+keeping trace of the singularity information at each point is not relevant 
+(this is the case for instance in issues of classification): In these 
+situations, one computes a multifractal spectrum, which yields a global
+characterization of the singularity structure. Usually, statistical
+or geometrical descriptions are used, leading to various multifractal spectra.
+These multifractal spectra are for instance useful in classification problems
+or in image segmentation.</LI>
+</UL>
+<P>
+<P>
+<HR>
+<A HREF="help_aidegen-2.html">Next</A>
+Previous
+<A HREF="help_aidegen.html#toc1">Contents</A>
+</BODY>
+</HTML>

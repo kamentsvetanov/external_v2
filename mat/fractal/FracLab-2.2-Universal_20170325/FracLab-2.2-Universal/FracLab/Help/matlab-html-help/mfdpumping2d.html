@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>mfdpumping2d :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="mfdpumping1d.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="monolr.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">mfdpumping2d</h1>
+        <p>Performs the Multifractal Denoising of a 2D signal using a Multifractal Pumping method</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>DENX = mfdpumping2d(x,QMF)<br>
+                DENX = mfdpumping2d(...,'Propertyname',Propertyvalue)    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>DENX = mfdpumping2d(x,QMF)</tt> Computes the denoised signal, <tt>DENX</tt>, of the input signal <tt>x</tt>
+            using a specific quadrature mirror filter, <tt>QMF</tt>.
+        </p>
+        
+        <p><tt>DENX = mfdpumping2d(...,'Propertyname',Propertyvalue)</tt> Computes the denoised signal, <tt>DENX</tt>, 
+            applying the specified property settings. The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'increase'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>DENX</tt> is computed with a specific regularity increase, <tt>R</tt>. The parameter <tt>R</tt>
+                                    is a real number. If <tt>R</tt> is negative the signal is actually "noised".<br> 
+                                    If <tt>'increase'</tt> is not specified, the default value is <tt>R = 0.5</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'level'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>DENX</tt> is computed with a specific start level, <tt>L</tt>. The parameter <tt>L</tt> is a positive
+                                    integer in <tt>(1,log2(max(size(x))))</tt> that defines the start level where the computation begins.<br> 
+                                    If <tt>'level'</tt> is not specified, the default value is <tt>L = log2(max(size(x)))/2</tt>.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Denoising of a 2D signal</h3>
+            <p class="synopsis">
+                <tt>images_loc = which('mfdpumping2d.html');<br>
+                    x = imread(fullfile(fileparts(images_loc),'images_examples','Denoising','sar.tif'));<br>
+                    x = ima2mat(x);<br>
+                    QMF = MakeQMF('daubechies',4);<br>
+                    y = mfdpumping2d(x,QMF);<br>
+                    figure; subplot(1,2,1); imagesc(x); title('Input image'); axis image;<br>
+                    subplot(1,2,2); imagesc(y); title('Denoised image'); axis image;<br>
+                    colormap(gray);
+                </tt>
+            </p>
+            <p><img src="images_examples/Denoising/mfdpumping2d_ex1.png" height="332" width="760" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p> 
+            <a href="mfdbayesian2d.html"><tt>mfbayesian2d</tt></a><tt>,</tt>
+            <a href="mfdnolinear2d.html"><tt>mfdnolinear2d</tt></a><tt>,</tt>
+            <a href="mfdnorm2d.html"><tt>mfdnorm2d</tt></a><tt>,</tt>
+            <a href="waveshrink2d.html"><tt>waveshrink2d</tt></a>
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="mfdpumping1d.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">mfdpumping1d</td><td>&nbsp;</td><td align="right">monolr</td>
+                <td align="right" width="20"><a href="monolr.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

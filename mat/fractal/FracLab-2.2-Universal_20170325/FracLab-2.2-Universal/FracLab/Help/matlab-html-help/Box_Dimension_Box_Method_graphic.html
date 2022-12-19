@@ -1,0 +1,84 @@
+<html>
+<head>
+<title>Box dimension (box method) computation with Fraclab GUI</title>
+<!--NAVBARTOP-->
+<table border=0 width="100%" cellpadding=0 cellspacing=0><tr>
+<td valign=baseline bgcolor="#e7ebf7"><b>Fraclab GUI</b></td>
+<td valign=baseline bgcolor="#e7ebf7" align=right><img src="b_prev.gif" alt="Previous page" border=0></a>&nbsp;&nbsp;&nbsp;<img src="b_next.gif" alt="Next Page" border=0></td>
+</tr>
+</table>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<a name="gui_help_boxdim"></a>
+<body bgcolor="#FFFFFF" text="#000001">
+<font size=+3 color="#990000">The box dimension (box method) window</font>
+<br><br>
+<center><img src="boxdim_window.png"></center><br>
+
+<p></p>
+<p><a href="#Zone0">0</a></font> <b>: Input type</b></p>
+<p><a href="#Zone1">1</a></font> <b>: Input name</b></p>
+<p><a href="#Zone2">2</a></font> <b>: Box sizes</b></p>
+<p><a href="#Zone3">3</a></font> <b>: Regression</b></p>
+<p><a href="#Zone4">4</a></font> <b>: Others</b></p>
+
+<p><a name="Zone0"><br><font size=+1 color="#990000"><b>Input type</b></font><br class="hdr"></p>
+<p><i>The input type can not be changed in this window for it is choosen in the Fraclab main menu. However, we explain here the meaning of this option:</i>
+<br>
+<br>In the main window, the user can choose between "<i>Signal or grayscale image</i>", "<i>Binary image</i>" and "<i>List of points</i>".</p>
+<!--To illustrate the way these inputs work, we will show how to compute the box dimension of the graph of the function sin(2*Pi*t) for t in [0,1] with each kind of input. (This dimension is obviously 1, but this isn't the question)-->
+<p>
+<center><img src="fraclab_boxdim_menu.png"></center></p>
+<br> From a mathematical point of view, the box dimension is a number associated to a subset of <code>R^n</code>.
+<br> From an informatical point of view, this subset can be described several ways. Each type of input corresponds to a certain way of describing the subset whose dimension is to be computed. 
+<p>
+<b>Signal or grayscale image</b>
+<br>This type of input is the more common in Fraclab. It is also the more simple of use for the computation of the graph of a function.
+The input is an array of values. These values are those of a function, and the dimension of the graph of the function is computed.
+The function is supposed to be defined on <code>[0,1]</code> if the input is a signal (and <code>[0,1]^(n-1)</code> in higher dimensions).
+For example, if you want to compute the box dimension of the graph of the function <code>sin(2*Pi*t)</code> for <code>t in [0,1]</code>, your input may be <code>sin(2*Pi*[0:10^(-4):1])</code>
+ (This dimension is obviously 1, but this isn't the question)
+<!--<br>The box dimension gives information on the regularity of the function: Roughly speaking, if the function is irregular, then the box dimension will be bigger. !-->
+It is also possible to perform this computation in any higher dimension.
+For example, if you compute the box dimension of a grayscale image, the bright pixels are seen as peaks and the dark pixels as valleys. This option corresponds to the use of <a href="boxdim_classique.html">boxdim_classique</a>
+</p>
+<p>
+<b>Binary image</b>
+<br>This type of input is the easiest to understand. Your input is a black and white image (i.e. a matrix of 0 and 1), and the box dimension of the white pixels is computed: a box is non-empty if it contains at least one white pixel.
+The image is supposed to be supported in <code>[0,1]^2</code> (Or <code>[0,1]^n</code> if <code>n ~= 2</code>)
+It works not only on images, but also with any higher (or lower) dimension array. This option corresponds to the use of <a href="boxdim_binaire.html">boxdim_binaire</a>
+</p>
+<b>List of points</b>
+<br>This type of input is the more general way to describe a set of points.
+The input is a list of points: Each line corresponds to a point and each column corresponds to a coordinate.
+For example, if you want to compute the box dimension of the graph of the function <code>sin(2*Pi*t)</code> for <code>t in [0,1]</code>, your input may be <code>[[0:10^(-4):1]',sin(2*Pi*[0:10^(-4):1])']</code>
+<!--<br>The box dimension gives information on the regularity of the function: Roughly speaking, if the function is irregular, then the box dimension will be bigger. !-->
+It is possible to perform this computation in any other dimension : a subset of <code>R^n</code> is described with a matrix with <code>n</code> columns. This option corresponds to the use of <a href="boxdim_listepoints.html">boxdim_listepoints</a>
+</p>
+<p><a name="Zone1"><br><font size=+1 color="#990000"><b>Input name</b></font><br class="hdr"></p>
+This is the name of the input. If you want to change the input, click on the new input in the main window, and then on the "Refresh" button. The "Refresh" button also gives back every field its default value.
+<p><a name="Zone2"><br><font size=+1 color="#990000"><b>Box definition</b></font><br class="hdr"></p>
+<p><b>Aspect ratio</b> 
+<br>The more natural way of performing the computation is to use square boxes. In this case, keep the default value of Aspect Ratio. However, you may want to use rectangular boxes. Then, the field "Aspect Ratio" is usefull.
+It defines the sides of a reference box. All boxes will be homothetic to this first one. The k-th coordinate of "Aspect ratio" is the length among the k-th direction of this reference box. When choosing the value of "Aspect Ratio", don't forget that the definition set of a signal in Fraclab in supposed to be <code>[0,1]</code></p>
+<p><b>Normalize data</b> 
+<br>If choosen, this option brings all coordinates of the input points between 0 and 1 with an affine transformation before performing the computation.</p>
+<p><b>max size, min size, #of box sizes and progression</b> These fields allow you to define a vector "size". <i>Max size</i> is the biggest size, <i>Min size</i> the smallest and <i>#of box sizes</i> the number of box sizes to be computed.
+If <i>progression</i> is "linear", then the sizes will be linearly spaced. If it is "Power law", the sizes will be exponentially spaced.
+If "Aspect Ratio" has its default value, then the boxes are squares and <code>size(i)</code> is the side of the i-th box.
+As a rule, the length among the k-th direction of the i-th box is "Aspect Ratio"(k)*size(i).
+<p><a name="Zone3"><br><font size=+1 color="#990000"><b>Regression</b></font><br class="hdr"></p>
+<b>Type</b> : This popup-menu helps you choosing between several regression types. See the help on monolr for more information.
+<br><b>Specify</b> : Activate the check box if you want to use all box sizes in the regression. Desactivate it if you want to choose the regression bounds manually. it is generally advised to activate it. See the tutorial on the regression for more information.
+<p><a name="Zone4"><br><font size=+1 color="#990000"><b>Others</b></font><br class="hdr"></p>
+<b>Compute</b> : Perform the computation.
+<br><b>Help</b> : Show this help file
+<br><b>Close</b> : Close the window and all regression windows
+<p><font size=+1 color="#990000"><b>See Also</b></font><br class="hdr">
+<p><code><a href="boxdim_classique.html">boxdim_classique</a></code>, 
+<code><a href="boxdim_binaire.html">boxdim_binaire</a></code>, 
+<code><a href="boxdim_listepoints.html">boxdim_listepoints</a></code>, 
+<code><a href="fl_regression.html">fl_regression</a></code>
+</p>
+</body>
+</html>

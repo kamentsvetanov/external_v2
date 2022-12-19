@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The 1D Exponents Estimation pop-up menu: 2-microlocal Exponent</TITLE>
+ <LINK HREF="help_1D_exponents-7.html" REL=next>
+ <LINK HREF="help_1D_exponents-5.html" REL=previous>
+ <LINK HREF="help_1D_exponents.html#toc6" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_1D_exponents-7.html">Next</A>
+<A HREF="help_1D_exponents-5.html">Previous</A>
+<A HREF="help_1D_exponents.html#toc6">Contents</A>
+<HR>
+<H2><A NAME="s6">6. 2-microlocal Exponent</A></H2>
+
+<P>
+<P>2-microlocal analysis extends the usual regularity analysis based on
+Hölder exponents by associating to each point in the signal an
+infinite number of exponents. It is not possible to describe the
+details in this help (see reference (3)). We will only mention that
+2-microlocal analysis defines, at each point t, a "2-microlocal
+frontier", which is a concave decreasing curve in an abstract plane
+whose coordinates are denoted (s, s'). The intersection of the
+frontier with the s-axis is precisely the local Hölder exponent,
+while, under mild assumptions, the intersection with the second
+bisector is the pointwise exponent. In addition, 2-microlocal analysis
+describes completely what happens under integro-differentiation of the
+signal: the frontier is simply translated along the s-axis. This
+allows to predict the changes in regularity under various
+transformations, most notably the Hilbert transform. Classical
+definitions of 2-microlocal analysis involve either a Littlewood-Paley
+analysis, or a wavelet analysis. There also exist purely time domain
+definitions, which however only yield a sub-part of the 2-microlocal
+frontier. These time domain definitions are advantageous because they
+allow to design robust estimation procedures. These in turn yield
+estimators of both the pointwise and local exponents, which are in
+many cases better than direct methods.  Two such methods are currently
+implemented in <B>Fraclab</B>.
+<P>
+<P>
+<H2><A NAME="ss6.1">6.1 Oscillation-based (1)</A>
+</H2>
+
+<P>
+<P>Hit first <B>Refresh</B> so that the <B>name</B> and <B>size</B> boxes get
+updated. The <B>window</B> parameter will, as usual, define the number
+of sample points that will be used for estimating the exponents at any
+given point t : exactly 0.5 <B>window</B> points will be taken into
+account on each side of t. The <B>step</B> parameter lets you decide the
+spacing between consecutive points were the exponents will be
+computed. Thus, choosing <B>step</B> equal to 1 means that you wish to
+perform the estimation at each point. More precisely, the routine will
+compute the estimations at the following points, assuming your signal
+is (t(1), ..., t(n)): The first point to be considered will be t(0.5
+<B>window</B> + 1).  Then all points of the form t(0.5 <B>window</B> + 1 +
+<B>step</B>) will be dealt with, until the index (0.5 <B>window</B> + 1 +
+<B>step</B>) exceeds n - 0.5 <B>window</B> -1. Let us take the example of
+the default values which are <B>window</B> = <B>step</B> = n. In this
+case, the computations will be performed only at the middle point 0.5n
+of your input signal, using the whole signal as a window. In general,
+you will want to choose a large value for <B>window</B>, i.e. at least
+100, and preferably 200. Note however that a large window size implies
+long computing times (for <B>window</B> = <B>step</B> = n = 256, you
+should wait about one minute).The actual number of points where the
+estimation will be performed will then depend on both the <B>step</B>
+parameter (choosing <B>step</B> not smaller than n implies that only one
+point will be considered) and the length n of your signal.
+<P>You then need to choose what to <B>estimate</B>: The default is
+<B>frontier</B>. When you hit <B>Compute</B>, you will, if you are patient
+enough, get three output signals: <EM>Gfrd_sig#</EM> is a graph structure
+containing the abscissa and ordinates in the (s, s') plane of the 2
+microlocal frontier. This is the signal you may want to visualize. The
+second output, <EM>frd_sig#</EM>, is the plain frontier. Finally,
+<EM>lend_sig#</EM> is a graph that lets you check the quality of the
+estimation.  Briefly, the method works by locating the abscissa s of
+the plateau with maximal length in a certain graph. In order for the
+procedure to be robust, there should be a well defined maximal length
+plateau in <EM>lend_sig#</EM>. Since there is a different graph for each
+value of s', <EM>lend_sig#</EM> will contain several piecewise constant
+lines, and the estimation will work well if each of these lines has a
+well defined maximal length plateau. You may check this by viewing
+this output (see (7) for more on this algorithm). In general, the
+frontier <EM>frd_sig#</EM>, being an estimated one, will not be concave
+and decreasing as predicted by the theory. The <B>Make the frontier
+convex</B> part of the menu allows to force this, and thus to obtain more
+meaningful results. Select <EM>frd_sig#</EM> in the Variables list, then
+hit <B>Refresh</B> (in the <B>Make the frontier convex</B> part of the
+window) so that the <B>name</B> of the input signal becomes
+<EM>frd_sig#</EM>. You may then adjust the <B>s' cut-off</B> : this is the
+ordinate of the first point that will be processed. More precisely,
+only the part of the estimated frontier whose points have coordinates
+(s, s') with s' <EM>smaller</EM> than the chosen cut-off will be
+considered and convexified. As a consequence, the output obtained on
+pressing <B>Convexify</B>, called <B>conv_frd_sig#</B>, will be the convex
+envelope of the sub-part of the frontier with s' &lt; cut-off.  The
+default cut-off of 0 is usually a relevant choice, because the
+estimation method only guarantees to have meaningful results for the
+part of the frontier between the s axis and the second bissector s' =
+-s. Moreover, the two main values we are interested in are the
+intersection of the frontier with the s axis (local Hölder exponent)
+and with the second bisector (pointwise exponent).
+<P>If you have chosen to estimate a frontier, it generally makes sense to
+perform the estimation at one or only a few points. Otherwise, the
+outputs will be quite messy, with different lines crossing in a
+complicated manner.  However, all the computations, including the
+convexification, work in the same way in the case of multiple
+frontiers. Of course, the <EM>lend_sig#</EM> output becomes very difficult to
+read.
+<P>Instead of estimating a frontier, you may estimate the <B>local</B> or
+<B>pointwise</B> exponent.  In that view, click on the default
+<B>frontier</B> to the right of <B>estimate</B>, and choose either
+<B>local</B> or <B>pointwise</B>. <B>Fraclab</B> will then estimate the part
+of the frontier around the s axis and the second bisector, and will
+extract the values of the local and pointwise exponents for you.  The
+output will then be the graph of the chosen exponent, or, more
+precisely, a 1D signal giving the estimated exponents at the points
+where the computations were performed. In these cases, you will in
+general want to estimate with a <B>step</B> size of 1 on order to get
+the exponents at each point whose index lies between : 0.5 <B>window</B> + 1
+and : n - 0.5 <B>window</B> - 1.  For both <B>local</B> or <B>pointwise</B>,
+the lower part of the window (the <B>Make the frontier convex</B> part)
+is grayed out. You just need to click the <B>Compute</B> button, and you'll get
+two outputs : <EM>Gloc_sig#</EM> and <EM>lenlocd_sig#</EM> for the local exponent, and
+<EM>Gpt_sig#</EM> and <EM>lenptd_sig#</EM> for the pointwise one. <EM>Gloc_sig#</EM> and
+<EM>Gpt_sig#</EM> contain the estimated Hölder exponents, while <EM>lenlocd_sig#</EM>
+and <EM>lenptd_sig#</EM> are again plots of the plateaus, which allow to check
+that a meaningful maximal plateau was detected.
+<P>
+<P>
+<P>
+<H2><A NAME="ss6.2">6.2 Oscillation-based (2)</A>
+</H2>
+
+<P>
+<P>For this routine, we have chosen to have two separate sub-menus, one
+for the estimation at one point and one for the estimation on an
+interval. This is mainly for interface presentation purpose, as the
+algorithms are the same.
+<P>
+<P>
+<H2><A NAME="ss6.3">6.3 One point estimation</A>
+</H2>
+
+<P>
+<P>Hit first <B>Refresh</B> so that the <B>Input Signal</B> gets updated.  In
+the part <B>2-microlocal frontier estimation</B>, choose the <B>Point
+to analyze</B> by entering its index in the box facing it. The default is
+the point right at the middle of your signal. You may then choose the
+<B>Discretization</B> of the frontier, i.e. the number of values s' at
+which the corresponding s will be estimated. Be warned that this
+method can be quite lengthy, and that its time complexity is linear in
+the number of values of s'. The remaining part of the window deals
+with the type and presentation of the <B>Results</B>. First, decide if
+you wish to see an <B>Example of estimation</B> in the <B>Graphs to be
+plotted</B> part. As in the previous method, the algorithm works by
+detecting significant straight lines in a certain abstract
+space. Choosing <B>Yes</B> will let <B>Fraclab</B> display a graph in
+which you may want to check that a significant linear part is present
+(this linear part is materialized by a blue line, see reference (8)
+for details). Then, you need to decide if you want the algorithm to
+compute the local and pointwise exponents. In the <B>Regularity
+exponents</B> part, choose <B>Yes</B> or <B>No</B> to the right of
+<B>Compute the exponents</B>.  If you choose <B>No</B>, you will only get
+the frontier, a signal called <EM>Graph_frt_sig#</EM>, which will be both
+saved in the <B>Variables</B> list and displayed on the screen (another
+signal is sent to the <B>Variables</B> list, <EM>frt_sig#</EM>, which
+contains only the s-values in the frontier). <EM>Graph_frt_sig#</EM> is
+really a graph structure: <EM>Graph_frt_sig#.data1</EM> contains the
+s-values of the frontier, while <EM>Graph_frt_sig#.data2</EM> contains the
+s'-values). On the display, the frontier appears as a set of small
+triangles connected by straight segments. In addition the two lines s'
+= -s and s' = 1 -s are plotted. This is because this estimation
+procedure is only valid for the part of the frontier between these two
+lines.  In addition, displaying the second bisector helps locating the
+pointwise Hölder exponent.
+<P>If you choose <B>Yes</B> for <B>Compute the exponents</B>, you'll get in addition
+the estimated values of the <B>Pointwise exponent</B>, as obtained with
+two slightly different methods, and of the <B>Local exponent</B>, which
+will appear in the boxes in front of the corresponding labels. Also,
+these values will be saved in the <B>Variables</B> list,
+under the names <EM>pw1Exp_sig#</EM>, <EM>pw2Exp_sig#</EM>, and
+<EM>locExp_sig#</EM> (these are 1x1 matrices).  In this sub-menu, only one
+point is processed, and you get one value for each exponent.
+<P>Finally, since some computations are lengthy, you may decide to see
+the <B>Waitbar on screen</B> by choosing <B>Yes</B> in the lower part of
+the window.
+<P>
+<P>
+<H2><A NAME="ss6.4">6.4 Interval estimation</A>
+</H2>
+
+<P>
+<P>Basically, this is the same as above, except now you may perform
+estimation as several consecutive points of your original signal.  The
+only difference are:
+<P>
+<UL>
+<LI> In the <B>2-microlocal frontier estimation</B> part, you choose the
+<B>Starting point of the analysis</B> and <B>Ending point of the
+analysis</B> instead of the <B>Point to analyze</B>. By defaults, these are
+the points n/2 -10 and n/2 +10 if n is the length of your input signal,
+i.e. 21 points will be analyzed in the middle of the signal.
+</LI>
+<LI> The sub-part <B>Regularity exponents</B> is now titled <B>Plotting
+the Regularity exponents</B>. Because you will get three exponents at
+each point (two different estimates of the pointwise exponent, plus a
+local exponent), the routine will not display numerical values as in
+the case of the <B>One point estimation</B> routine. Instead, it will
+save the Hölder functions in the <B>Variables</B> list, and will also
+display them on the screen.
+</LI>
+</UL>
+<P>When the computations are over, three graphic windows appear on the
+screen: the two first ones display the pointwise exponents as
+estimated with two slightly different procedures, and the third one
+display the local Hölder function. In abscissa, you can check that the
+exponents were estimated between the <B>Starting point of the
+analysis</B> and <B>Ending point of the analysis</B>. In addition, four
+signals have been added to the <B>Variables</B> list: <EM>Frt_sig#</EM> are the
+estimated frontiers are each analyzed point. <EM>Pw1Exp_sig#</EM> and
+<EM>Pw2Exp_sig#</EM> are the pointwise Hölder functions, and <EM>LocExp_sig#</EM> is
+the estimated local one.
+<P>
+<P>
+<H2><A NAME="ss6.5">6.5 Known bugs</A>
+</H2>
+
+<P>
+<P>In the first oscillation-based method for estimating 2 microlocal
+exponents, the # in the <EM>lend_sig#</EM> output does not increment. Thus
+you need to be careful and rename this signal if you plan to use it
+afterwards. Also, the currently highlighted signal in the Variables
+window is <EM>lend_sig#</EM> after the computation is completed. Thus you'll
+find that your newly estimated frontiers are at the bottom of the list
+as usual, while your selection will be located above them.
+<P>In the second oscillation-based method for estimating 2 microlocal
+exponents, the # in all output signals does not always increment. The
+same remarks apply. In addition, in the case of estimation at multiple
+points, only the s-values are saved in the frontiers. This is not very
+convenient. However, you will generally want to estimate frontiers at
+single points. Otherwise, use the first method <B>Oscillation based
+(1)</B> that does not have this drawback.
+<P>
+<P>
+<HR>
+<A HREF="help_1D_exponents-7.html">Next</A>
+<A HREF="help_1D_exponents-5.html">Previous</A>
+<A HREF="help_1D_exponents.html#toc6">Contents</A>
+</BODY>
+</HTML>

@@ -1,0 +1,133 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>wave1f :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="synth2.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="wavereg1d.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">wave1f</h1>
+        <p>Generates a 1/f Gaussian Process using a discrete wavelet transform </p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>WGP = wave1f(N,H,QMF)<br>
+                WGP = wave1f(...,'Propertyname',Propertyvalue)    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>WGP = wave1f(N,H,QMF)</tt> Generates the 1/f Gaussian process, <tt>WGP</tt>, using a sample size, <tt>N</tt>, a Holder exponent, <tt>H</tt>,
+            and a quadrature mirror filter <tt>QMF</tt>. The parameter <tt>N</tt> is a positive integer, the parameter <tt>H</tt> is a real in (0,1), 
+            and the parameter <tt>QMF</tt> is a real vector.
+        </p>
+
+        <p><tt>WGP = wave1f(...,'Propertyname',Propertyvalue)</tt> Generates the 1/f Gaussian process, <tt>WGP</tt>, applying the specified property settings. 
+            The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'scale'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>WGP</tt> is computed using a specific number of scales or octaves, <tt>S</tt>, which is a positive integer that should not exceed <tt>S = log2(N)</tt>.<br>
+                                    If <tt>'scale'</tt> is not specified, the default value is <tt>S = log2(N)</tt>.
+                                    <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                                        <td>
+                                        <p>At each scale <tt>j</tt> the wavelet coefficients are drawn independently from a
+                                           centered Gaussian law with variance <tt>2^(-2*H*j)</tt>.
+                                        </p>
+                                        </td></tr></table>
+                                    </ul>
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'seed'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>WGP</tt> is computed with a specific random seed, <tt>SEED</tt>. This is useful to generate the same path several times
+                                    or to compare the paths of different <tt>WGPs</tt>.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+            
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of a 1/f Gaussian Process with a specific Holder exponent</h3>
+            <p class="synopsis">
+                <tt>N = 1024; H = 0.5; t = linspace(0,1,N);<br>
+                    QMF = MakeQMF('daubechies',4);<br>
+                    wgp = wave1f(N,H,QMF);<br>
+                    figure; plot(t,wgp);<br>
+                    title('1/f Gaussian Process with H = 0.5 and 4-daubechies QMF filter');<br> 
+                    xlabel('time')
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/wave1f_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Comparison of different 1/f Gaussian Process using a specific random seed</h3>
+            <p class="synopsis">
+                <tt>N = 2048; H1 = 0.5; H2 = 0.7;<br>
+                    QMF = MakeQMF('daubechies',4);<br>
+                    wgp1 = wave1f(N,H1,QMF,'seed',20);<br>
+                    wgp2 = wave1f(N,H2,QMF,'seed',20);<br>    
+                    figure; plot(wgp1,'k'); hold on; plot(wgp2,'r');<br> 
+                    legend('wgp1: H = 0.5','wgp2: H = 0.7','Location','NorthWest');<br>
+                    title('1/f Gaussian Process with different values of Holder exponent');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/wave1f_ex2.png" height="420" width="561" alt=""></p>
+            
+            <p class="synopsis">
+                <tt>N = 2048; H = 0.5;<br>
+                    QMF1 = MakeQMF('daubechies',4); QMF2 = MakeQMF('daubechies',18);<br>
+                    wgp1 = wave1f(N,H,QMF1,'seed',100);<br>
+                    wgp2 = wave1f(N,H,QMF2,'seed',100);<br>    
+                    figure; plot(wgp1,'k'); hold on; plot(wgp2,'r');<br> 
+                    legend('wgp1: filter = daubechies 4','wgp2: filter = daubechies 18','Location','NorthEast');<br>
+                    title('1/f Gaussian Process with different QMF filters');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/wave1f_ex3.png" height="420" width="561" alt=""></p>
+
+            <p class="synopsis">
+                <tt>N = 4096; H = 0.5;<br>
+                    QMF = MakeQMF('daubechies',18);<br>
+                    wgp1 = wave1f(N,H,QMF,'seed',300);<br>
+                    wgp2 = wave1f(N,H,QMF,'scale',9,'seed',300);<br>    
+                    figure; plot(wgp1,'k'); hold on; plot(wgp2,'r');<br> 
+                    legend('wgp1: scale depth = 12','wgp2: scale depth = 6','Location','NorthEast');<br>
+                    title('1/f Gaussian Process with different scale depth parameters');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/wave1f_ex4.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p><a href="lacunary.html"><tt>lacunary</tt></a></p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="synth2.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">synth2</td><td>&nbsp;</td><td align="right">wavereg1d</td>
+                <td align="right" width="20"><a href="wavereg1d.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

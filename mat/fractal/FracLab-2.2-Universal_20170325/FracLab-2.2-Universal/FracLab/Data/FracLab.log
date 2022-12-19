@@ -1,0 +1,36 @@
+
+%-- 25/11/2016 16:49:10 --%
+alphagifs_msm_levy00=alphagifs(msm_levy0,'slope');
+
+%-- 25/11/2016 16:57:49 --%
+alphagifs_msm_levy01=alphagifs(msm_levy0,'slope');
+
+%-- 25/11/2016 17:00:39 --%
+alphagifs_msm_levy02=alphagifs(msm_levy0,'slope');
+
+%-- 25/11/2016 17:06:23 --%
+fbmwch0=fbmwoodchan(4096,0.5,'support',1,'sigma',1);
+
+%-- 25/11/2016 17:06:29 --%
+[wt]=FWT(fbmwch0,12,[0           1     0.70711     0.70711]);[dwt_fbmwch0_LegSpec0.data1,dwt_fbmwch0_LegSpec0.data2]=dwtspec(wt,[-4        -3.2        -2.4        -1.6        -0.8           0         0.8         1.6         2.4         3.2           4],0);
+
+%-- 25/11/2016 17:06:44 --%
+[dwt_fbmwch00.wt,dwt_fbmwch00.index,dwt_fbmwch00.length]=FWT(fbmwch0,12,[0           1     0.70711     0.70711]);[dwt_fbmwch00_LegSpec0.alpha,dwt_fbmwch00_LegSpec0.f_alpha]=dwtspec([dwt_fbmwch00.wt],[-4        -3.2        -2.4        -1.6        -0.8           0         0.8         1.6         2.4         3.2           4],1,'ls');
+
+%-- 25/11/2016 17:10:14 --%
+alphagifs_fbmwch00=alphagifs(fbmwch0,'slope');
+
+%-- 25/11/2016 17:12:25 --%
+[alphagifs_fbmwch01,alphagifs__fbmwch01]=alphagifs(fbmwch0,'slope');
+
+%-- 25/11/2016 17:14:31 --%
+[gifs_Holder_fbmwch00,gifs_coeffs_fbmwch00]=alphagifs(fbmwch0,'slope');
+
+%-- 25/11/2016 17:19:03 --%
+msm_levy0_HDt0=DWTestim_all(msm_levy0,[],{'ls'},'daubechies',10,0,0,0.5,0,1,1,0,[1  2  3  4  5  6  7]);
+
+%-- 25/11/2016 17:20:05 --%
+interp_fbmwch00=fracinterp1d(fbmwch0,1,'Triangle','levels',[2,12]);
+
+%-- 25/11/2016 17:27:37 --%
+[gifs_Holder_fbmwch01,gifs_coeffs_fbmwch00]=alphagifs(fbmwch0,'slope');

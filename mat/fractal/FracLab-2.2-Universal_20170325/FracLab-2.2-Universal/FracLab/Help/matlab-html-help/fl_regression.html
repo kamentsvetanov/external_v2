@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>fl_regression :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="fl_monolr.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="fracinterp1d.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">fl_regression</h1>
+        <p>Linear regression with a possible choice of the linearity bounds on a drawing.</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>[dim,handlefig,bounds]=fl_regression(x,y,FORMULE,ChoixTextes,reg,RegParam)</tt>
+        </p>
+        
+        <h3>Inputs</h3>
+        <p><b><tt>x</tt></b> vector = abscissas of the points</p>
+        
+        <p><b><tt>y</tt></b> vector = ordinates of the points</p>
+        
+        <p><b><tt>FORMULE</tt></b> Expression of dim as a function of the regression slope a_hat (e.g if it is '-a_hat', the output dim will be the opposite of the calculated slope).</p>
+        
+        <p><b><tt>ChoixTextes :</tt></b><br>
+            If ChoixTextes is a string arrray, the titles and label axes will be consistent with the calculation of the corresponding dimension.<br>
+            <p class="synopsis">
+                <tr><td>ChoixTextes = 'BoxDimension' </td><td>=> Box dimension calculation</td></tr><br>
+                <tr><td>ChoixTextes = [] </td><td>=> Default displaying</td></tr>
+            </p>
+            You may also define ChoixTextes the following way:<br><br>
+                <tt>ChoixTextes=strvcat(title1, title2, title_estimated,  xlabel1, xlabel2, ylabel1, ylabel2, FORMULE)</tt><br><br>
+            with :<br>
+            <p class="synopsis">
+                <tr><td><tt>title1,title2</tt></td><td>: Titles of both graphs before estimation</td></tr><br>
+                <tr><td><tt>title_estimated </tt></td><td>: Title of the second graph after estimation (eg 'Slope = ').</td></tr><br>
+                <tr><td><tt>xlabel1,xlabel2,ylabel1,ylabel2 </tt></td><td>: Axes labels</td></tr>
+            </p>
+        </p>
+        
+        <p><b><tt>reg</tt></b><br>
+            <tt>0 :</tt> All box sizes are taken into consideration when computing the linear regression.<br>
+            <tt>1 :</tt> The output 'dim' is empty, but a figure appears. In this figure, you will be able to choose manually a range of sizes where the evolution of x versus y is linear and to read the result of the calculation with this range.<br>
+            <tt>2 :</tt> All box sizes are taken into consideration when computing the output 'dim'. Moreover, the same figure appears on which you will be able to choose another regression range.<br>
+            <tt> -1 :</tt> The same figure appears, but the function waits for your choice of bounds and returns the resulting dimension in the output 'dim'.
+        </p>
+        
+        <p><b><tt>RegParam</tt></b><br> Regression parameters. See the help of monolr for more informations.</p>
+        
+        <h3>Outputs</h3>
+        <p><b><tt>dim :</tt></b> Output calculated with the formula FORMULE as a function of the regression slope a_hat. By default, dim is the slope of the regression line.</p>
+        
+        <p><b><tt>handlefig :</tt></b> figure handle</p>
+        
+        <p><b><tt>bounds :</tt></b> Vector [xmin xmax] : Bounds of linearity of y.</p>
+        
+        <h3>Optional arguments</h3>
+        <p>If you don't precise all arguments or type an empty matrix [] the missing argument(s) will take their default value.</p>
+        
+        <p class="synopsis">
+            <tt>FORMULE :</tt> 'a_hat' (the slope)<br>
+            <tt>ChoixTextes :</tt> Simple titles and labels<br>
+            <tt>reg :</tt> 2<br>
+            <tt>RegParam :</tt> 'ls'
+        </p>
+        
+        <h2>See Also</h2>
+        <p>
+            <a href="monolr.html"><tt>monolr</tt></a><tt>,</tt> 
+            <a href="fl_monolr.html"><tt>fl_monolr</tt></a>
+        </p>
+
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="fl_monolr.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">fl_monolr</td><td>&nbsp;</td><td align="right">fracinterp1d</td>
+                <td align="right" width="20"><a href="fracinterp1d.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

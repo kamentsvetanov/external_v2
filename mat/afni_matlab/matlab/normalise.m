@@ -18,7 +18,7 @@ vector_size = size(v);
 m = vector_size(1,1);
 n = vector_size(1,2);
 
-if v == zeros(m,n)
+noif v == zeros(m,n)
     error('The zero vector cannot be normalised.');
 else
     unit_vector = v/norm(v);

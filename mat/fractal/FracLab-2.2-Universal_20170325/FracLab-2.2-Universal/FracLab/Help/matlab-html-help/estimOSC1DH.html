@@ -1,0 +1,165 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>estimOSC1DH :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="estimGQV2DH.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="estimOSC2DH.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">estimOSC1DH</h1>
+        <p>Computes the Pointwise Holder exponent based on a method that uses oscillations for a 1D signal</p>  
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>H = estimOSC1DH(x,base,alpha,beta)<br>
+                H = estimOSC1DH(...,'Regression type')<br>
+                H = estimOSC1DH(...,'Propertyname',Propertyvalue)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>H = estimOSC1DH(x,base,alpha,beta)</tt> Estimates the Holder function, <tt>H</tt>
+            of the input signal <tt>x</tt>, using a least square regression. The parameters <tt>alpha</tt> and <tt>beta</tt>
+            are real values in (0:1) which characterize the neighborhood of each point where the exponent is computed.
+            For each point the Holder exponent is estimated using a neighborhood of points. 
+            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p><b>The neighborhood of points are included in <tt>[base^rhomin:base^rhomax]</tt></b><br><br>
+                        If <tt>N</tt> is the lenght of the signal <tt>x</tt>, <tt>rhomin = N^alpha</tt> and <tt>rhomax = N^beta</tt>.
+                    </p>
+                </td></tr></table>
+            </ul>               
+        </p>
+        
+        <p><tt>H = estimOSC1DH(...,'Regression type')</tt> Estimates the Holder function, <tt>H</tt>,
+            using a specific type of regression. The Regression Type can be choosen from the list below :
+            <ul><h3>Regression Type Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Regression Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'ls'</tt></td><td bgcolor="#F2F2F2"><p>Least Square (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'linf'</tt></td><td bgcolor="#F2F2F2"><p>Lower Limit</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'lsup'</tt></td><td bgcolor="#F2F2F2"><p>Upper Limit</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'ml'</tt></td><td bgcolor="#F2F2F2"><p>Maximum Likelihood</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'lapls'</tt></td><td bgcolor="#F2F2F2"><p>Lepskii Adaptive</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'wls'</tt></td><td bgcolor="#F2F2F2"><p>Weighted Least Square</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'pls'</tt></td><td bgcolor="#F2F2F2"><p>Penalized Least Square</p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>H = estimOSC1DH(...,'Propertyname',Propertyvalue)</tt> returns 
+            the estimator <tt>H</tt> applying the specified property settings.
+            The Property setting can be choosen from the list below:
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'timeinstant'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <b>Single Time Exponent</b> estimation is computed for a specific time instant. A graphic window
+                                    is displayed showing in abscissa the log-scale, and in ordinate the log of the oscillations. 
+                                    This allows to select a region in the log-log plot where the points on this graph are well aligned. 
+                                    The regression line is displayed in blue and the value of the estimated exponent is display at the top.
+                                    The <tt>timeinstant</tt> value must be included in the interval <tt>[1:length(x)]</tt><br><br>
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'average'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <b>Averaging</b> estimation uses a specific number of neighbors to compute an average of oscillations.
+                                   Averaging allows to get more robust results, but as the number of points increases the estimation becomes smoother.<br>
+                                   In the average, the parameters <tt>gamma</tt> and <tt>delta</tt> are real values in (0:1) which characterize
+                                   the neighborhood of each point used to compute the average.<br>    
+                                    <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                                        <td>
+                                        <p><b>The size of the neighborhood is defined by <tt>2*M+1</tt></b><br><br>
+                                            If <tt>N</tt> is the lenght of the signal <tt>x</tt>,
+                                            the neighborhood is defined by the set of points <tt>V</tt> as:<br>
+                                            <tt>V(i) = {0 < P(i) < N-2 and | t(i)-P(i)/N^delta | < N^-gamma}</tt><br>
+                                            Thus <tt>P1 = N^delta(t(i) - N^-gamma)</tt> and <tt>P2 = N^delta(t(i) + N^-gamma)</tt><br><br>
+                                            To define <tt>M</tt>, <tt>i = N/2</tt> thus <tt>M = 0.5*(|P1-N/2|+|P2-N/2|)</tt>.<br>
+                                            For each point the average is computed over <tt>[x(i)-x(M):x(i)+x(M)]</tt>.
+                                        </p>
+                                        </td></tr></table>
+                                    </ul>             
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'zones'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <b>Segmentation</b> in a specific number of zones is realized on the estimation obtained by
+                                    regression. Then, the Holder estimation is aligned on the trend of the mean values of the segmented signal.
+                                    If <tt>'zones'</tt> is not specified, the default value is <tt>zones = 10</tt>.<br><br>
+                                    <b>NOTE:</b> This Property can not be used when the <tt>'timeinstant' Property</tt> is used.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Choosing a specific Regression Type</h3>
+            <p class="synopsis">
+                <tt>N = 1024; t = linspace(0,1,N); Ht = eval('0.1+0.8*t');<br>
+                    x = mBmQuantifKrigeage(N,Ht,10);<br>
+                    Hls = estimOSC1DH(x,2.1,0.1,0.3);<br>
+                    Hlinf = estimOSC1DH(x,2.1,0.1,0.3,'linf');<br>
+                    figure; plot(Ht,'k'); hold on;<br>
+                    plot(Hls); plot(Hlinf,'r'); legend('Ht','Hls','Hlinf',2);<br>
+                    xlabel('number of points');ylabel('Holder Exponent');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Exponent_estimation/estimOSC1DH_ex1.png" height="420" width="561" alt=""></p>
+            <h3>Example 2 : Averaging with Gamma = 0.5 and Delta = 1</h3>
+            <p class="synopsis">
+                <tt>N = 2048; t = linspace(0,1,N); Ht = eval('0.1+0.8*t');<br>
+                    x = mBmQuantifKrigeage(N,Ht,10);<br>
+                    Hls = estimOSC1DH(x,2.1,0.1,0.3);<br>
+                    Hlsm = estimOSC1DH(x,2.1,0.1,0.3,'average',[0.5,1]);<br>
+                    figure; plot(Ht,'k'); hold on;<br>
+                    plot(Hls); plot(Hlsm,'r'); legend('Ht','Hls','Hlsm',2);<br>
+                    xlabel('number of points');ylabel('Holder Exponent');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Exponent_estimation/estimOSC1DH_ex2.png" height="420" width="561" alt=""></p>
+            <h3>Example 3 : Single Time Exponent at the Time instant = 1500</h3>
+            <p class="synopsis">
+                <tt>N = 2048; t = linspace(0,1,N); Ht = eval('0.1+0.8*t');<br>
+                    x = mBmQuantifKrigeage(N,Ht,10);<br>
+                    Hlst = estimOSC1DH(x,2.1,0.1,0.3,'timeinstant',1500);<br>
+                </tt>
+            </p>
+            <p><img src="images_examples/Exponent_estimation/estimOSC1DH_ex3.png" height="446" width="634" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p><a href="estimGQV1DH.html"><tt>estimGQV1DH</tt></a></p>
+        
+        <h2>References</h2>
+        <p>
+            [1] C. Tricot, "Curves and Fractal Dimension" Springer-Verlag (1995).<br><br>  
+            [2] O. Barri&egrave;re, "Synth&egrave;se et estimation de mouvements Browniens multifractionnaires et 
+                autres processus &agrave; r&eacute;gularit&eacute; prescrite. D&eacute;finition du processus autor&eacute;gul&eacute; multifractionnaire et applications", PhD Thesis (2007).
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="estimGQV2DH.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">estimGQV2DH</td><td>&nbsp;</td><td align="right">estimOSC2DH</td>
+                <td align="right" width="20"><a href="estimOSC2DH.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

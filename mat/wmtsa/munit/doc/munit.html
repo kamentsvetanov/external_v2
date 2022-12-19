@@ -1,0 +1,2526 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<link rel="stylesheet" href="./munit.css" type="text/css">
+<title>./munit</title>
+<!-- Source: ./munit/ -->
+<!-- Generated with ROBODoc Version 4.99.6 (Nov  5 2004) -->
+<!-- ROBODoc (c) 1994-2004 by Frans Slothouber and Jacco van Weert. -->
+</head>
+<body bgcolor="#FFFFFF">
+<a name="robo_top_of_doc">Generated from ./munit/</a> with <a href="http://sourceforge.net/projects/robodoc/">ROBODoc</a> v4.99.6 on Wed Aug 23 18:22:46 2006
+<br />
+<h3 align="center">TABLE OF CONTENTS</h3>
+<ul>
+<li><a href="#robo0">Applications/Drivers</a></li>
+<li><a href="#robo1">Applications/Utilities</a></li>
+<li><a href="#robo2">Drivers/run_tcase</a></li>
+<li><a href="#robo3">Drivers/run_tsuite</a></li>
+<li><a href="#robo4">Errors/MUNIT:AssertionFailedError</a></li>
+<li><a href="#robo5">Errors/MUNIT:InvalidArgumentType</a></li>
+<li><a href="#robo6">Errors/MUNIT:MissingRequiredArgument</a></li>
+<li><a href="#robo7">Errors/MUNIT:UnknownTest</a></li>
+<li><a href="#robo8">Errors/MUNIT:UnknownTestCase</a></li>
+<li><a href="#robo9">Errors/MUNIT:UnknownTestSuite</a></li>
+<li><a href="#robo10">lib.assert/MU_assert_error</a></li>
+<li><a href="#robo11">lib.assert/MU_assert_expression</a></li>
+<li><a href="#robo12">lib.assert/MU_assert_fuzzy_diff</a></li>
+<li><a href="#robo13">lib.assert/MU_assert_isempty</a></li>
+<li><a href="#robo14">lib.assert/MU_assert_isequal</a></li>
+<li><a href="#robo15">lib.assert/MU_assert_isequalwithequalnans</a></li>
+<li><a href="#robo16">lib.assert/MU_assert_isnotempty</a></li>
+<li><a href="#robo17">lib.assert/MU_assert_istrue</a></li>
+<li><a href="#robo18">lib.assert/MU_assert_numsigdig_diff</a></li>
+<li><a href="#robo19">lib.assert/MU_fail</a></li>
+<li><a href="#robo20">lib.assert/MU_fail_line</a></li>
+<li><a href="#robo21">lib.report/MU_print_tcase_summary</a></li>
+<li><a href="#robo22">lib.report/MU_print_tresults</a></li>
+<li><a href="#robo23">lib.report/MU_print_tresults_report.m</a></li>
+<li><a href="#robo24">lib.report/MU_print_tsuite_summary</a></li>
+<li><a href="#robo25">lib.report/MU_summarize_tresults</a></li>
+<li><a href="#robo26">lib.report/MU_summarize_ts_results</a></li>
+<li><a href="#robo27">lib.report/MU_tresult_create</a></li>
+<li><a href="#robo28">lib.tcase/MU_tcase_add_test</a></li>
+<li><a href="#robo29">lib.tcase/MU_tcase_create</a></li>
+<li><a href="#robo30">lib.tcase/MU_tcase_list_tests</a></li>
+<li><a href="#robo31">lib.tcase/MU_tcase_new</a></li>
+<li><a href="#robo32">lib.tcase/MU_tcase_run</a></li>
+<li><a href="#robo33">lib.tcase/MU_tcase_run_test</a></li>
+<li><a href="#robo34">lib.tsuite/MU_tsuite_add_tcase</a></li>
+<li><a href="#robo35">lib.tsuite/MU_tsuite_create</a></li>
+<li><a href="#robo36">lib.tsuite/MU_tsuite_list_tests</a></li>
+<li><a href="#robo37">lib.tsuite/MU_tsuite_new</a></li>
+<li><a href="#robo38">lib.tsuite/MU_tsuite_run</a></li>
+<li><a href="#robo39">lib.utils/MU_lookup_mode_num_by_name</a></li>
+<li><a href="#robo40">lib.utils/MU_lookup_tresult_status_by_name</a></li>
+<li><a href="#robo41">Library/lib.assert</a></li>
+<li><a href="#robo42">Library/lib.report</a></li>
+<li><a href="#robo43">Library/lib.tcase</a></li>
+<li><a href="#robo44">Library/lib.tsuite</a></li>
+<li><a href="#robo45">Library/lib.utils</a></li>
+<li><a href="#robo46">MU_assert_fuzzy_diff/fuzzy_diff</a></li>
+<li><a href="#robo47">MUnit-API/Errors</a></li>
+<li><a href="#robo48">MUnit-API/Library</a></li>
+<li><a href="#robo49">MUnit-API/Structures</a></li>
+<li><a href="#robo50">MUnit-API/Variables</a></li>
+<li><a href="#robo51">munit.Test/tc_summary_tcase</a></li>
+<li><a href="#robo52">munit.Test/tcase_tcase</a></li>
+<li><a href="#robo53">munit.Test/tsuite_tcase.m</a></li>
+<li><a href="#robo54">MUnit/0-Overview</a></li>
+<li><a href="#robo55">munit/Applications</a></li>
+<li><a href="#robo56">MUnit/Introduction</a></li>
+<li><a href="#robo57">MUnit/munit</a></li>
+<li><a href="#robo58">munit/MUnit-API</a></li>
+<li><a href="#robo59">MUnit/Templates</a></li>
+<li><a href="#robo60">Structures/tc_summary_s</a></li>
+<li><a href="#robo61">Structures/tcase_s</a></li>
+<li><a href="#robo62">Structures/tresult_s</a></li>
+<li><a href="#robo63">Structures/ts_result_s</a></li>
+<li><a href="#robo64">Structures/ts_summary_s</a></li>
+<li><a href="#robo65">Structures/tsuite_s</a></li>
+<li><a href="#robo66">TestCases/assert_tcase</a></li>
+<li><a href="#robo67">toolbox.subdirectory/function_name.m</a></li>
+<li><a href="#robo68">toolbox.subdirectory/function_name.m</a></li>
+<li><a href="#robo69">toolbox.subdirectory/XXX</a></li>
+<li><a href="#robo70">Utilities/list_tcase</a></li>
+<li><a href="#robo71">Utilities/list_tsuite</a></li>
+<li><a href="#robo72">Variables/mode</a></li>
+<li><a href="#robo73">Variables/tcase</a></li>
+<li><a href="#robo74">Variables/trstatus</a></li>
+<li><a href="#robo75">Variables/tsuite</a></li>
+</ul>
+<hr />
+
+<h2><a name="robo68">[Functions]<a name="toolbox2esubdirectory2ffunction5fname2em">
+toolbox.subdirectory/function_name.m</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   XXX_tsuite -- <a href="#robo57">munit</a> test suite to test <a href="#robo69">XXX</a>.
+</pre>
+</span><p><strong>USAGE</strong></p>
+<span class="USAGE"><pre>
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   ts            = <a href="#robo75">tsuite</a> structure for <a href="#robo69">XXX</a> testsuite.
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"></span><p><strong>AUTHOR</strong></p>
+<span class="AUTHOR"><pre>   Charlie Cornish
+</pre>
+</span><p><strong>CREATION DATE</strong></p>
+<span class="CREATION_DATE"><pre>
+</pre>
+</span><p><strong>COPYRIGHT</strong></p>
+<span class="COPYRIGHT"><pre>
+</pre>
+</span><p><strong>CREDITS</strong></p>
+<span class="CREDITS"><pre>
+</pre>
+</span><p><strong>REVISION</strong></p>
+<span class="REVISION"><pre>   $Revision$
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo53">[Functions]<a name="munit2eTest2ftsuite5ftcase2em">
+munit.Test/tsuite_tcase.m</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   tsuite_tcase -- <a href="#robo57">munit</a> test case to test <a href="#robo75">tsuite</a> functions.
+</pre>
+</span><p><strong>USAGE</strong></p>
+<span class="USAGE"><pre>
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   tc            = <a href="#robo75">tsuite</a> structure for tsuite_tcase.
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"></span><p><strong>AUTHOR</strong></p>
+<span class="AUTHOR"><pre>   Charlie Cornish
+</pre>
+</span><p><strong>CREATION DATE</strong></p>
+<span class="CREATION_DATE"><pre>   2004-Apr-27 
+</pre>
+</span><p><strong>COPYRIGHT</strong></p>
+<span class="COPYRIGHT"><pre>
+</pre>
+</span><p><strong>CREDITS</strong></p>
+<span class="CREDITS"><pre>
+</pre>
+</span><p><strong>REVISION</strong></p>
+<span class="REVISION"><pre>   $Revision: 80 $
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo67">[Functions]<a name="toolbox2esubdirectory2ffunction5fname2em">
+toolbox.subdirectory/function_name.m</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   XXX_tsensemble -- <a href="#robo57">munit</a> test suite to test <a href="#robo69">XXX</a>.
+</pre>
+</span><p><strong>USAGE</strong></p>
+<span class="USAGE"><pre>
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   ts            = tsensemble structure for <a href="#robo69">XXX</a> testsensemble.
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"></span><p><strong>AUTHOR</strong></p>
+<span class="AUTHOR"><pre>   Charlie Cornish
+</pre>
+</span><p><strong>CREATION DATE</strong></p>
+<span class="CREATION_DATE"><pre>
+</pre>
+</span><p><strong>COPYRIGHT</strong></p>
+<span class="COPYRIGHT"><pre>
+</pre>
+</span><p><strong>CREDITS</strong></p>
+<span class="CREDITS"><pre>
+</pre>
+</span><p><strong>REVISION</strong></p>
+<span class="REVISION"><pre>   $Revision$
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo69">[Functions]<a name="toolbox2esubdirectory2fXXX">
+toolbox.subdirectory/XXX</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   XXX_tcase -- <a href="#robo57">munit</a> test case to test <strong>XXX</strong>.
+</pre>
+</span><p><strong>USAGE</strong></p>
+<span class="USAGE"><pre>   <a href="#robo2">run_tcase</a>('XXX_tcase')
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   tc            = <a href="#robo73">tcase</a> structure for <strong>XXX</strong> testcase.
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <strong>XXX</strong>
+</pre>
+</span><p><strong>AUTHOR</strong></p>
+<span class="AUTHOR"><pre>   Charlie Cornish
+</pre>
+</span><p><strong>CREATION DATE</strong></p>
+<span class="CREATION_DATE"><pre>
+</pre>
+</span><p><strong>COPYRIGHT</strong></p>
+<span class="COPYRIGHT"><pre>
+</pre>
+</span><p><strong>CREDITS</strong></p>
+<span class="CREDITS"><pre>
+</pre>
+</span><p><strong>REVISION</strong></p>
+<span class="REVISION"><pre>   $Revision$
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo52">[Functions]<a name="munit2eTest2ftcase5ftcase">
+munit.Test/tcase_tcase</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>tcase_tcase</strong> -- <a href="#robo57">munit</a> test case to test <a href="#robo73">tcase</a> functions.
+</pre>
+</span><p><strong>USAGE</strong></p>
+<span class="USAGE"><pre>
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   tc            = <a href="#robo73">tcase</a> structure for <strong>tcase_tcase</strong>.
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"></span><p><strong>AUTHOR</strong></p>
+<span class="AUTHOR"><pre>   Charlie Cornish
+</pre>
+</span><p><strong>CREATION DATE</strong></p>
+<span class="CREATION_DATE"><pre>   2004-Apr-27 
+</pre>
+</span><p><strong>COPYRIGHT</strong></p>
+<span class="COPYRIGHT"><pre>
+</pre>
+</span><p><strong>CREDITS</strong></p>
+<span class="CREDITS"><pre>
+</pre>
+</span><p><strong>REVISION</strong></p>
+<span class="REVISION"><pre>   $Revision: 97 $
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo51">[Functions]<a name="munit2eTest2ftc5fsummary5ftcase">
+munit.Test/tc_summary_tcase</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>tc_summary_tcase</strong> -- <a href="#robo57">munit</a> test case to test <a href="#robo73">tcase</a> summary functions.
+</pre>
+</span><p><strong>USAGE</strong></p>
+<span class="USAGE"><pre>
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   tc            = <a href="#robo73">tcase</a> structure for <strong>tc_summary_tcase</strong>.
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"></span><p><strong>AUTHOR</strong></p>
+<span class="AUTHOR"><pre>   Charlie Cornish
+</pre>
+</span><p><strong>CREATION DATE</strong></p>
+<span class="CREATION_DATE"><pre>   2004-Apr-27 
+</pre>
+</span><p><strong>COPYRIGHT</strong></p>
+<span class="COPYRIGHT"><pre>
+</pre>
+</span><p><strong>CREDITS</strong></p>
+<span class="CREDITS"><pre>
+</pre>
+</span><p><strong>REVISION</strong></p>
+<span class="REVISION"><pre>   $Revision: 92 $
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo3">[Functions]<a name="Drivers2frun5ftsuite">
+Drivers/run_tsuite</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo0">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>run_tsuite</strong> -- Run a MUnit test suite.
+
+ SYNOPSIS
+   <strong>run_tsuite</strong>(<a href="#robo75">tsuite</a>, [<a href="#robo72">mode</a>], [logfile])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * <a href="#robo75">tsuite</a>     -- test suite.
+   * <a href="#robo72">mode</a>       -- (optional) level of detail for output diagnostics.
+   * logfile    -- (optional) name of log file for writing output.
+   * tcase_list -- (optional) name(s) or ordinal number(s) of specific tests
+                   to run.
+                   (string or integer, or cell array of strings or integer).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * ts_summary -- a test suite summary struct (<a href="#robo64">ts_summary_s</a>).
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre> SYNOPSIS
+   <strong>run_tsuite</strong>(<a href="#robo75">tsuite</a>)                       % default
+   <strong>run_tsuite</strong>(<a href="#robo75">tsuite</a>, <a href="#robo72">mode</a>)                 % specify level of detail <a href="#robo72">mode</a>.
+   <strong>run_tsuite</strong>(<a href="#robo75">tsuite</a>, '', logfile)          % specify log file.
+   <strong>run_tsuite</strong>(<a href="#robo75">tsuite</a>, '', '', tcase_list)   % specify tcases to run.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>run_tsuite</strong> is the main driver for running a test suite.
+
+   <a href="#robo72">mode</a> argument controls level of detail of output as follows:
+    * 'silent'    -- no output.
+    * 'minimal'   -- print test case summary.
+    * 'normal'    -- print names of failed  tests and test case summary.
+    * 'verbose'   -- print all test names and their status, and test case summary.
+    * 'details'   -- print diagnostics while running tests as well all test names 
+                     and their status, and test case summary.
+
+   If logfile is specified, output is written to logfile.
+   Note: Info printed by tested functions is still displayed to console.
+</pre>
+</span><p><strong>EXAMPLE</strong></p>
+<span class="EXAMPLE"><pre>
+</pre>
+</span><p><strong>WARNINGS</strong></p>
+<span class="WARNINGS"><pre>
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>
+</pre>
+</span><p><strong>NOTES</strong></p>
+<span class="NOTES"><pre>
+</pre>
+</span><p><strong>BUGS</strong></p>
+<span class="BUGS"><pre>
+</pre>
+</span><p><strong>TODO</strong></p>
+<span class="TODO"><pre>
+</pre>
+</span><p><strong>ALGORITHM</strong></p>
+<span class="ALGORITHM"><pre>
+</pre>
+</span><p><strong>REFERENCES</strong></p>
+<span class="REFERENCES"><pre>
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   Application <a href="#robo0">Drivers</a>
+</pre>
+</span><p><strong>AUTHOR</strong></p>
+<span class="AUTHOR"><pre>   Charlie Cornish
+</pre>
+</span><p><strong>CREATION DATE</strong></p>
+<span class="CREATION_DATE"><pre>   2004-04-28
+</pre>
+</span><p><strong>COPYRIGHT</strong></p>
+<span class="COPYRIGHT"><pre>   (c) 2004, 2005 Charles R. Cornish
+</pre>
+</span><p><strong>CREDITS</strong></p>
+<span class="CREDITS"><pre>
+</pre>
+</span><p><strong>REVISION</strong></p>
+<span class="REVISION"><pre>   $Revision: 112 $
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo2">[Functions]<a name="Drivers2frun5ftcase">
+Drivers/run_tcase</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo0">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>run_tcase</strong> -- Run a MUnit test case and print the test results.
+
+ SYNOPSIS
+   tc_summary = <strong>run_tcase</strong>(<a href="#robo73">tcase</a>, [<a href="#robo72">mode</a>], [logfile], [test_list])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * <a href="#robo73">tcase</a>        -- test case (string, function handle, or <a href="#robo61">tcase_s</a>).
+   * <a href="#robo72">mode</a>         -- (optional) level of detail for output diagnostics.
+   * logfile      -- (optional) name of log file for writing output.
+   * test_list    -- (optional) name(s) or ordinal number(s) of specific tests
+                     to run.
+                     (string or integer, or cell array of strings or integer).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * tc_summary   -- test case summary struct (<a href="#robo60">tc_summary_s</a>).
+
+ SYNOPSIS
+   <strong>run_tcase</strong>(<a href="#robo73">tcase</a>)                       % default
+   <strong>run_tcase</strong>(<a href="#robo73">tcase</a>, <a href="#robo72">mode</a>)                 % specify level of detail <a href="#robo72">mode</a>.
+   <strong>run_tcase</strong>(<a href="#robo73">tcase</a>, '', logfile)          % specify log file.
+   <strong>run_tcase</strong>(<a href="#robo73">tcase</a>, '', '', test_list)    % specify tests to run.
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>run_tcase</strong> is the main driver for running a test case.
+
+   <a href="#robo73">tcase</a> is one of the following:
+    * string containing name of test case (i.e. file/function) to run.
+    * function handle of the test case to run (@<a href="#robo73">tcase</a>).
+    * a test case struct (<a href="#robo61">tcase_s</a>).
+
+   The <a href="#robo72">mode</a> argument controls level of detail of output as follows:
+    * 'silent'    -- no output.
+    * 'minimal'   -- print test case summary.
+    * 'normal'    -- print names of failed  tests and test case summary.
+    * 'verbose'   -- print all test names and their status, and test case summary.
+    * 'details'   -- print diagnostics while running tests as well all test names 
+                     and their status, and test case summary.
+
+   If logfile is specified, output is written to logfile.
+   Note that info printed by tested functions is still displayed to command window.
+ 
+   The test_list argument allows the optional execution of specific test(s)
+   within test case.  By default, all tests within a test case are run.  
+   If test_list is a string or cell array of strings, then the tests with the 
+   matching names are run.  If test_list is a number or cell array of numbers, 
+   then the tests with matching order in the test list are run, i.e. 
+   if test_list = {1, 3}, then the first and third tests are run.  If items
+   in test_list that do not match by test name or test order number are ignored.
+</pre>
+</span><p><strong>EXAMPLE</strong></p>
+<span class="EXAMPLE"><pre>
+</pre>
+</span><p><strong>WARNINGS</strong></p>
+<span class="WARNINGS"><pre>
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo8">MUNIT:UnknownTestCase</a>
+</pre>
+</span><p><strong>NOTES</strong></p>
+<span class="NOTES"><pre>
+</pre>
+</span><p><strong>BUGS</strong></p>
+<span class="BUGS"><pre>
+</pre>
+</span><p><strong>TODO</strong></p>
+<span class="TODO"><pre>
+</pre>
+</span><p><strong>ALGORITHM</strong></p>
+<span class="ALGORITHM"><pre>
+</pre>
+</span><p><strong>REFERENCES</strong></p>
+<span class="REFERENCES"><pre>
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   Application <a href="#robo0">Drivers</a>
+</pre>
+</span><p><strong>AUTHOR</strong></p>
+<span class="AUTHOR"><pre>   Charlie Cornish
+</pre>
+</span><p><strong>CREATION DATE</strong></p>
+<span class="CREATION_DATE"><pre>   2004-Apr-28
+</pre>
+</span><p><strong>COPYRIGHT</strong></p>
+<span class="COPYRIGHT"><pre>   (c) 2004, 2005 Charles R. Cornish
+</pre>
+</span><p><strong>CREDITS</strong></p>
+<span class="CREDITS"><pre>
+</pre>
+</span><p><strong>REVISION</strong></p>
+<span class="REVISION"><pre>   $Revision: 112 $
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo50">[Methods]<a name="MUnit2dAPI2fVariables">
+MUnit-API/Variables</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo58">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   MUnit <strong>Variables</strong>
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Description of variables used in MUnit.
+
+ TOOLBOX
+    <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo72">[Variables]<a name="Variables2fmode">
+Variables/mode</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo50">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>mode</strong> -- <strong>mode</strong> for level of detail of print output.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>mode</strong> controls the level of detail of print output as follows:
+    * 'silent'    -- no output.
+                       * errors
+    * 'minimal'   -- print
+                       * errors
+                       * test case and/or test suite summaries.
+    * 'normal'    -- print 
+                       * errors
+                       * test results report of failed  tests
+                       * test case and/or test suite summaries.
+    * 'verbose'   -- print 
+                       * errors
+                       * full test results report.
+                       * test case and/or test suite summaries.
+    * 'details'   -- print
+                       * errors
+                       * diagnostics while running tests
+                       * full test results report.
+                       * test case and/or test suite summaries.
+
+   Note: For all modes, info printed durning execution of tested functions 
+         is displayed to command window.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo73">[Variables]<a name="Variables2ftcase">
+Variables/tcase</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo50">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>tcase</strong> -- test case.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   The <strong>tcase</strong> variable specifies a test case and can be one of the 
+   following types:
+     * a string containing name of a test case function
+     * a function handle (@<strong>tcase</strong>) to a test case function
+     * a test case struct (<a href="#robo61">tcase_s</a>).
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo74">[Variables]<a name="Variables2ftrstatus">
+Variables/trstatus</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo50">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>trstatus</strong> -- numeric status code of a test result.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>trstatus</strong> can take on the following values: 
+     *  1   --  'SUCCESS'
+     *  0   --  'FAIL'
+     * -1   --  'ERROR'
+     * NaN  --  otherwise
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo40">MU_lookup_tresult_status_by_name</a>
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo75">[Variables]<a name="Variables2ftsuite">
+Variables/tsuite</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo50">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>tsuite</strong> -- test suite
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   The <strong>tsuite</strong> variable specifies a test suite and can be one of the 
+   following types:
+     * a string containing name of a test suite function
+     * a function handle (@<strong>tsuite</strong>) to a test suite function
+     * a test suite struct (<a href="#robo65">tsuite_s</a>).
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo59">[Methods]<a name="MUnit2fTemplates">
+MUnit/Templates</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   Template Files
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   MUnit template files:
+
+    * files: tsuite_template.m
+             tcase_template.m
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo49">[Structures]<a name="MUnit2dAPI2fStructures">
+MUnit-API/Structures</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo58">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   MUnit <strong>Structures</strong> -- structs used in MUnit.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   MATLAB struts used in MUnit.
+
+ TOOLBOX
+    <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo60">[Structures]<a name="Structures2ftc5fsummary5fs">
+Structures/tc_summary_s</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo49">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>tc_summary_s</strong> -- test case summary struct.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   The test result summary struct (<strong>tc_summary_s</strong>) summarizes the execution of
+   tests in a test case and has the following fields:
+   * ntests  -- number of tests run
+   * npass   -- number of tests passed
+   * nfails  -- number of test failed
+   * nerrs   -- number of tests returning errors
+   * percentPassed -- percent of tests passed
+   * failedTests -- list of failed tests (cell string array)
+   * failedTestNums -- ordinal number of the failed test in test case (vector).
+   * erroredTests -- list of tests that errored (cell string array)
+   * erroredTestNums -- ordinal number of the erroed test in test case (vector).
+   * elapsedWallTime -- elapsed wall time to run test case
+   * elapsedCPUTime -- elapsed cpu time to run test case.
+
+   The <a href="#robo25">MU_summarize_tresults</a> function creates a <strong>tc_summary_s</strong> struct
+   and updates all fields, except elapsedwalltime and elapsedcputime.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo25">MU_summarize_tresults</a> 
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo61">[Structures]<a name="Structures2ftcase5fs">
+Structures/tcase_s</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo49">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>tcase_s</strong> -- test case structure.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>tcase_s</strong> struct has fields:
+   * name     -- name of test case (string)
+   * pathstr  -- optional path to location of <a href="#robo73">tcase</a> mfile (string).
+   * tests    -- cell array of function handles to test functions (@tfh).
+   * tresults -- test case results (vector of <a href="#robo62">tresult_s</a>).
+
+   The <a href="#robo31">MU_tcase_new</a> function creates and initializes an empty <strong>tcase_s</strong> struct.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo31">MU_tcase_new</a>
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo62">[Structures]<a name="Structures2ftresult5fs">
+Structures/tresult_s</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo49">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>tresult_s</strong> -- test result structure.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>tresult_s</strong> struct contains the results of an executed test and has
+   the following fields:
+     * <a href="#robo74">trstatus</a> -- test result status code.
+     * tcname   -- name of associated test case.
+     * testfh   -- function handle of test.
+     * message  -- supplementary message associated with test execution.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo63">[Structures]<a name="Structures2fts5fresult5fs">
+Structures/ts_result_s</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo49">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>ts_result_s</strong> -- test suite result structure.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <a href="#robo62">tresult_s</a> struct contains the results of an executed test suite and has
+   the following fields:
+     * <a href="#robo73">tcase</a>      -- name of associated test case.
+     * tresults   -- vector of <a href="#robo62">tresult_s</a> structs for associated test case.
+     * tc_summary -- <a href="#robo60">tc_summary_s</a> struct for associated test case.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo64">[Structures]<a name="Structures2fts5fsummary5fs">
+Structures/ts_summary_s</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo49">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>ts_summary_s</strong> -- test suite summary struct.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   The test result summary struct (<strong>ts_summary_s</strong>) summarizes the execution of
+   tests in a suite of test cases and has the following fields:
+     * tsname  -- name of test suite.
+     * ntcases -- number of test cases run.
+     * ntests  -- number of tests run.
+     * npass   -- number of tests passed.
+     * nfails  -- number of test failed.
+     * nerrs   -- number of tests returning errors.
+     * percentPassed -- percent of tests passed.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo65">[Structures]<a name="Structures2ftsuite5fs">
+Structures/tsuite_s</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo49">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>tsuite_s</strong> -- test suite structure.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>tsuite_s</strong> struct has fields:
+   * name         -- name of test suite (string).
+   * pathstr      -- optional path to location of <a href="#robo75">tsuite</a> mfile (string).
+   * tcases       -- vector of test case structures (<a href="#robo61">tcase_s</a>).
+   * trsummaries  -- optional path to location of <a href="#robo73">tcase</a> mfile (string).
+
+   The <a href="#robo37">MU_tsuite_new</a> function creates and initializes an empty <strong>tsuite_s</strong> struct.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo37">MU_tsuite_new</a>
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo41">[Methods]<a name="Library2flib2eassert">
+Library/lib.assert</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo48">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>lib.assert</strong> -- MUnit <a href="#robo48">Library</a> assert functions.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Functions in MUnit library used to assert the comparison of actual test 
+   results to expected values.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo42">[Methods]<a name="Library2flib2ereport">
+Library/lib.report</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo48">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   lib.tresult -- MUnit <a href="#robo48">Library</a> reporting functions.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Functions in MUnit library used for creating and print test results and
+   <a href="#robo73">tcase</a>/<a href="#robo75">tsuite</a> summaries.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo43">[Methods]<a name="Library2flib2etcase">
+Library/lib.tcase</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo48">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>lib.tcase</strong> -- MUnit <a href="#robo48">Library</a> <a href="#robo73">tcase</a> functions.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Functions in MUnit library used to create, run, summarize and report a test
+   case:
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo44">[Methods]<a name="Library2flib2etsuite">
+Library/lib.tsuite</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo48">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>lib.tsuite</strong> -- MUnit <a href="#robo48">Library</a> <a href="#robo75">tsuite</a> functions.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Functions in MUnit library used to create, run, summarize and report a test suite.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo45">[Methods]<a name="Library2flib2eutils">
+Library/lib.utils</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo48">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>lib.utils</strong> -- MUnit <a href="#robo48">Library</a> utils functions.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Functions in MUnit library used for various utility purposes.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo48">[Methods]<a name="MUnit2dAPI2fLibrary">
+MUnit-API/Library</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo58">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   MUnit <strong>Library</strong>
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   The MUnit library is a collection of functions to be used implement test
+   cases and test suites, assert tests, and compile and print test results.
+   The functions in the MUnit library are intended to be use in creating and
+   executing test via the test case and test suite framework and are not
+   indeeded to be called directly from the command line.  Functions in the
+   MUnit library are prefixed by MU_.
+
+   Functions within the MUnit library are categorized as follows:
+     <a href="#robo41">lib.assert</a>      -- Assert functions to compare of actual test results to expected values.
+     <a href="#robo43">lib.tcase</a>       -- Functions for implementing a test case.
+     <a href="#robo44">lib.tsuite</a>      -- Functions for implementing a test suite.
+     <a href="#robo42">lib.report</a>      -- Functions for creating and printing test results and test case/suite summaries.
+
+ TOOLBOX
+    <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo56">[Methods]<a name="MUnit2fIntroduction">
+MUnit/Introduction</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>Introduction</strong>
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Add detailed introduction.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo4">[Exceptions]<a name="Errors2fMUNIT3aAssertionFailedError">
+Errors/MUNIT:AssertionFailedError</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo47">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MUNIT:AssertionFailedError</strong> -- assertion failed.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>MUNIT:AssertionFailedError</strong> indicates that an assertion has
+   failed.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo5">[Exceptions]<a name="Errors2fMUNIT3aInvalidArgumentType">
+Errors/MUNIT:InvalidArgumentType</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo47">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MUNIT:InvalidArgumentType</strong>  -- Invalid argument type.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>MUNIT:InvalidArgumentType</strong> indicates that the argument to
+   function has invalid data type.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo6">[Exceptions]<a name="Errors2fMUNIT3aMissingRequiredArgument">
+Errors/MUNIT:MissingRequiredArgument</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo47">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MUNIT:MissingRequiredArgument</strong> -- required argument missing.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>MUNIT:MissingRequiredArgument</strong> indicates that a required argument
+   is missing from the argument list to the function call.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo7">[Exceptions]<a name="Errors2fMUNIT3aUnknownTest">
+Errors/MUNIT:UnknownTest</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo47">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MUNIT:UnknownTest</strong>  -- Test function not found.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>MUNIT:UnknownTest</strong> indicates that a test specified by a test function
+   handle (@tfh) or alternatively by the file test_location does not 
+   exist or could not be found.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo8">[Exceptions]<a name="Errors2fMUNIT3aUnknownTestCase">
+Errors/MUNIT:UnknownTestCase</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo47">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MUNIT:UnknownTestCase</strong>  -- Test case not found.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>MUNIT:UnknownTestCase</strong> indicates that a test case specified 
+   by a file name, function handle, or test case struct does not
+   exist or could not be found.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo9">[Exceptions]<a name="Errors2fMUNIT3aUnknownTestSuite">
+Errors/MUNIT:UnknownTestSuite</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo47">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MUNIT:UnknownTestSuite</strong>  -- Test suite not found.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>MUNIT:UnknownTestSuite</strong> indicates that a test suite specified 
+   by a file name, function handle, or test suite struct does not
+   exist or could not be found.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo47">[Exceptions]<a name="MUnit2dAPI2fErrors">
+MUnit-API/Errors</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo58">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   MUnit <strong>Errors</strong> -- errror message ids.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   MATLAB error message ids used in MUnit.
+
+ TOOLBOX
+    <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo0">[Methods]<a name="Applications2fDrivers">
+Applications/Drivers</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo55">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   MUnit <strong>Drivers</strong> -- MUnit applications for executing test cases and test suites.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   The MUnit driver applications are functions to be run from the 
+   command shell to execute a test case or a test suite.
+
+   Driver applications include:
+     * <a href="#robo2">run_tcase</a>
+     * <a href="#robo3">run_tsuite</a>
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo1">[Methods]<a name="Applications2fUtilities">
+Applications/Utilities</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo55">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   MUnit <strong>Utilities</strong> -- MUnit applications analyzing and listing test cases and suites.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   The MUnit utility applications are functions to be run from the 
+   command shell to analyze and list a test case or a test suite.
+
+   Utility applications include:
+     * <a href="#robo70">list_tcase</a>
+     * <a href="#robo71">list_tsuite</a>
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo55">[Methods]<a name="munit2fApplications">
+munit/Applications</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo57">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   MUnit <strong>Applications</strong>
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   The MUnit test framework consists of several applications
+   to execute and manage the test cases and test suites.
+   The application functions are categorized as:
+
+   * <a href="#robo0">Drivers</a>   -- execute test cases and test suites.
+   * <a href="#robo1">Utilities</a> -- manage test cases and test suites.
+
+ TOOLBOX
+    <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo58">[Methods]<a name="munit2fMUnit2dAPI">
+munit/MUnit-API</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo57">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MUnit-API</strong> -- MUnit Application Programming Interface
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   The MUnit API is a library of functions and associated
+   structures, error codes and standard variable names
+   that implement the MUnit test framework.
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo54">[Methods]<a name="MUnit2f02dOverview">
+MUnit/0-Overview</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   Overview
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   MUnit is a framework for unit testing of MATLAB functions.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   MUnit_Introduction, MUnit_Applications, MUnit_API, MUnit_Templates
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo57">[Methods]<a name="MUnit2fmunit">
+MUnit/munit</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+
+<hr />
+
+<h2><a name="robo38">[Functions]<a name="lib2etsuite2fMU5ftsuite5frun">
+lib.tsuite/MU_tsuite_run</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo44">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_tsuite_run</strong> -- Run a test suite.
+
+ SYNOPSIS
+   tr = <strong>MU_tsuite_run</strong>(ts, [<a href="#robo72">mode</a>], [tests_to_run])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * ts              -- a test suite struct (<a href="#robo65">tsuite_s</a>).
+   * <a href="#robo72">mode</a>            -- (optional) <a href="#robo72">mode</a> for level of detail of output.
+   * tests_to_run    -- (optional) name(s) of specific tests to run 
+                        (string or cell array of strings).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * ts_results -- vector of test suite result structs (<a href="#robo63">ts_result_s</a>).
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function runs the test cases in the test suite ts.
+  
+   See MUnit_Variables for a description of <a href="#robo72">mode</a>.
+
+   Note: For all modes, info printed by tested functions is still displayed 
+         to command window.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo72">mode</a>, <a href="#robo32">MU_tcase_run</a>, MU_print_tresults_report  <a href="#robo21">MU_print_tcase_summary</a>
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Test Suite Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo37">[Functions]<a name="lib2etsuite2fMU5ftsuite5fnew">
+lib.tsuite/MU_tsuite_new</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo44">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_tsuite_new</strong> -- Creates a new (empty) test suite structure.
+
+ SYNOPSIS
+   tc = <strong>MU_tsuite_new</strong>(name)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * name -- name of test suite (string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * ts  -- an empty test suitestruct (<a href="#robo65">tsuite_s</a>).
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function creates and returns a new test suite structure.
+   name must be specified and non-blank.
+
+   <a href="#robo65">tsuite_s</a> struct has fields:
+     * name        -- name of test suite (string).
+     * tcases      -- vector of <a href="#robo73">tcase</a> structures (<a href="#robo61">tcase_s</a>).
+     * trsummaries -- vector of trsummary structs (trsummary_s).
+     
+   Note: length(ts.trsummaries) = length(ts.tscases)
+   after run of <a href="#robo75">tsuite</a>.
+</pre>
+</span><p><strong>EXAMPLE</strong></p>
+<span class="EXAMPLE"><pre>   ts = <strong>MU_tsuite_new</strong>('mytestsuite');
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo6">MUNIT:MissingRequiredArgument</a>
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Test Suite Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo36">[Functions]<a name="lib2etsuite2fMU5ftsuite5flist5ftests">
+lib.tsuite/MU_tsuite_list_tests</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo44">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_tsuite_list_tests</strong>  -- List the tests in a test case.
+
+ SYNOPSIS
+   <strong>MU_tsuite_list_tests</strong>(tc)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * ts         -- a loaded test case struct (<a href="#robo65">tsuite_s</a>).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function prints the test cases for the specified test suite.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Test Suite Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo35">[Functions]<a name="lib2etsuite2fMU5ftsuite5fcreate">
+lib.tsuite/MU_tsuite_create</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo44">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_tsuite_create</strong> -- Create and load a test <a href="#robo75">tsuite</a>.
+
+ SYNOPSIS
+   ts = <strong>MU_tsuite_create</strong>(<a href="#robo75">tsuite</a>)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * <a href="#robo75">tsuite</a> -- name of test suite (string or function handle).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * ts     -- loaded <a href="#robo75">tsuite</a> struc (<a href="#robo65">tsuite_s</a>).
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function creates via <a href="#robo31">MU_tcase_new</a> and loads the <a href="#robo75">tsuite</a> found 
+   in <a href="#robo75">tsuite</a> file (<a href="#robo75">tsuite</a>) or function handle (@<a href="#robo75">tsuite</a>).
+</pre>
+</span><p><strong>EXAMPLE</strong></p>
+<span class="EXAMPLE"><pre>   <a href="#robo75">tsuite</a> = 'mytestsuite';
+   ts = <strong>MU_tsuite_create</strong>(<a href="#robo75">tsuite</a>);         % use a filename.
+   ts = <strong>MU_tsuite_create</strong>(@<a href="#robo75">tsuite</a>);        % use a function handle
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo6">MUNIT:MissingRequiredArgument</a>
+   <a href="#robo9">MUNIT:UnknownTestSuite</a>
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo31">MU_tcase_new</a>
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Test Suite Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo34">[Functions]<a name="lib2etsuite2fMU5ftsuite5fadd5ftcase">
+lib.tsuite/MU_tsuite_add_tcase</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo44">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_tsuite_add_tcase</strong> -- Add a test case struct to test suite struc.
+</pre>
+</span><p><strong>USAGE</strong></p>
+<span class="USAGE"><pre>   [ts] = <strong>MU_tsuite_add_tcase</strong>(ts, tc)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * ts          -- test suite struct (<a href="#robo65">tsuite_s</a>).
+   * tc          -- test case struct (<a href="#robo61">tcase_s</a>).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * ts          -- test suite struct (<a href="#robo65">tsuite_s</a>).
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function adds a <a href="#robo73">tcase</a> to a <a href="#robo75">tsuite</a> structure.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo35">MU_tsuite_create</a>
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Test Suite Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo27">[Functions]<a name="lib2ereport2fMU5ftresult5fcreate">
+lib.report/MU_tresult_create</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo42">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_tresult_create</strong> -- Create a new test result struct (<a href="#robo62">tresult_s</a>).
+
+ SYNPOSIS
+   tr = <strong>MU_tresult_create</strong>(tcname, tfh)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * tcname      -- name of test case associated with test result (string).
+   * tfh         -- function handle of test associated with test result (@tfh).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * tr          -- test result struct (<a href="#robo62">tresult_s</a>).
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function creates and initializes a test result struct (<a href="#robo62">tresult_s</a>).
+
+   Test result struct has the following fields:
+     * <a href="#robo74">trstatus</a> -- result of test execution.
+     * tcname   -- name of associated test case.
+     * testfh   -- function handle of test.
+     * message  -- supplementary message associated with test execution.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Reporting Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo33">[Functions]<a name="lib2etcase2fMU5ftcase5frun5ftest">
+lib.tcase/MU_tcase_run_test</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo43">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_tcase_run_test</strong> -- Run specified test within a test case.
+
+ SYNOPSIS
+   tr = <strong>MU_tcase_run_test</strong>(tc, tfh, [<a href="#robo72">mode</a>])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * tc         -- a loaded test case struct (<a href="#robo61">tcase_s</a>).
+   * tfh        -- function handle to test function.
+   * <a href="#robo72">mode</a>       -- (optional) <a href="#robo72">mode</a> for level of detail of output.
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * tr         -- a test result struct (<a href="#robo62">tresult_s</a>).
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function runs a specified test for test case.
+  
+   See MUnit_Variables for a description of <a href="#robo72">mode</a>.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo72">mode</a>, <a href="#robo27">MU_tresult_create</a>, <a href="#robo40">MU_lookup_tresult_status_by_name</a>
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Test Case Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo32">[Functions]<a name="lib2etcase2fMU5ftcase5frun">
+lib.tcase/MU_tcase_run</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo43">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_tcase_run</strong>  -- Run a test case.
+
+ SYNOPSIS
+   tresults = <strong>MU_tcase_run</strong>(tc, [<a href="#robo72">mode</a>], [tests_to_run])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * tc              -- loaded test case struct (<a href="#robo61">tcase_s</a>).
+   * <a href="#robo72">mode</a>            -- (optional) <a href="#robo72">mode</a> for level of detail of output (string).
+   * tests_to_run    -- (optional) name(s) of specific tests to run 
+                        (string or cell array of strings).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * tresults        -- vector of test result structures (<a href="#robo62">tresult_s</a>).
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function runs the tests in a test case and returns the
+   test results for each test.
+
+   See MUnit_Variables for a description of <a href="#robo72">mode</a>.
+
+   Note: For all modes, info printed by tested functions is still displayed 
+         to command window.
+
+   The tests_to_run argument allows the optional execution of specific test(s)
+   within test case.  By default, all tests within a test case are run.  
+   If tests_to_run is not empty, then only the tests with the 
+   matching names are run.  
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo72">mode</a>, <a href="#robo33">MU_tcase_run_test</a>, <a href="#robo61">tcase_s</a>, <a href="#robo62">tresult_s</a>
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Test Case Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo31">[Functions]<a name="lib2etcase2fMU5ftcase5fnew">
+lib.tcase/MU_tcase_new</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo43">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_tcase_new</strong> -- Creates a new (empty) test case structure.
+
+ SYNOPSIS
+   tc = <strong>MU_tcase_new</strong>(name)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * name -- name of test case (string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * tc   -- an empty test case struct (<a href="#robo61">tcase_s</a>).
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>   name must be specified and non-blank; otherwise error.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function creates and returns a new (empty) test case structure <a href="#robo61">tcase_s</a>.
+
+   <a href="#robo61">tcase_s</a> structure has fields:
+   * name     -- name of test case (string).
+   * pathstr  -- optional path to location of <a href="#robo73">tcase</a> mfile (string).
+   * tests    -- cell array of function handles to test functions.
+   * tresults -- test case results (vector of <a href="#robo62">tresult_s</a>).
+
+   name is the only required argument.  
+   pathstr, tests, and tresults are initialized to empty.
+</pre>
+</span><p><strong>EXAMPLE</strong></p>
+<span class="EXAMPLE"><pre>   tc = <strong>MU_tcase_new</strong>('mytestcase');
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo6">MUNIT:MissingRequiredArgument</a>
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Test Case Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo30">[Functions]<a name="lib2etcase2fMU5ftcase5flist5ftests">
+lib.tcase/MU_tcase_list_tests</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo43">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_tcase_list_tests</strong>  -- List the tests in a test case.
+
+ SYNOPSIS
+   <strong>MU_tcase_list_tests</strong>(tc)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * tc         -- a loaded test case struct (<a href="#robo61">tcase_s</a>).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function prints the tests for the specified test.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Test Case Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo29">[Functions]<a name="lib2etcase2fMU5ftcase5fcreate">
+lib.tcase/MU_tcase_create</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo43">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_tcase_create</strong> -- Create and load a <a href="#robo73">tcase</a>.
+
+ SYNOPSIS
+   tc = <strong>MU_tcase_create</strong>(<a href="#robo73">tcase</a>)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * <a href="#robo73">tcase</a> -- name of test case (string or function handle).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * tc     -- loaded <a href="#robo61">tcase_s</a> struct (<a href="#robo61">tcase_s</a>).
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function creates via <a href="#robo31">MU_tcase_new</a> and loads the <a href="#robo73">tcase</a> found 
+   in <a href="#robo73">tcase</a> file (<a href="#robo73">tcase</a>) or function handle (@<a href="#robo73">tcase</a>).
+</pre>
+</span><p><strong>EXAMPLE</strong></p>
+<span class="EXAMPLE"><pre>   <a href="#robo73">tcase</a> = 'mytestcase';
+   tc = <strong>MU_tcase_create</strong>(<a href="#robo73">tcase</a>);         % use a filename.
+   tc = <strong>MU_tcase_create</strong>(@<a href="#robo73">tcase</a>);        % use a function handle
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo6">MUNIT:MissingRequiredArgument</a>
+   <a href="#robo8">MUNIT:UnknownTestCase</a>
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo31">MU_tcase_new</a>
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Test Case Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo28">[Functions]<a name="lib2etcase2fMU5ftcase5fadd5ftest">
+lib.tcase/MU_tcase_add_test</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo43">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_tcase_add_test</strong> -- Add a test to test case.
+
+ SYNPOSIS
+   [tc] = <strong>MU_tcase_add_test</strong>(tc, tfh, [test_location])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * tc            -- test case struct (<a href="#robo61">tcase_s</a>).
+   * tfh           -- function handle to the test function (@tfh).
+   * test_location -- (optional) location of test if different from tc.name
+                      (string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * tc            -- test case struct (<a href="#robo61">tcase_s</a>).
+</pre>
+</span><p><strong>EXAMPLE</strong></p>
+<span class="EXAMPLE"><pre>    tc = <strong>MU_tcase_add_test</strong>(tc, @test1)                  % Default
+    tc = <strong>MU_tcase_add_test</strong>(tc, @test2, test2_location)  % Specify test location.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function adds a test to a test case by verifying that the function handle to
+   the test function exists, and, if successful, adds its test function handle
+   to the set of tests for the test case tc. To verify the existance of the 
+   function handle tfh, a check is made to determine if a function with a name
+   associated with the tfh is found in the test case file ( = tc.name).
+  
+   Alternatively, if test_location is specified, the test referenced by @tfh
+   may reside in a file other than the the <a href="#robo73">tcase</a> function file.
+   A check is made to verify that test function associated with @tfh exists 
+   in the file specitifed by test_location.
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo7">MUNIT:UnknownTest</a>  -- Test function not found.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo29">MU_tcase_create</a>
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  TestCase Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo26">[Functions]<a name="lib2ereport2fMU5fsummarize5fts5fresults">
+lib.report/MU_summarize_ts_results</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo42">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>    <strong>MU_summarize_ts_results</strong> -- Summarize the test suite results.
+
+ SYNOPSIS
+   ts_summary = <strong>MU_summarize_ts_results</strong>(ts_results)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * tcname     -- name of associated test suite.
+   * ts_results -- vector of test suite result structs (<a href="#robo63">ts_result_s</a>).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * ts_summary -- a test suite summary struct (<a href="#robo64">ts_summary_s</a>).
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function summarizes the test case summaries contained in the ts_results 
+   vector and returns the test suite summary in ts_summary struct.
+   
+   Test suite summary struct (<a href="#robo64">ts_summary_s</a>) has the following fields:
+     * tsname  -- name of associated test suite.
+     * ntcases -- number of test cases.
+     * ntests  -- number of tests run.
+     * npass   -- number of tests passed.
+     * nfails  -- number of test failed.
+     * nerrs   -- number of tests returning errors.
+     * percentPassed -- percent of tests passed.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Reporting Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo25">[Functions]<a name="lib2ereport2fMU5fsummarize5ftresults">
+lib.report/MU_summarize_tresults</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo42">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_summarize_tresults</strong> -- Summarize a set of test results.
+
+ SYNOPSIS
+   tc_summary = <strong>MU_summarize_tresults</strong>(tresults)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * tc          -- test case struct (<a href="#robo61">tcase_s</a>).
+   * tresults    -- vector of test result structs (<a href="#robo62">tresult_s</a>).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * tc_summary   -- test case summary struct (<a href="#robo60">tc_summary_s</a>).
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function summarizes the results of the test results in the
+   tresults vector and returns summary in test result summary struct.
+   
+   Test result summary struct (<a href="#robo60">tc_summary_s</a>) struct has the following fields:
+   * tcname  -- name of associated test case
+   * ntests  -- number of tests run
+   * npass   -- number of tests passed
+   * nfails  -- number of test failed
+   * nerrs   -- number of tests returning errors
+   * percentPassed -- percent of tests passed
+   * failedTests -- list of failed tests (cell string array)
+   * failedTestNums -- ordinal number of the failed test in test case (vector).
+   * erroredTests -- list of tests that errored (cell string array)
+   * erroredTestNums -- ordinal number of the erroed test in test case (vector).
+   * elapsedWallTime -- elapsed wall time to run test case
+   * elapsedCPUTime -- elapsed cpu time to run test case.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Reporting Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo24">[Functions]<a name="lib2ereport2fMU5fprint5ftsuite5fsummary">
+lib.report/MU_print_tsuite_summary</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo42">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>    <strong>MU_print_tsuite_summary</strong>  -- Print summary for a test suite.
+
+ SYNOPSIS
+   MU_tcase_print_summary(ts, [<a href="#robo72">mode</a>])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * ts          -- a test suite struct (<a href="#robo65">tsuite_s</a>).
+   * <a href="#robo72">mode</a>        -- (optional) <a href="#robo72">mode</a> for level of detail of output.
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * ts_summary -- a test suite summary struct (<a href="#robo64">ts_summary_s</a>).
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>   Test suite summary displayed or printed to log file.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function prints the summary for test suite.
+
+   See MUnit_Variables for a description of <a href="#robo72">mode</a>.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Reporting Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo23">[Functions]<a name="lib2ereport2fMU5fprint5ftresults5freport2em">
+lib.report/MU_print_tresults_report.m</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo42">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_print_tresults_report.m</strong>  -- Print test case results.
+
+ SYNOPSIS
+   <strong>MU_print_tresults_report.m</strong>(tresults, [<a href="#robo72">mode</a>])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * tcname      -- name of associated test case.
+   * tresults    -- vector of test result structs (<a href="#robo62">tresult_s</a>).
+   * <a href="#robo72">mode</a>        -- (optional) <a href="#robo72">mode</a> for level of detail of output.
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>   Test results printed to command window.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function prints the test results in the tresults vector.
+
+   See MUnit_Variables for a description of <a href="#robo72">mode</a>.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Reporting Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo22">[Functions]<a name="lib2ereport2fMU5fprint5ftresults">
+lib.report/MU_print_tresults</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo42">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_print_tresults</strong>  -- Print test case results.
+
+ SYNOPSIS
+   <strong>MU_print_tresults</strong>(tresults, [<a href="#robo72">mode</a>])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * tresults    -- vector of test result structs (<a href="#robo62">tresult_s</a>).
+   * <a href="#robo72">mode</a>        -- (optional) <a href="#robo72">mode</a> for level of detail of output.
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   nrec          -- number of test result records printed (interger).
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>   Test results printed to command window.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function prints the test results in the tresults vector.
+
+   See MUnit_Variables for a description of <a href="#robo72">mode</a>.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo62">tresult_s</a>
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Reporting Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo21">[Functions]<a name="lib2ereport2fMU5fprint5ftcase5fsummary">
+lib.report/MU_print_tcase_summary</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo42">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_print_tcase_summary</strong> -- Print a test case summary.
+
+ SYNOPSIS
+   <strong>MU_print_tcase_summary</strong>(tc_summary)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   tc_summary     = test case summary struct.
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>   Test case summary printed to display or log file.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function prints a summary of a test case run.
+
+   See MUnit_Variables for a description of <a href="#robo72">mode</a>.
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Reporting Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo40">[Functions]<a name="lib2eutils2fMU5flookup5ftresult5fstatus5fby5fname">
+lib.utils/MU_lookup_tresult_status_by_name</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo45">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_lookup_tresult_status_by_name</strong> -- Return the numeric test result status code by test result status name.
+
+ SYNOPSIS
+   <a href="#robo74">trstatus</a> = <strong>MU_lookup_tresult_status_by_name</strong>(name)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * name        -- test result status name (string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * <a href="#robo74">trstatus</a>    -- numeric test result status code (integer)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function lookups and returns the numeric test result status code for 
+   specified test result status name as follows:
+
+     * 'SUCCESS'  = 1
+     * 'FAIL'     = 0
+     * 'ERROR'    = -1
+     *  otherwise = NaN;
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+   <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Test Result Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo39">[Functions]<a name="lib2eutils2fMU5flookup5fmode5fnum5fby5fname">
+lib.utils/MU_lookup_mode_num_by_name</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo45">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_lookup_mode_num_by_name</strong> -- Return the numeric <a href="#robo72">mode</a> code by <a href="#robo72">mode</a> name.
+
+ SYNOPSIS
+   mode_num = <strong>MU_lookup_mode_num_by_name</strong>(<a href="#robo72">mode</a>)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * <a href="#robo72">mode</a>       -- <a href="#robo72">mode</a> name (string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   * mode_num   -- numeric <a href="#robo72">mode</a> code (integer)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function lookups and returns the numeric <a href="#robo72">mode</a> code for 
+   for specified <a href="#robo72">mode</a> as follows:
+
+    * 'silent'        = 1
+    * 'minimal'       = 2
+    * 'normal'        = 3
+    * 'verbose'       = 4
+    * 'details'       = 5
+    * 'stoponerror'   = 6
+
+   stoponerror <a href="#robo72">mode</a> always execution to stop upon error and display the stack
+   leading up to the error.
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+   <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   MUNIT <a href="#robo48">Library</a>:  Test Result Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo20">[Functions]<a name="lib2eassert2fMU5ffail5fline">
+lib.assert/MU_fail_line</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo41">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_fail_line</strong> -- Encode function name, line number and message of failure into error message string and call <a href="#robo19">MU_fail</a>.
+
+ SYNPOSIS
+   <strong>MU_fail_line</strong>([funcname], [linenum], [message])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * funcname    -- (optional) name of function that failed (assertion occurred)
+                    (string).
+   * linenum     -- (optional) line number where error occurred in funcname (integer).
+   * message     -- (optional) supplemental message (string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function is a wrapper function that encodes the function name and line number 
+   where an assertion error occurred along with supplmental message into error 
+   string and then calls  <a href="#robo19">MU_fail</a> which throws an assertion error.
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo4">MUNIT:AssertionFailedError</a>  (via <a href="#robo19">MU_fail</a>).
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+    MUNIT <a href="#robo48">Library</a>:  Error Assert Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo19">[Functions]<a name="lib2eassert2fMU5ffail">
+lib.assert/MU_fail</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo41">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_fail</strong> -- Throw error for a failed assertion.
+
+ SYNPOSIS
+   <strong>MU_fail</strong>([msg])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * msg         -- (optional) error message (string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>   <a href="#robo4">MUNIT:AssertionFailedError</a> is thrown.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function throws the <a href="#robo4">MUNIT:AssertionFailedError</a> and passes the
+   specified message.
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo4">MUNIT:AssertionFailedError</a>  
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+    MUNIT <a href="#robo48">Library</a>:  Error Assert Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo18">[Functions]<a name="lib2eassert2fMU5fassert5fnumsigdig5fdiff">
+lib.assert/MU_assert_numsigdig_diff</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo41">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_assert_numsigdig_diff</strong> -- Assert that expected and actual values are equal within number of significant digits.
+
+ SYNOPSIS
+   <strong>MU_assert_numsigdig_diff</strong>(expected_value, actual_value, [numsigdig], [message])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * expected_value -- expected value.
+   * actual_value   -- actual value.
+   * numsigdig      -- (optional) minimum tolerance or threshold
+                       Valid values:  integers &gt;= 0
+                       Default: 0
+   * message        -- (optional) supplemental message (character string).
+   * <a href="#robo72">mode</a>           -- (optional) level of detail for output diagnostics.
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function checks that expected and actual values are equal within
+   numsigdig sigificiant digits.  If not, it calls <a href="#robo19">MU_fail</a> to throw 
+   <a href="#robo4">MUNIT:AssertionFailedError</a>.
+
+   <a href="#robo72">mode</a> argument controls level of detail of output as follows:
+    'details'   = print diagnostics while running tests as well all test names 
+                  and their status, and test case summary.
+    otherwise, no output printed.
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo4">MUNIT:AssertionFailedError</a>  (via <a href="#robo19">MU_fail</a>).
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   numsigdig_diff
+
+ TOOLBOX
+    <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+    MUNIT <a href="#robo48">Library</a>:  Assert Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo17">[Functions]<a name="lib2eassert2fMU5fassert5fistrue">
+lib.assert/MU_assert_istrue</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo41">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_assert_istrue</strong> -- Assert that actual value is Boolean true.
+
+ SYNPOSIS
+   <strong>MU_assert_istrue</strong>(actual_value, [message])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * actual_value   -- actual values (object)
+   * message        -- (optional) supplemental message (character string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function checks actual value evaluates to Boolena true.
+   If not, it calls <a href="#robo19">MU_fail</a> to throw <a href="#robo4">MUNIT:AssertionFailedError</a>.
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo4">MUNIT:AssertionFailedError</a>  (via <a href="#robo19">MU_fail</a>).
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+    MUNIT <a href="#robo48">Library</a>:  Assert Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo16">[Functions]<a name="lib2eassert2fMU5fassert5fisnotempty">
+lib.assert/MU_assert_isnotempty</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo41">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_assert_isnotempty</strong> -- Assert that actual value is not empty.
+
+ SYNPOSIS
+   <strong>MU_assert_isnotempty</strong>(actual_value, [message])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * actual_value   -- actual values (object)
+   * message        -- (optional) supplemental message (character string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function checks actual value is not empty.
+   If empty, it calls <a href="#robo19">MU_fail</a> to throw <a href="#robo4">MUNIT:AssertionFailedError</a>.
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo4">MUNIT:AssertionFailedError</a>  (via <a href="#robo19">MU_fail</a>).
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+    MUNIT <a href="#robo48">Library</a>:  Assert Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo15">[Functions]<a name="lib2eassert2fMU5fassert5fisequalwithequalnans">
+lib.assert/MU_assert_isequalwithequalnans</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo41">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_assert_isequalwithequalnans</strong> -- Assert that expected and actual values are equal with equal NaNs.
+
+ SYNPOSIS
+   <strong>MU_assert_isequalwithequalnans</strong>(expected_values, actual_values, [message])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * expected_value -- vector or array of expected values (number).
+   * actual_value   --  vector or array of actual values (number).
+   * message        -- (optional) supplemental message (string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function checks that expected and actual values are equal, treating
+   NaNs as equals.  If not, it calls <a href="#robo19">MU_fail</a> to throw 
+   <a href="#robo4">MUNIT:AssertionFailedError</a>.
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo4">MUNIT:AssertionFailedError</a>  (via <a href="#robo19">MU_fail</a>).
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+    MUNIT <a href="#robo48">Library</a>:  Assert Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo14">[Functions]<a name="lib2eassert2fMU5fassert5fisequal">
+lib.assert/MU_assert_isequal</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo41">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_assert_isequal</strong> -- Assert that expected and actual values are equal.
+
+ SYNPOSIS
+   <strong>MU_assert_isequal</strong>(expected_value, actual_value, [message])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * expected_value -- vector or array of expected values (number).
+   * actual_value   --  vector or array of actual values (number).
+   * message        -- (optional) supplemental message (string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function checks that expected and actual values are equal.  If not,
+   it calls <a href="#robo19">MU_fail</a> to throw <a href="#robo4">MUNIT:AssertionFailedError</a>.
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo4">MUNIT:AssertionFailedError</a>  (via <a href="#robo19">MU_fail</a>).
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+    MUNIT <a href="#robo48">Library</a>:  Assert Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo13">[Functions]<a name="lib2eassert2fMU5fassert5fisempty">
+lib.assert/MU_assert_isempty</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo41">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_assert_isempty</strong> -- Assert that actual value is empty.
+
+ SYNPOSIS
+   <strong>MU_assert_isempty</strong>(actual_value, [message])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * actual_value   -- actual values (object)
+   * message        -- (optional) supplemental message (character string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function checks actual value is empty.
+   If not empty, it calls <a href="#robo19">MU_fail</a> to throw <a href="#robo4">MUNIT:AssertionFailedError</a>.
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo4">MUNIT:AssertionFailedError</a>  (via <a href="#robo19">MU_fail</a>).
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+    MUNIT <a href="#robo48">Library</a>:  Assert Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo12">[Functions]<a name="lib2eassert2fMU5fassert5ffuzzy5fdiff">
+lib.assert/MU_assert_fuzzy_diff</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo41">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_assert_fuzzy_diff</strong> -- Assert that expected and actual values are within fuzzy diff tolerance.
+
+ SYNOPSIS
+   <strong>MU_assert_fuzzy_diff</strong>(expected_value, actual_value, [fuzzy_tol], [message])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * expected_value -- vector or array of expected values (number).
+   * actual_value   --  vector or array of actual values (number).
+   * fuzzy_tol      -- (optional) minimum tolerance or threshold
+                       Valid values:  &gt;= 0
+                       Default: 0
+   * message        -- (optional) supplemental message (string).
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function checks that expected and actual values are equal within
+   fuzzy tolerance.  If not, it calls <a href="#robo19">MU_fail</a> to throw 
+   <a href="#robo4">MUNIT:AssertionFailedError</a>.
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo4">MUNIT:AssertionFailedError</a>  (via <a href="#robo19">MU_fail</a>).
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre>   <a href="#robo46">fuzzy_diff</a>
+
+ TOOLBOX
+    <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+    MUNIT <a href="#robo48">Library</a>:  Assert Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo46">[Functions]<a name="MU5fassert5ffuzzy5fdiff2ffuzzy5fdiff">
+MU_assert_fuzzy_diff/fuzzy_diff</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo12">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>fuzzy_diff</strong> --  Compare two arrays and identify or summarize those elements with differences exceeding the fuzzy tolerance.
+</pre>
+</span><p><strong>USAGE</strong></p>
+<span class="USAGE"><pre>   result = <strong>fuzzy_diff</strong>(a, b, [fuzzy_tol], [<a href="#robo72">mode</a>])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * a             -- first array or vector of values
+   * b             -- second array or vector of values
+   * fuzzy_tol     -- (optional) minimum tolerance or threshold
+                      Valid values:  &gt;= 0
+                      Default: 0
+   * <a href="#robo72">mode</a>          -- (optional) format of returned result
+                      Valid Values:  'detailed', 'summary'
+                      Default:  'detailed'
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   result           = array or scalar containing the result of comparison.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>fuzzy_diff</strong> compares two arrays and allows approximate equality when strict
+   equality may not exist due to minor differences due to rounding errors.  
+   <strong>fuzzy_diff</strong> subtracts two arrays and identifies those elements whose 
+   differences exceed the fuzzy tolerance threshold.  
+
+   The function has 2 modes of operation specified via <a href="#robo72">mode</a>:
+      detailed  = return an array of size(a) with elements 
+                   = 0,   for differences between a and b &lt;  fuzzy_tolerance
+                   = a-b, for differences between a and b &gt;= fuzzy_tolerance
+      summary   = return a number whose values 
+                   = 0, for no differences within fuzzy_tolerance
+                   &gt; 0, number of elements &gt;= fuzzy_tolerance
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo11">[Functions]<a name="lib2eassert2fMU5fassert5fexpression">
+lib.assert/MU_assert_expression</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo41">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_assert_expression</strong> -- Assert that expression is true.
+
+ SYNPOSIS
+   <strong>MU_assert_expression</strong>(expression, [message])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * expression     -- expression to evaluate (string).
+   * message        -- (optional) supplemental message (string).
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function evaluates the expression in the caller's workspace and
+   evaluates whether it is true or not.
+   If not true, it calls <a href="#robo19">MU_fail</a> to throw <a href="#robo4">MUNIT:AssertionFailedError</a>.
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo4">MUNIT:AssertionFailedError</a>  (via <a href="#robo19">MU_fail</a>).
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+    MUNIT <a href="#robo48">Library</a>:  Assert Functions
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo10">[Functions]<a name="lib2eassert2fMU5fassert5ferror">
+lib.assert/MU_assert_error</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo41">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>MU_assert_error</strong> -- Assert that expected and actual error message ids are equal.
+
+ SYNOPSIS
+   <strong>MU_assert_error</strong>(expected_msg_id, actual_msg_id, [message])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * expected_msg_id -- expected message id.
+   * actual_msg_id   -- actual message id.
+   * message         -- (optional) supplemental message (string)
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   Function checks that expected and actual error message ids are equal.  If not,
+   it calls <a href="#robo19">MU_fail</a> to throw <a href="#robo4">MUNIT:AssertionFailedError</a>.
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo4">MUNIT:AssertionFailedError</a>  (via <a href="#robo19">MU_fail</a>).
+
+ TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+    MUNIT <a href="#robo48">Library</a>:  Assert Functions
+</pre>
+</span><p><strong>AUTHOR</strong></p>
+<span class="AUTHOR"><pre>   Charlie Cornish
+</pre>
+</span><p><strong>CREATION DATE</strong></p>
+<span class="CREATION_DATE"><pre>   2004-Apr-27
+</pre>
+</span><p><strong>COPYRIGHT</strong></p>
+<span class="COPYRIGHT"><pre>   (c) Charles R. Cornish 2004, 2005
+</pre>
+</span><p><strong>CREDITS</strong></p>
+<span class="CREDITS"><pre>
+</pre>
+</span><p><strong>REVISION</strong></p>
+<span class="REVISION"><pre>   $Revision: 111 $
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo71">[Functions]<a name="Utilities2flist5ftsuite">
+Utilities/list_tsuite</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo1">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>list_tsuite</strong> -- List the test cases in a MUnit test suite.
+
+ SYNOPSIS
+   <strong>list_tsuite</strong>(<a href="#robo75">tsuite</a>, [logfile])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * <a href="#robo75">tsuite</a>       -- test suite (string or function handle).
+   * logfile      -- (optional) name of log file for writing output.
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>USAGE</strong></p>
+<span class="USAGE"><pre>   <strong>list_tsuite</strong>(<a href="#robo75">tsuite</a>)                       % default
+   <strong>list_tsuite</strong>(<a href="#robo75">tsuite</a>, logfile)              % specify log file.
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>   Prints the names of the test cases in the specified test suite.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>list_tsuite</strong> is a utility application for listing test cases in a test suite.
+
+   <a href="#robo75">tsuite</a> is one of the following:
+    * string containing name of test case (i.e. file/function) to run.
+    * function handle of the test case to run.
+    * a test case struct.
+
+   If logfile is specified, output is written to logfile.
+</pre>
+</span><p><strong>EXAMPLE</strong></p>
+<span class="EXAMPLE"><pre>
+</pre>
+</span><p><strong>WARNINGS</strong></p>
+<span class="WARNINGS"><pre>
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo9">MUNIT:UnknownTestSuite</a>
+</pre>
+</span><p><strong>NOTES</strong></p>
+<span class="NOTES"><pre>
+</pre>
+</span><p><strong>BUGS</strong></p>
+<span class="BUGS"><pre>
+</pre>
+</span><p><strong>TODO</strong></p>
+<span class="TODO"><pre>
+</pre>
+</span><p><strong>ALGORITHM</strong></p>
+<span class="ALGORITHM"><pre>
+</pre>
+</span><p><strong>REFERENCES</strong></p>
+<span class="REFERENCES"><pre>
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   Application Utilties
+</pre>
+</span><p><strong>AUTHOR</strong></p>
+<span class="AUTHOR"><pre>   Charlie Cornish
+</pre>
+</span><p><strong>CREATION DATE</strong></p>
+<span class="CREATION_DATE"><pre>   2005-Nov-08
+</pre>
+</span><p><strong>COPYRIGHT</strong></p>
+<span class="COPYRIGHT"><pre>
+</pre>
+</span><p><strong>CREDITS</strong></p>
+<span class="CREDITS"><pre>
+</pre>
+</span><p><strong>REVISION</strong></p>
+<span class="REVISION"><pre>   $Revision: 82 $
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo70">[Functions]<a name="Utilities2flist5ftcase">
+Utilities/list_tcase</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo1">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>list_tcase</strong> -- List the tests in a MUnit test case.
+
+ SYNOPSIS
+   <strong>list_tcase</strong>(<a href="#robo73">tcase</a>, [logfile])
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   * <a href="#robo73">tcase</a>        -- test case (string or function handle).
+   * logfile      -- (optional) name of log file for writing output.
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   (none)
+</pre>
+</span><p><strong>USAGE</strong></p>
+<span class="USAGE"><pre>   <strong>list_tcase</strong>(<a href="#robo73">tcase</a>)                       % default
+   <strong>list_tcase</strong>(<a href="#robo73">tcase</a>, logfile)              % specify log file.
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>   Prints the tests in the specified test case.
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"><pre>   <strong>list_tcase</strong> is a utility application for listing tests in a test case.
+
+   <a href="#robo73">tcase</a> is one of the following:
+    * string containing name of test case (i.e. file/function) to run.
+    * function handle of the test case to run.
+    * a test case struct.
+
+   If logfile is specified, output is written to logfile.
+</pre>
+</span><p><strong>EXAMPLE</strong></p>
+<span class="EXAMPLE"><pre>
+</pre>
+</span><p><strong>WARNINGS</strong></p>
+<span class="WARNINGS"><pre>
+</pre>
+</span><p><strong>ERRORS</strong></p>
+<span class="ERRORS"><pre>   <a href="#robo8">MUNIT:UnknownTestCase</a>
+</pre>
+</span><p><strong>NOTES</strong></p>
+<span class="NOTES"><pre>
+</pre>
+</span><p><strong>BUGS</strong></p>
+<span class="BUGS"><pre>
+</pre>
+</span><p><strong>TODO</strong></p>
+<span class="TODO"><pre>
+</pre>
+</span><p><strong>ALGORITHM</strong></p>
+<span class="ALGORITHM"><pre>
+</pre>
+</span><p><strong>REFERENCES</strong></p>
+<span class="REFERENCES"><pre>
+</pre>
+</span><p><strong>SEE ALSO</strong></p>
+<span class="SEE_ALSO"><pre> TOOLBOX
+     <a href="#robo57">munit</a>/<a href="#robo57">munit</a>
+
+ CATEGORY
+   Application Utilties
+</pre>
+</span><p><strong>AUTHOR</strong></p>
+<span class="AUTHOR"><pre>   Charlie Cornish
+</pre>
+</span><p><strong>CREATION DATE</strong></p>
+<span class="CREATION_DATE"><pre>   2005-Nov-08
+</pre>
+</span><p><strong>COPYRIGHT</strong></p>
+<span class="COPYRIGHT"><pre>
+</pre>
+</span><p><strong>CREDITS</strong></p>
+<span class="CREDITS"><pre>
+</pre>
+</span><p><strong>REVISION</strong></p>
+<span class="REVISION"><pre>   $Revision: 84 $
+</pre>
+</span>
+<hr />
+
+<h2><a name="robo66">[Functions]<a name="TestCases2fassert5ftcase">
+TestCases/assert_tcase</a></h2>
+
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<span class="NAME"><pre>   <strong>assert_tcase</strong> -- <a href="#robo57">munit</a> test case to test assert functions.
+</pre>
+</span><p><strong>USAGE</strong></p>
+<span class="USAGE"><pre>   <a href="#robo2">run_tcase</a>(@<strong>assert_tcase</strong>)
+</pre>
+</span><p><strong>INPUTS</strong></p>
+<span class="INPUTS"><pre>   (none)
+</pre>
+</span><p><strong>OUTPUTS</strong></p>
+<span class="OUTPUTS"><pre>   tc            = <a href="#robo73">tcase</a> structure for <strong>assert_tcase</strong>.
+</pre>
+</span><p><strong>SIDE EFFECTS</strong></p>
+<span class="SIDE_EFFECTS"><pre>
+</pre>
+</span><p><strong>DESCRIPTION</strong></p>
+<span class="DESCRIPTION"></span><p><strong>AUTHOR</strong></p>
+<span class="AUTHOR"><pre>   Charlie Cornish
+</pre>
+</span><p><strong>CREATION DATE</strong></p>
+<span class="CREATION_DATE"><pre>   2004-Apr-27 
+</pre>
+</span><p><strong>COPYRIGHT</strong></p>
+<span class="COPYRIGHT"><pre>
+</pre>
+</span><p><strong>CREDITS</strong></p>
+<span class="CREDITS"><pre>
+</pre>
+</span><p><strong>REVISION</strong></p>
+<span class="REVISION"><pre>   $Revision: 91 $
+</pre>
+</span>
+</body>
+</html>

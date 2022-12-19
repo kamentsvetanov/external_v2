@@ -1,0 +1,111 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>ebpsimulate :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="dla.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="empiric_g.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">ebpsimulate</h1>
+        <p>Generates a Self Similar process using an Embedded Branching Process </p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>EBP = ebpsimulate(N,H)<br>
+                EBP = ebpsimulate(...,'Propertyname',Propertyvalue)    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>EBP = ebpsimulate(N,H)</tt> Generates the self similar process, <tt>EBP</tt>, using a sample size, <tt>N</tt>,
+            a Hurst parameter, <tt>H</tt>. The parameter <tt>N</tt> is a positive integer and <tt>H</tt> is a real in (0,1).
+        </p>
+        
+        <p><tt>EBP = ebpsimulate(...,'Propertyname',Propertyvalue)</tt> Generates the self similar process, <tt>EBP</tt>, 
+            applying the specified property settings. The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'maxvar'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>EBP</tt> is computed using a specific maximum variation parameter, <tt>M</tt>, which is a positive integer.<br>
+                                    If <tt>'maxvar'</tt> is not specified, the default value is <tt>M = 0</tt>.<br><br>
+                                    <b>NOTE:</b> When this property is used, only two values <tt>{2,2*M}</tt> are taken from the offspring sampling distribution.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'seed'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>EBP</tt> is computed with a specific random seed, <tt>SEED</tt>. This is useful to generate the same path several times
+                                    or to compare the paths of different <tt>EBPs</tt>.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+                
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of an Embedded Branching Process with a specific Hurst parameter</h3>
+            <p class="synopsis">
+                <tt>N = 1024; H = 0.5; t = linspace(0,1,N);<br>
+                    ebp = ebpsimulate(N,H);<br>
+                    figure; plot(t,ebp);<br>
+                    title('Embedded Branching Process with H = 0.5'); xlabel('time')
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/ebpsimulate_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Comparison of different Embedded Branching Processes using a specific random seed</h3>
+            <p class="synopsis">
+                <tt>N = 2048; H1 = 0.5; H2 = 0.6;<br>
+                    ebp1 = ebpsimulate(N,H1,'seed',10);<br>
+                    ebp2 = ebpsimulate(N,H2,'seed',10);<br>    
+                    figure; plot(ebp1,'k'); hold on; plot(ebp2,'r');<br> 
+                    legend('ebp1: H = 0.5','ebp2: H = 0.6','Location','NorthWest');<br>
+                    title('Embedded Branching Process with different values of Hurst parameter');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/ebpsimulate_ex2.png" height="420" width="561" alt=""></p>
+            
+            <p class="synopsis">
+                <tt>N = 2048; H = 0.5;<br>
+                    ebp1 = ebpsimulate(N,H,'seed',10);<br>
+                    ebp2 = ebpsimulate(N,H,'maxvar',5,'seed',10);<br>    
+                    figure; plot(ebp1,'k'); hold on; plot(ebp2,'r');<br> 
+                    legend('ebp1: maxvar = 0','ebp2: maxvar = 5','Location','NorthWest');<br>
+                    title('Embedded Branching Process with different values of maximum variation');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/ebpsimulate_ex3.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>References</h2>
+        <p>
+            [1] Owen Dafydd Jones "Fast, efficient on-line simulation of self-similar processes; Corrected version",(2004).
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="dla.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">dla</td><td>&nbsp;</td><td align="right">empiric_g</td>
+                <td align="right" width="20"><a href="empiric_g.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

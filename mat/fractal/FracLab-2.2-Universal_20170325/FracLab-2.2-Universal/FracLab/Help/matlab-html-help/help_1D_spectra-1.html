@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The 1D signals Multifractal Spectra pop-up menu: Overview</TITLE>
+ <LINK HREF="help_1D_spectra-2.html" REL=next>
+
+ <LINK HREF="help_1D_spectra.html#toc1" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_1D_spectra-2.html">Next</A>
+Previous
+<A HREF="help_1D_spectra.html#toc1">Contents</A>
+<HR>
+<H2><A NAME="s1">1. Overview</A></H2>
+
+<P>
+<P>This menu allows you estimate to various multifractal spectra for 1D
+signals. Multifractal spectra for images may also be computed in
+<B>Fraclab</B>: Choose the <B>Segmentation</B> menu, and then <B>Image
+multifractal segmentation</B>. We refer to the help corresponding to this
+window for further details.
+<P>There exists three main multifractal spectra: The Hausdorff, large
+deviation, and Legendre spectra. Basically, any of the three spectra
+provides an information as to which singularities occur in
+your signal, and which are dominant: a spectrum is a 1D curve, where
+abscissa represents the Hölder exponents actually present in your
+signal, and ordinates are related to "the amount" of points where you
+will encounter a given singularity. For instance, if the spectrum f has
+just one maximum at exponent a, with f(a) = 1, then if you pick a
+point at random in the signal, it will almost surely have exponent
+a. If b is such that f(b) = 0, then there is a very sparse set of
+points which have exponent b. An exponent c which does not occur has
+f(c) = -infinity.
+<P>This is the rough picture. There are essential differences between the
+three spectra, that we cannot detail in this help. We just briefly
+mention their main features.
+<P>The Hausdorff spectrum gives
+geometrical information pertaining to the dimension of sets of points
+in a signal having a given Hölder exponent. This is the most precise
+spectrum from a mathematical point of view, but is also unfortunately
+the most difficult to estimate. We hope to incorporate an estimator of
+this spectrum for 1D signals in forthcoming versions of
+<B>Fraclab</B>. Note that in the <B>Image multifractal segmentation</B>
+sub-menu of the <B>Segmentation</B> window, such a estimator is already
+proposed.
+<P>The second spectrum is the large deviation spectrum, denoted fg. This
+spectrum yields a statistical information, related to the probability
+of finding a point with a given Hölder exponent in the signal.  More
+precisely, fg measures how this probability behaves under changes of
+resolution. 
+<P>The third spectrum is the Legendre spectrum, denoted fl. It is just a
+concave approximation to the large deviation spectrum. Its main
+interest is that it usually yields much more robust estimates, though
+at the expense of a loss of information. 
+<P>The <B>1D signals Multifractal Spectra</B> allows you to compute fl and
+fg for 1D signals which are either measures (i.e. arrays of non
+negative data adding up to 1) or functions.
+<P>
+<P>
+<HR>
+<A HREF="help_1D_spectra-2.html">Next</A>
+Previous
+<A HREF="help_1D_spectra.html#toc1">Contents</A>
+</BODY>
+</HTML>

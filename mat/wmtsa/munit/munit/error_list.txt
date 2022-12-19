@@ -1,0 +1,2 @@
+MUNIT:MissingRequiredArgument	Required argument is missing or empty.
+MUNIT:UnknownError		Unknown error occurred.

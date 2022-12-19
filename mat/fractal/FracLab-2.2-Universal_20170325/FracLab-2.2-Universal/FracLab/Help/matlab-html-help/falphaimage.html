@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>falphaimage :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="estimOSC2DH.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="fbmlevinson.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">falphaimage</h1>
+        <p>Computes corresponding f(alpha) image from an input alpha image. The function f(alpha) describes the global regularity.<br><br>
+           <b>NOTE:</b> In the FracLab graphical interface this function is associated with the <a href="alphaimage.html"><tt>alphaimage</tt></a> function
+           and the <a href="spotted.html"><tt>spotted</tt></a> function.
+       </p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>F = falphaimage(a,na)<br>
+                [F,fs] = falphaimage(a,na)<br>
+                [F,fs] = falphaimage(...,'Action')
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>F = falphaimage(a,na)</tt> Estimates the f(alpha) image, <tt>F</tt>, of the input alpha image, <tt>a</tt>, 
+            using a specific number of bins, <tt>na</tt>. The parameter <tt>na</tt> is a positive integer which defines the discretization of <tt>a</tt>.
+        </p>
+        
+        <p><tt>[F,fs] = falphaimage(a,na)</tt> Estimates f(alpha) image, <tt>F</tt>, and the f(alpha) multifractal spectrum, <tt>fs</tt>. The output <tt>fs</tt> is a structure
+            that contains the spectrum, <tt>fs.spec</tt> and the data corresponding to the alpha bins, <tt>fs.bins</tt><br>
+            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p><b>The f(alpha) image</b><br><br>
+                       The pixels in an alpha image are the estimated Holder exponents and they describe local regularity of an input image.<br>
+                       In the alpha image there usually are many points with the same alpha values. 
+                       The next step is to find the global distribution of this alpha quantity.<br><br>
+                       <b>Discretization of the alpha image</b><br><br>
+                       The size of each bin is <tt>ka = (na - 1)/(max(a) - min(a))</tt>.<br> 
+                       The alpha image is then covered by a regular grid of boxes with integer box sizes <tt>j = 1,2,4,6,8,10,12,14,16</tt> pixels.<br>
+                       The boxes containing at least one value of that alpha bin are counted giving the overall number of hit boxes of size <tt>j,Nj(alpha bin)</tt> for that alpha bin.<br>
+                       Boxes of different sizes are recursively taken into account and corresponding "Hausdorff" measures are calculated for each image pixel from<br>
+                       bi-logarithmic diagram <tt>ln(Ni(alpha bin))</tt> vs. <tt>ln(j)</tt>. 
+                       The limiting value of f(alpha bin) is estimated as a slope of linear regression line in this log-log diagram.<br>
+                       This procedure is repeated for every of <tt>na</tt> equally sized alpha bins, obtaining the 1D f(alpha) multifractal spectrum, <tt>fs</tt> 
+                       and also the f(alpha) image filled by pixel-wise values of f(alpha).
+                    </p>
+                </td></tr></table>
+            </ul>    
+        </p>
+        
+        <p><tt>[F,fs] = falphaimage(...,'Action')</tt> Estimates f(alpha) image, <tt>F</tt>, and the f(alpha) multifractal spectrum, <tt>fs</tt>, using
+            a specific action. The supported Actions can be choosen from the list below :
+            <ul><h3>Action Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Action Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'def'</tt></td><td bgcolor="#F2F2F2"><p>Without normalization (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'norm'</tt></td><td bgcolor="#F2F2F2"><p>Normalization of <tt>fs.spec</tt> within <tt>(0:2)</tt></p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Compute an f(alpha) image</h3>
+            <p class="synopsis">
+                <tt>images_loc = which('falphaimage.html');<br>
+                    x = imread(fullfile(fileparts(images_loc),'images_examples','Segmentation','m213.pgm'));<br>
+                    x = ima2mat(x); A = alphaimage(x,2,'neg');<br> 
+                    F = falphaimage(A,100);<br>    
+                    figure; subplot(1,3,1); imagesc(x); title('Original image x');<br>
+                    subplot(1,3,2); imagesc(A); title('Alpha image A from negative x');<br>
+                    subplot(1,3,3); imagesc(F); title('f(alpha) image from A');
+                </tt>
+            </p>
+        </ul>
+        <p><img src="images_examples/Segmentation/falphaimage_ex1.png" height="430" width="1100" alt=""></p>
+        <ul>
+            <h3>Example 2 : Normalized the f(alpha) spectrum</h3>
+            <p class="synopsis">
+                <tt>x = imread(fullfile(fileparts(images_loc),'images_examples','Segmentation','m213.pgm'));<br>
+                    x = ima2mat(x); A = alphaimage(x,2,'neg');<br> 
+                    [F1,fs1] = falphaimage(A,100); [F2,fs2] = falphaimage(A,100,'norm');<br>    
+                    figure; subplot(1,2,1); plot(fs1.bins,fs1.spec); title('f(alpha) spectrum not normalized');<br>
+                    subplot(1,2,2); plot(fs2.bins,fs2.spec); title('f(alpha) spectrum normalized');<br>
+                </tt>
+            </p>
+        </ul>
+        <p><img src="images_examples/Segmentation/falphaimage_ex2.png" height="460" width="1000" alt=""></p>
+        
+        <h2>See Also</h2>
+        <p><a href="alphaimage.html"><tt>alphaimage</tt></a>, <a href="spotted.html"><tt>spotted</tt></a></p>
+        
+        <h2>References</h2>
+        <p>
+            [1] J. L&eacute;vy-V&eacute;hel, P. Mignot "Multifractal segmentation of images", Fractals, Vol. 2 No. 3, (2004) 379-382.<br><br>  
+            [2] T. Stojic, I. Reljin, B. Reljin "Adaptation of multifractal analysis to segmentation of microcalcifications in digital mammograms",
+                Physica A: Statistical Mechanics and its Applications, Vol. 367 No. 15, (2006) 494-508.
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="estimOSC2DH.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">estimOSC2DH</td><td>&nbsp;</td><td align="right">fbmlevinson</td>
+                <td align="right" width="20"><a href="fbmlevinson.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

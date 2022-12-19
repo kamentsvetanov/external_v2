@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>FWT2D :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="FWT.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="genewei.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">FWT2D</h1>
+        <p>Computes the Forward Discrete Wavelet Transform of a 2D signal</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>WT = FWT2D(X,NL,FILTER1)<br>
+                WT = FWT2D(...,FILTER2)<br>    
+                [WT, WTI, WTL] = FWT2D(...)<br>
+                WT = FWT2D(X,NL,FILTER1,0,STRUCT) or WT = FWT2D(X,NL,FILTER1,FILTER2,STRUCT)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>WT = FWT2D(X,NL,FILTER1)</tt> Computes the discrete wavelet transform, <tt>WT</tt>, of the input signal <tt>X</tt>.
+            <tt>WT</tt> is an orthogonal transform computed using a number of decomposition levels, <tt>NL</tt>, and the
+            analysis filter, <tt>FILTER1</tt>. The parameter <tt>NL</tt> is a positive integer bigger than 1 and should not
+            exceed <tt>NL = log2(min(size(x)))</tt>.
+        </p>
+                
+        <p><tt>WT = FWT2D(...,FILTER2)</tt> Computes the biorthogonal discrete wavelet transform, <tt>WT</tt>, using a second filter,
+            <tt>FILTER2</tt>.
+        </p>
+        
+        <p><tt>[WT,WTI,WTL] = FWT2D(...)</tt> Computes the discrete wavelet transform, <tt>WT</tt>, and returns the vectors <tt>WTI</tt> 
+            and <tt>WTL</tt>. <tt>WTI</tt> contains the indexes in <tt>WT</tt> of the projection the input signal <tt>X</tt>
+            on the multiresolution subspaces. <tt>WTL</tt> contains the dimension of each projection.
+        </p>
+        
+        <p><tt>WT = FWT2D(X,NL,FILTER1,0,STRUCT)</tt> or <tt>WT = FWT2D(X,NL,FILTER1,FILTER2,STRUCT)</tt> Computes the discrete wavelet
+            transform, <tt>WT</tt>, <tt>WTI</tt> and <tt>WTL</tt> using the boolean, <tt>STRUCT</tt>.
+            <ul><table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>STRUCT = 1</tt></td><td bgcolor="#F2F2F2"><p>The output signal <tt>WT</tt>
+                        is a structure that contains the type of data, <tt>WT.type</tt>, which is a dwt2d, the discrete wavelet transform, 
+                        <tt>WT.wt</tt>, the indexes <tt>WT.index</tt> and the dimension <tt>WT.length</tt>.</p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Computation of the Forward Discrete Wavelet Transform</h3>
+            <p class="synopsis">
+                <tt>x = rand(256,256); q = MakeQMF('daubechies',4);<br>
+                    figure; imagesc(x); title('Input signal');<br>
+                    [wt,wti,wtl] = FWT2Dc(x,3,q);<br>
+                    V = WT2Dext(wt,1,2);<br>    
+                    figure; imagesc(V);<br>
+                    title('Multiresolution representation');<br>
+                    % Eliminate the Lowest Frequency component and reconstruct:<br>    
+                    index=0;<br>
+                    for i=1:wtl(3,1),for j=1:wtl(3,2), wt(wti(3,4)+index) = 0; end; end;<br>
+                    y = IWT2D(wt);<br>
+                    figure;imagesc(y);<br>
+                    title('Inverse discrete wavelet transform');
+                </tt>
+            </p>
+            <p><img src="images_examples/TFTS/FWT2D_ex1a.png" height="420" width="561" alt=""></p>
+            <p><img src="images_examples/TFTS/FWT2D_ex1b.png" height="420" width="561" alt=""></p>
+            <p><img src="images_examples/TFTS/FWT2D_ex1c.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="FWT.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">FWT</td><td>&nbsp;</td><td align="right">genewei</td>
+                <td align="right" width="20"><a href="genewei.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

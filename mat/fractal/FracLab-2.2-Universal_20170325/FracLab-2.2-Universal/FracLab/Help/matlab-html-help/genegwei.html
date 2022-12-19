@@ -1,0 +1,138 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>genegwei :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="genewei.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="ifsfif.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">genegwei</h1>
+        <p>Generates a Generalized Weierstrass function</p>  
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>WEI = genegwei(N,H)<br>
+                WEI = genegwei(...,'Method')<br>
+                WEI = genegwei(...,'Propertyname',Propertyvalue)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>WEI = genegwei(N,H)</tt> Generates the generalized Weierstrass function, <tt>WEI</tt>, using a sample size, <tt>N</tt>, and a Holder function <tt>H</tt>. 
+            The parameter <tt>N</tt> is a positive integer and each element of the function <tt>H</tt>, which is in (0,1), prescribes the local Holder
+            regularity of the function <tt>WEI</tt>.
+        </p>
+        
+        <p><tt>WEI = genegwei(...,'Method')</tt> Generates the generalized Weierstrass function, <tt>WEI</tt>, using a specific method. 
+            The supported Methods can be choosen from the list below :
+            <ul><h3>Method Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Method Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'stoc'</tt></td><td bgcolor="#F2F2F2"><p>Stochastic (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'det'</tt></td><td bgcolor="#F2F2F2"><p>Deterministic</p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>H = genegwei(...,'Propertyname',Propertyvalue)</tt> Generates the generalized Weierstrass function, WEI, applying the specified property settings. 
+            The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'support'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>WEI</tt> is computed using a specific size of time support, <tt>TMAX</tt>. The parameter <tt>TMAX</tt>
+                                    is a positive integer.<br> If <tt>'support'</tt> is not specified, the default value is <tt>TMAX = 1</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'frequency'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>WEI</tt> is computed using a specific multiplicative frequency ratio, <tt>L</tt>. The parameter <tt>L</tt> is a positive 
+                                    real superior to 1.<br> If <tt>'frequency'</tt> is not specified, the default value is <tt>L = 2</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'nterms'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>WEI</tt> is computed using a specific number of terms in the sum, <tt>K</tt>. The parameter <tt>K</tt>
+                                    is a positive integer.<br> If <tt>'nterms'</tt> is not specified, the default value is <tt>K = 50</tt>.<br><br>
+                                    <b>NOTE:</b> The number of terms in the sum should be greater than the Nyquist value, <tt>Nyq = log(N/2*TMAX)/log(L)</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'seed'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>WEI</tt> is computed with a specific random seed, <tt>SEED</tt>. This is useful to generate the same path several times
+                                    or to compare the paths of different <tt>WEIs</tt>.<br><br>
+                                    <b>NOTE:</b> This Property can not be used when the <tt>'det'</tt> synthesis method is used.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of a Generalized Weierstrass function with a specific Holder function</h3>
+            <p class="synopsis">
+                <tt>N = 1024; t = linspace(0,1,N); Ht = eval('0.1+0.8*t');<br>
+                    x = genegwei(N,Ht);<br>
+                    figure; plot(t,x)<br>
+                    title('Generaliazed Weierstrass function'); xlabel('time');
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/genegwei_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Synthesis of a deterministic Generalized Weierstrass function with a specific Holder function</h3>
+            <p class="synopsis">
+                <tt>N = 2048; t = linspace(0,1,N); Ht = eval('0.1+0.8*t');<br>
+                    x = genegwei(N,Ht,'det');<br>
+                    figure; plot(t,x);<br>
+                    title('Deterministic Generalized Weierstrass function'); xlabel('time');
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/genegwei_ex2.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 3 : Comparison of different Weierstrass functions using a specific random seed</h3>
+            <p class="synopsis">
+                <tt>N = 2048; t = linspace(0,1,N); Ht = eval('abs(sin(8*t))');<br>
+                    L1 = 5; T1 = 2;<br>
+                    x1 = genegwei(N,Ht,'seed',10);<br>
+                    x2 = genegwei(N,Ht,'frequency',L1,'seed',10);<br>
+                    x3 = genegwei(N,Ht,'support',T1,'seed',10);<br>
+                    figure; subplot(1,2,1); hold on; plot(x1); plot(x2,'r');<br>
+                    legend('frequency = 2','frequency = 5','Location','SouthEast');<br>    
+                    title('Generalized Weierstrass function');<br>
+                    xlabel('number of points'); xlim([0 N]);<br>    
+                    subplot(1,2,2); hold on; plot(x1); plot(x3,'r');<br>
+                    legend('time support = 1','time support = 2','Location','SouthEast');<br>    
+                    title('Generalized Weierstrass function');<br>
+                    xlabel('number of points'); xlim([0 N]);
+                </tt>
+            </p>
+        </ul>
+        <p><img src="images_examples/Synthesis/genegwei_ex3.png" height="460" width="1000" alt=""></p>
+        
+        <h2>See Also</h2>
+        <p><a href="genewei.html"><tt>genewei</tt></a></p>
+                
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="genewei.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">genewei</td><td>&nbsp;</td><td align="right">ifsfif</td>
+                <td align="right" width="20"><a href="ifsfif.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

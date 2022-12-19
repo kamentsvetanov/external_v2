@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>mst_processes :: Functions(FracLab)</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.4.1  (Win32)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="Jacques ">
+	<META NAME="CHANGED" CONTENT="20121119;13593222">
+	<META NAME="chunktype" CONTENT="refpage">
+	<META NAME="CHANGEDBY" CONTENT="Jacques ">
+	<SCRIPT LANGUAGE="JavaScript" SRC="Fraclab/fraclab/Help/matlab-html-help/docscripts.js"></SCRIPT>
+	<link rel="stylesheet" href="docstyle.css" type="text/css">
+	<!--
+		TD P { color: #000000 }
+		H1 { color: #000000 }
+		P { color: #000000 }
+		H1.reftitle { color: #990000; font-weight: normal }
+		H2 { color: #990000 }
+		H2.cjk { font-family: "SimSun" }
+		H2.ctl { font-family: "Mangal" }
+		P.synopsis { margin-left: 0.85cm }
+		A:link { color: #0000ff }
+		TT.cjk { font-family: "NSimSun", monospace }
+	-->
+	</STYLE>
+</HEAD>
+<BODY>
+<a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+<table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="msmlevy.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="msmlinmfrac.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+<H1 CLASS="reftitle">mst_processes</H1>
+<P>Generates a tempered multistable L&eacute;vy Motion 
+</P>
+<H2 CLASS="western">Syntax</H2>
+<P CLASS="synopsis"><TT CLASS="western">tmsm=mst_processes(N,alphat,C,G,M,seed);</TT></P>
+<H2 CLASS="western">Description</H2>
+<P><TT CLASS="western">tmsm=mst_processes(N,alphat,C,G,M,NaN)</TT>
+Generates the tempered multistable L&eacute;vy motion, <TT CLASS="western">tmsm</TT>,
+using a sample size, <TT CLASS="western">N</TT>, a stability
+function, <TT CLASS="western">alphat</TT>, a scale parameter, <FONT FACE="Courier New, monospace">C</FONT>,
+a tempering parameter for the negative jumps, G, a tempering
+parameter for the positive jumps, M, and a random seed, <FONT FACE="Courier New, monospace">seed</FONT>.
+<TT CLASS="western">N</TT> is a positive integer, <TT CLASS="western">alpha</TT>
+is a vector with N samples valued in (0,2), <FONT FACE="Courier New, monospace">C,G</FONT>
+and <FONT FACE="Courier New, monospace">M</FONT> are positive reals. 
+</P>
+<P><TT CLASS="western">tmsm=mst_processes(N,alphat,C,G,M,seed)</TT>
+Generates <TT CLASS="western"><FONT FACE="Times New Roman, serif">the
+tempered multistable L&eacute;vy motion</FONT></TT><TT CLASS="western">,tmsm,</TT>
+with a specific random seed, <TT CLASS="western">seed</TT>. This is
+useful to generate the same path several times or to compare the
+paths of different multistable tempered processes.</P>
+<P>Tempered multistable processes are the multistable extension of
+tempered processes [4]. See [1] for multistable processes, and [2]
+for tempered processes. We only simulate here so-called multistable
+CGMY processes. CGMY processes are introduced in [3]. The synthesis
+is performed in the Fourier domain. Tempering means that one removes
+large jumps. This is done independantly for positive and negative
+jumps. A large G (resp. M) translates into stronger tempering for
+negative (resp. positive) jumps.</P>
+<H2 CLASS="western">Example : synthesis of a tempered multistable
+L&eacute;vy motion with fewer negative jump and linearly increasing
+stability function</H2>
+<UL>
+	<P CLASS="synopsis"><TT CLASS="western"></TT></P>
+	<P CLASS="synopsis"><TT CLASS="western">
+        N=2000; t=linspace(0,1,N);
+	alphat = eval('0.9+1*t');C=0.01;G=8;M=2;<BR>tmsm=mst_processes(N,alphat,C,G,M,NaN);<BR>figure;
+	plot(t,tmsm);<BR>title('Tempered multistable L&eacute;vy motion with
+	alpha(t)= 0.9 +t, C=0.001, G=8, M=2');</TT></P>
+	<P><IMG SRC="MST_compute_html_m5323dd35.png" NAME="images3" ALIGN=LEFT WIDTH=582 HEIGHT=425 BORDER=0><BR CLEAR=LEFT></P>
+</UL>
+<P CLASS="synopsis"><BR><BR>
+</P>
+<H2 CLASS="western">See Also</H2>
+<P><TT CLASS="western"><A HREF="Fraclab/fraclab/Help/matlab-html-help/asmlinfrac.html">asmlinfrac</A>,</TT>
+<TT CLASS="western"><A HREF="Fraclab/fraclab/Help/matlab-html-help/asmornhulen.html">asmornhulen</A>,</TT>
+<TT CLASS="western"><A HREF="Fraclab/fraclab/Help/matlab-html-help/msmlevy.html">msmlevy</A>,
+amslevy, </TT><TT CLASS="western"><FONT FACE="Courier New, monospace">CGMY_principal</FONT></TT></P>
+<H2 CLASS="western">References</H2>
+<P>[1] K. Falconer, J. L&eacute;vy V&eacute;hel &quot;Multifractional,
+multistable, and other processes with prescribed local form&quot;,
+Journal of Theoretical Probability, Vol. 22 (2009) 375-401 
+</P>
+<P>[2] J. Rosinski, Tempering stable processes, Stochastic Process.
+Appl. 117 (2007) 677-707.<BR><BR>[3] Carr, P., Geman, H., Madan, D.,
+and Yor, M. (2002). The &#64257;ne structure of asset returns: an</P>
+<P>empirical investigation. Journal of Business 75, 305&ndash;332.</P>
+<P>[4] J. L&eacute;vy V&eacute;hel, L. Liu, Multistable tempered
+processes, preprint.</P>
+
+<table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="msmlevy.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">msmlevy</td><td>&nbsp;</td><td align="right">msmlinmfrac</td>
+                <td align="right" width="20"><a href="msmlinmfrac.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+</BODY>
+</HTML>

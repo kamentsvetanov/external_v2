@@ -1,0 +1,161 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>contmultspecf :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="estimirs.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="estimGQV2DH.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">contmultspecf</h1>
+        <p>Computes the continuous multifractal spectrum estimation for a 1D function.</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>SPEC = contmultspecf(X)<br>
+                SPEC = contmultspecf(...,'Propertyname',Propertyvalue)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>SPEC = contmultspecf(X,...)</tt> Computes the continuous multifractal spectrum estimation <tt>SPEC</tt> for a 1D function <tt>X</tt>.
+            The code will estimate the multifractal spectrum of any 1D signal. However, for
+            the estimated spectrum to make statistical sense, it is important to check that, 
+            at the considered resolutions, a form of scale invariance holds. This is why errorbars 
+            are displayed along with the spectrum. We emphasize the fact that the errobars are NOT 
+            an indication that the true spectrum lies within the bars.<br>
+            Indeed, the theoretical spectrum may be very different from the one estimated at the 
+            available scales. Rather, small errorbars should be taken as a sign that the estimation 
+            procedure gave consistent results across the considered scales, which means that 
+            the estimation is robust.
+        </p>
+        
+        <p><tt>SPEC = contmultspecf(X)</tt> Estimates the continous multifractal spectrum, <tt>SPEC</tt>, of
+            the input signal, <tt>X</tt> using default property settings. The ouput signal <tt>SPEC</tt> is a graph structure
+            that contains the type of data <tt>SPEC.type</tt>, the alpha values, <tt>SPEC.alpha</tt>, the corresponding
+            spectrum values <tt>SPEC.spec</tt> and the errorbars <tt>SPEC.errors</tt>.
+        </p>
+        
+        <p>
+            <tt>SPEC = contmultspecf(...,'Propertyname',Propertyvalue)</tt> returns 
+            the continous multifractal spectrum <tt>SPEC</tt> applying the specified property settings.
+            The Property setting can be choosen from the list below:
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'sampling',KV</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>Computes <tt>SPEC</tt> using a specific vector <tt>KV = [ALPHADISC,EPSIDICS]</tt>. <tt>ALPHADISC</tt> 
+                                is the number of values used to discretize the abcissa in the spectrum, i.e. the Holder exponents. 
+                                <tt>EPSIDDISC</tt> is the number of values used to discretize the "epsilon" tolerance for the computation of 
+                                the counts (see the reference below for more details).<br><br>
+                                If <tt>SAMPLING</tt> is not specified, the default value is <tt>KV = [30,20]</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'limits',KL</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>Computes <tt>SPEC</tt> using a specific vector <tt>KL = [MINSCALE, MAXSCALE]</tt>. 
+                                The <tt>MINSCALE</tt> and <tt>MAXSCALE</tt> parameters represent respectively the sizes 
+                                for the minimum and the maximum bins. The parameter <tt>KL</tt> is particulary used 
+                                particulary for the kind of pregression (see below).<br><br>
+                                If <tt>LIMITS</tt> is not specified, the default value is <tt>KL = [2,8]</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'base',B</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>Computes <tt>SPEC</tt> using a specific base value, <tt>B</tt>, which defines the step 
+                                for the increase of bin size. The parameter <tt>B</tt> is particulary used 
+                                for the kind of pregression (see below).<br><br>
+                                If <tt>BASE</tt> is not specified, the deafult value is <tt>B = 2</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'PROGRESSION'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>Computes <tt>SPEC</tt> using a specific type of progression, which decides 
+                                how the sizes of the bins increase with scale. The possible <tt>PROGRESSION</tt> that are available are:<br>
+                                <tt>'linear'</tt> in order to use a linear increase by steps of size <tt>BASE</tt>, i.e. the succesive
+                                sizes are: <tt>MINSCALE*BASE,(MINSCALE+1)*BASE,...,MAXSCALE*BASE</tt>.<br>
+                                <tt>'power'</tt> in order to use a power law increase by steps of size <tt>BASE</tt>, i.e. the succesive
+                                size are: <tt>BASE^(MINSCALE-1),BASE^MINSCALE,...,BASE^MAXSCALE</tt>.<br><br>
+                                If <tt>PROGRESSION</tt> is not specified, the default value is <tt>PROGRESSION = POWER</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'KERNEL'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>Computes <tt>SPEC</tt> using a specific type of kernel, which decides how to "count" 
+                                the number of bins having a given coarse-grained Holder exponent at each scale. 
+                                The possible <tt>KERNEL</tt> that are available are: <br>
+                                <tt>'epanechnikov'</tt> in order to use a kernel density estimation based on the Epanechnikov kernel.
+                                <tt>'rectangular'</tt> in order to use a simple count.<br><br>
+                                If <tt>KERNEL</tt> is not specified, the default value is <tt>KERNEL = EPANECHNIKOV</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'ESTIMTYPE'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>Computes <tt>SPEC</tt> using a specific type of method to estimate the most frequent Holder 
+                                exponent of the signal. Contrarily to the case of measures, there is no natural normalization of the samples. 
+                                An affine transform of the input data results in a distorted spectrum. A simple normalization 
+                                is to ensure that the mode of the spectrum coincides with the one of the Holder exponents 
+                                estimated through oscillations. The possible <tt>ESTIMTYPE</tt> that are available are: <br>
+                                <tt>'hqgv'</tt> in order to perform a estimation through Generalized Quadratic Variations,<br>
+                                <tt>'hosc'</tt> in order to perform the estimation from Oscillations,<br>
+                                <tt>'hdwt'</tt> is order to perform a Discrete Wavelet-based estimation.<br><br>
+                                If <tt>ESTIMTYPE</tt> is not specified, the default value is <tt>ESTIMTYPE = HGQV</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'VARTYPE'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>Computes <tt>SPEC</tt> using a specific type of variation which decides how to 
+                                measure the variation of the signal inside a bin. The possible <tt>VARTYPE</tt> that are available are:<br>
+                                <tt>'inc'</tt> in order to use the absolute increments between the endpoints of the bin,<br>
+                                <tt>'osc'</tt> in order to use the oscillation inside the bin.<br><br>
+                                If <tt>VARTYPE</tt> is not specified, the default value is <tt>VARTYPE = INC</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'SMOOTH'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>Computes <tt>SPEC</tt> using the smoothed version of the spectrum or not. 
+                                The possible options that are available are:<br>
+                                <tt>'smooth'</tt> in order to use the smoothed version,<br>
+                                <tt>'nosmooth'</tt> in order to use the non-smoothed version.<br><br>
+                                If the option is not specified, the default value is <tt>option = SMOOTH</tt>.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        <h2>Example</h2>
+        <ul>
+            Synthesize an alpha-stable motion and estimate its multifractal spectrum:
+            <p class="synopsis">
+                <tt>asm_levy0 = asmlevy(4000,1.5,0);<br>
+                    asm_levy0_multspecf0 = contmultspecf(asm_levy0,'hgqv','epanechnikov','inc','smooth','linear','sampling',[30 20],'limits',[2 8],'base',2);
+                </tt>
+            </p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p><a href="contmultspecm.html"><tt>contmultspecm</tt></a></p>
+        
+        <h2>References</h2>
+        <p>
+            [1] J. L&eacute;vy-V&eacute;hel, C. Tricot, "On various multifractal spectra", 
+                Fractal Geometry and Stochastics III, Progress in Probability, C., Bandt, U. Mosco and M. Zahle (Eds), Birkhauser Verlag, Vol. 57, pp.23-42, 2004.<br><br>  
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="estimirs.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">estimirs</td><td>&nbsp;</td><td align="right">estimGQV2DH</td>
+                <td align="right" width="20"><a href="estimGQV2DH.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

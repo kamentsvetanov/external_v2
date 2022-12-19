@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>srmpfbm :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="spotted.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="srmpfbm2d.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">srmpfbm</h1>
+        <p>Generates a Self-Regulating Multifractional Process from a field of fractional brownian motions using an iterative method</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>SRMP = srmpfbm(N,GZ)<br>
+                SRMP = srmpfbm(...,'Propertyname',Propertyvalue)    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>SRMP = srmpfbm(N,H)</tt> Generates the self-regulating multifractional process, <tt>SRMP</tt>, using a sample size, <tt>N</tt>,
+           and a function of z, <tt>GZ</tt>. The parameter <tt>N</tt> is a positive integer and the parameter <tt>GZ</tt> is a vector whose values
+           correspond to a function from <tt>(0,1)</tt> to <tt>(0,1)</tt>.
+           <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p><b>The function <tt>G(z)</tt> link the pointwise Holder exponent to the amplitude</b><br><br>
+                        It means that almost surely at every point <tt>t</tt> is posible to verify the relation <tt>alpha(t) = G(z(t))</tt><br>
+                        Where <tt>alpha</tt> is the pointwise Holder exponent of the signal <tt>z</tt>.
+                    </p>
+                </td></tr></table>
+            </ul>              
+        </p>
+        
+        <p><tt>SRMP = srmpfbm(...,'Propertyname',Propertyvalue)</tt> Generates the self-regulating multifractional process, <tt>SRMP</tt>,
+            applying the specified property settings. The Property setting can be choosen from the list below:
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'shape'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>SRMP</tt> is computed using a specific deterministic <b>prescribed shape</b>, given by the
+                                    function <tt>Ft</tt> and the mixing parameter, <tt>M</tt>.<br>
+                                    <tt>Ft</tt> defines the shape of low frequencies and <tt>M</tt> rules the mixing of <tt>Ft</tt> and the texture. 
+                                    The higher <tt>M</tt> is, the closer the obtained <tt>SRMP</tt> will be to the function <tt>Ft</tt>.<br>
+                                    If <tt>M</tt> is not specified, the default value is <tt>M = 2</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'seed'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>SRMP</tt> is computed with a specific random seed, <tt>SEED</tt>. This is useful to generate the same path several times
+                                    or to compare the paths of different <tt>SRMPs</tt>.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+                
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of self-regulating multifractional process</h3>
+            <p class="synopsis">
+                <tt>N = 1024; z = linspace(0,1,N); gz = eval('1./(1+5*z.^2)');<br>
+                    x = srmpfbm(N,gz);<br>
+                    figure; plot(z,x);<br>
+                    title('Self-regulating multifractional process'); xlabel('time');<br>
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/srmpfbm_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Comparison of different self-regulating multifractional process using a specific random seed</h3>
+            <p class="synopsis">
+                <tt>N = 2048; z = linspace(0,1,N); gz = eval('z');<br>
+                    t = linspace(0,1,N); Ft = eval('.25+1/4.*t.^2.*(1-cos(5*pi*(1./(1+exp(-20*(t-0.6))))))');<br>
+                    srmp1 = srmpfbm(N,gz,'shape',{Ft,2},'seed',10);<br>
+                    srmp2 = srmpfbm(N,gz,'shape',{Ft,10},'seed',10);<br>    
+                    figure; plot(srmp1,'k'); hold on; plot(srmp2,'r');<br> 
+                    legend('srmp1: M = 2','srmp2: M = 10','Location','NorthWest');<br>
+                    title('Self-regulating multifractional process with different values of mixing parameter');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/srmpfbm_ex2.png" height="420" width="561" alt=""></p>
+            
+            <p class="synopsis">
+                <tt>N = 2048; z = linspace(0,1,N);<br>
+                    gz1 = eval('1./(1+5*z.^2)'); gz2 = eval('(1-z).^2');<br>
+                    srmp1 = srmpfbm(N,gz1,'seed',100);<br>
+                    srmp2 = srmpfbm(N,gz2,'seed',100);<br>    
+                    figure; plot(srmp1,'k'); hold on; plot(srmp2,'r');<br> 
+                    legend('srmp1: gz1 = 1/(1+5*z^2)','srmp2: gz2 = (1-z)^2','Location','NorthEast');<br>
+                    title('Self-regulating multifractional process with different functions of z');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/srmpfbm_ex3.png" height="420" width="561" alt=""></p>
+        </ul>
+        <h2>See Also</h2>
+        <p>  
+            <a href="srmpmidpoint.html"><tt>srmpmidpoint</tt></a><tt>,</tt>
+            <a href="srmpfbm2d.html"><tt>srmpfbm2d</tt></a>
+        </p>
+        
+        <h2>References</h2>
+        <p>[1] O. Barri&egrave;re, "Synth&egrave;se et estimation de mouvements Browniens multifractionnaires et 
+               autres processus &agrave; r&eacute;gularit&eacute; prescrite. D&eacute;finition du processus autor&eacute;gul&eacute; 
+               multifractionnaire et applications", PhD Thesis, (2007).<br><br>
+           [2] O. Barri&egrave;re, J. L&eacute;vy-V&eacute;hel, "Intervalles interbattements cardiaques et Processus Auto-R&eacute;gul&eacute; 
+               Multifractionnaire,"  Journal de la Soci&eacute;t&eacute; Fran&ccedil;aise de Statistique, Vol. 150, No. 1, (2009).
+        </p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="spotted.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">spotted</td><td>&nbsp;</td><td align="right">srmpfbm2d</td>
+                <td align="right" width="20"><a href="srmpfbm2d.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

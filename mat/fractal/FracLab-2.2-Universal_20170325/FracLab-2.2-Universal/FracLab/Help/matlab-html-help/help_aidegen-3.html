@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Overview and main functionalities of Fraclab: The View menu</TITLE>
+ <LINK HREF="help_aidegen-4.html" REL=next>
+ <LINK HREF="help_aidegen-2.html" REL=previous>
+ <LINK HREF="help_aidegen.html#toc3" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_aidegen-4.html">Next</A>
+<A HREF="help_aidegen-2.html">Previous</A>
+<A HREF="help_aidegen.html#toc3">Contents</A>
+<HR>
+<H2><A NAME="s3">3. The <B>View</B> menu</A></H2>
+
+<P>
+<P>Clicking on the <EM>View</EM> button opens a new window, which serves as 
+a control center for all the displays (graphs + images) you might want
+to have. This window is composed of four sub-windows : <EM>Figure</EM>, 
+<EM>Image mode</EM>, <EM>Tools</EM>, and finally a originally blank region which
+will contain the list of all opened figures along with the data displayed
+in each figure. This list allows you to select which figure or signal is
+currently active by clicking on it. Only the active element 
+will be affected by the various commands available
+in the other sub-windows of the <EM>View</EM> menu.
+<P> 
+It is important to understand the difference between a
+<EM>View</EM> and the data displayed in it. A <EM>View</EM> corresponds to a 
+Matlab figure that will display one or several graphs or images. The
+case of several graphs corresponds to the use of the <EM>sub-plot</EM> 
+command in Matlab. Since, in the case of multiple plots, you might 
+want to apply a different processing to each sub-plot, you need to tell
+<B>Fraclab</B> which sub-plot is the current one. This is why the list at
+the bottom of the <EM>View</EM> window will show the name of
+all the opened views (i.e. Matlab figures) numbered in the 
+chronological order of their appearance,
+and, for each of these views, the name of the signals that 
+are shown in this figure as
+plots or sub-plots. This will allow you to select either a whole figure
+or one of its sub-plot. For instance, some viewing options 
+such as <EM>hold</EM>,  <EM>rotate</EM>
+or  <EM>zoom</EM> are available only when a particular signal is highlighted,
+and are grayed out when the whole view is highlighted. Note finally that 
+clicking in the list either on a view or on one of the signals 
+that it contains
+will bring the corresponding window to the foreground, a useful feature
+if you have many opened windows or/and if you do not remember which
+signal is which.
+<P>
+<P>
+<P>
+<H2><A NAME="ss3.1">3.1 The <B>Figure</B> sub-window</A>
+</H2>
+
+<P>
+<P><EM>view in new</EM> : opens a new figure which will display the highlighted 
+data in the <EM>Variables</EM> zone of the main window.
+<P><EM>view</EM> : displays the highlighted variable in the current 
+figure, i.e. the one which is highlighted in the figures list. 
+Depending on whether the <EM>hold</EM> button in the <EM>Tools</EM> 
+sub-window is selected or not, pressing <EM>view</EM> will replace the 
+current plot or will be placed on top of it.
+<P><EM>close all</EM> : Usually, you will probably find it more convenient to
+keep the <EM>View</EM> window opened at all time. However, pressing this
+button will close all figures, control panels and toolbar.
+<P>
+<P>
+<P>
+<H2><A NAME="ss3.2">3.2 The <B>Image mode</B> sub-window</A>
+</H2>
+
+<P>
+<P>This menu is active only when an image is selected in the list, and is
+grayed out when either a <EM>view</EM> is selected (because <B>Fraclab</B> 
+needs to know which image must be
+processed and not merely which view is the current one) or a 1D signal 
+is  currently active (indeed, the processings in this sub-window make 
+no sense for 1D signals).
+<P>
+<P>
+<P><EM>image control</EM> opens the image control panel (note that 
+<EM>image control</EM> is grayed out when the image control panel is already
+displayed). This panel first recalls which data is being processed in
+the <EM>plot</EM> line. 
+<P>The <EM>mode</EM> button then 
+allows to choose how the data
+should be displayed : as an image, a contour plot, a mesh, a surface, or
+as a superposition of 1D signals which might be its lines or columns. In
+addition, a particular line/column might be selected for display.
+<P><EM>colormap</EM> selects a color map for the display.
+<P><EM>dynamic</EM> allows to toggle between a linear and a logarithmic dynamic 
+for both the numerical and graphical display of the data.
+<P><EM>min level</EM>, <EM>max level</EM> : these boxes allows you to enter the 
+interval in which the data must fall in order to be displayed. Pixels
+with grey levels outside this range will be clipped.
+<P><EM>value</EM> governs the way the data are <B>numerically</B> displayed, for 
+instance in the <EM>min level</EM> and <EM>max level</EM> boxes, or in the
+<EM>get point</EM> box :
+<EM>normalized</EM> will forces the output to be between 0 and 1, while 
+<EM>true</EM> causes the real values to be displayed
+<P><EM>display</EM> toggles between a <EM>normalized</EM> and a <EM>true</EM> display
+for the  <B>grey levels</B> in the image.
+<P><EM>binary</EM> displays all the pixels with grey level between
+<EM>min level</EM> and <EM>max level</EM> in white and all others in black.
+<P><EM>reverse</EM> revert the order of the color map. This is particularly useful
+in conjunction with <EM>binary</EM> to toggle between "in" and "out" pixels.
+<P><EM>get point</EM> : pressing this button will bring the image figure
+to the foreground and display a cross that you may center at any point.
+Clicking will cause <B>Fraclab</B> to display the coordinates of the chosen
+point along with its grey level in the box to the right. Whether the
+displayed grey level will be the true one, a normalized one, or a binary
+one depends on the choices described above. Note that it is possible to
+zoom in the image before activating <EM>get point</EM> to gain more 
+precision. As said in the <EM>Message</EM> line of the main window, press 
+Enter in the image to get out of this mode, or click again on 
+<EM>get point</EM>.
+<P><EM>axis</EM> : toggles the aspect ratio between the true axis of the image 
+and the Matlab default.
+<P><EM>x axis - y axis</EM> : enables to load a new array to use as axes, when
+the data are displayed as anything but an image.
+<P>
+<P>Note that the chosen modifications do not result in an immediate
+update of the display. Rather, you need to press <EM>Apply</EM> to see the 
+effects of your choices.
+<P>The second button in <EM>Image mode</EM> is <EM>superpose</EM>. This allows to
+lay an image on the top of another one with a control of the
+"transparency". This works like a kind of <EM>hold</EM> facility for
+images, with additional functionalities. The main purpose of this is
+to compare an original image with e.g. its segmented version. More
+generally, you'll find this feature helpful when you need to compare
+two images one of which (at least) is "sparse" (like is a image of
+contours). Note however that you may perfectly use it for any kinds of
+images, for instance to compare consecutive images in a sequence. In
+practice, this is what you do: first display an image and select it in
+the views list.  The <EM>superpose</EM> button should now be
+clickable. Select another image in the <B>Variables</B> list of the main
+window and press <B>view</B>. A new window titled <B>Superpose
+Parameters</B> appears, that allows to choose two parameters : the
+<EM>lut ratio</EM> decides how many entries in the current color map will
+be available for each image, while the <EM>threshold</EM> parameter
+controls the "amount" of each image that will actually be
+displayed. Let us detail this a little bit: The <EM>lut ratio</EM> may be
+varied between 0.5 and 1, i.e. the first image will used between one
+half and the whole of all available colors (or grey levels). Of
+course, when <EM>lut ratio</EM> = 1, you will not see the second
+image. Assume to simplify that your color map has 100 entries and that
+<EM>lut ratio</EM> = 0.8. Then prior to displaying, the first image will
+have its grey levels linearly re-mapped between 0 and 80, and the second one
+between 80 and 100. Second, if <EM>threshold</EM> is 0, only the second
+image will be displayed, while if <EM>threshold</EM> is 1 - <EM>lut
+ratio</EM> (this is the maximum possible value), you'll see only the
+first image. Setting <EM>threshold</EM> between these extremes allows you
+to balance the relative strength of the two images. Choose values
+for the <EM>lut ratio</EM> and the <EM>threshold</EM> and press <B>Apply</B> to
+see the effects of your selections. Experiment with other values until
+you are happy with the result. You may then <B>Close</B> the
+<B>Superpose Parameters</B> window.
+<P>Two known bugs of the <EM>superpose</EM> mode are the following: when you
+press <B>Apply</B>, the scalings of the axes are changed to the default
+matlab aspect ratio.  Second, if you de-select <EM>superpose</EM>, the
+<B>Superpose Parameters</B> window does not close. This would not be a
+problem, except that it will yield an error next time you will press
+the <B>Apply</B> button. Thus, when you de-select <EM>superpose</EM>, remember
+to close also the <B>Superpose Parameters</B> window.
+<P>
+<P>
+<P>
+<H2><A NAME="ss3.3">3.3 The <B>Tools</B> sub-window</A>
+</H2>
+
+<P>
+<P><EM>hold</EM> causes the current plot to be held,
+so that subsequent graphs are displayed on top of it.
+<P><EM>rotate</EM> interactively rotates the view of a plot.
+<P><EM>zoom</EM> allows to zoom on the current plot or image by selecting a
+region with the mouse.
+<P><EM>Vsplit</EM> performs a vertical split of the figure in as many sub-plots
+as are specified in the box to the right.
+<EM>Hsplit</EM> does the same for horizontal sub-plots.
+Thus, to have a figure with <EM>m</EM> horizontal sub-plots and <EM>n</EM> 
+vertical sub-plots, enter <EM>m</EM> in the <EM>Hsplit</EM> box,
+<EM>n</EM> in the <EM>Vsplit</EM> 
+box, select one by one the desired graphs in the <EM>Variables</EM> 
+window and press each time <EM>view</EM> : the data will be displayed
+sequentially in the corresponding sub-plots.
+<P>
+<P>Pressing <EM>axes</EM> opens the <EM>axes control panel</EM> which allows to 
+set up various parameters : the <EM>Scale type</EM> chooses between
+linear, semi-logarithmic or bi-logarithmic plots, the <EM>X range</EM> and
+<EM>Y range</EM> decides which parts of the data are to be displayed. For 
+1D signals, various <EM>Aspect</EM> parameters can be specified :
+<P><EM>mark</EM> changes the symbol used to draw the computed points, 
+<EM>line</EM> selects the symbol used to draw lines between the computed 
+points, <EM>color</EM> defines the color of the plot, <EM>width</EM> controls 
+the width of the line. Finally, the boxes <EM>red - green - blue</EM> allows
+to finely adjust the color of the line.
+<P><EM>print</EM> opens the print control panel that allows to save the figure
+or print it with various options.
+<P><EM>close figure</EM> closes the selected view and all its sub-plots.
+<P>
+<P>
+<HR>
+<A HREF="help_aidegen-4.html">Next</A>
+<A HREF="help_aidegen-2.html">Previous</A>
+<A HREF="help_aidegen.html#toc3">Contents</A>
+</BODY>
+</HTML>

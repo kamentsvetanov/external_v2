@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>ifsfif :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="genegwei.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="ifsgfif.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">ifsfif</h1>
+        <p>Generates a Fractal Interpolation Function based on Iterated Function System</p>  
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>IFS = ifsfif(N,MI,VC)<br>
+                IFS = ifsfif(...,'Shape')<br>
+                [IFS,Y] = ifsfif(...)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>IFS = ifsfif(N,MI,VC)</tt> Generates the signal, <tt>IFS</tt>, using a sample size, <tt>N</tt>, interpolation points, 
+            arranged as a <tt>kx2</tt> matrix, <tt>MI</tt>, and contraction coefficients, arranged as a column vector, <tt>VC</tt>.
+            The parameter <tt>N</tt> is a positive integer and the parameters <tt>MI</tt> and <tt>VC</tt> are reals.
+            <b>With k interpolation points, (k-1) contraction coefficients are necessary</b>.
+        </p>
+        
+        <p><tt>IFS = ifsfif(...,'Shape')</tt> Generates the signal, <tt>IFS</tt>, using a specific type of interpolation. 
+            The supported Shapes can be choosen from the list below :
+            <ul><h3>Interpolation Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Interpolation Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'affine'</tt></td><td bgcolor="#F2F2F2"><p>Affine interpolation (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'sinusoidale'</tt></td><td bgcolor="#F2F2F2"><p>Sinusoidale interpolation</p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>[IFS,Y] = ifsfif(...)</tt> Generates the fractal interpolation function, <tt>IFS</tt>, and returns at the same time the vector <tt>Y</tt>,
+            containing the set of points corresponding to the abscissa of each point of the signal <tt>IFS</tt>.
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of a Fractional Interpolation Function</h3>
+            <p class="synopsis">
+                <tt>N = 1024; t = linspace(0,1,N);<br>
+                    Mxx = [0 0;0.5 1;1 -1]; Myy = [0.5;0.9];<br>
+                    x = ifsfif(N,Mxx,Myy);<br>
+                    figure; plot(t,x);<br>
+                    title('Signal with affine interpolation'); xlabel('time');
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/ifsfif_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Synthesis of a signal and its set of abscissa points</h3>
+            <p class="synopsis">
+                <tt>N = 4096; Mxx = [0 0.5;0.7 -1;1 2;1.4 -2]; Myy = [0.5;-0.9;0.2];<br>
+                    [x,y] = ifsfif(N,Mxx,Myy,'sinusoidal');<br>
+                    figure; plot(y,x);<br>
+                    title('Signal with sinusoidal interpolation'); xlabel('y points');
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/ifsfif_ex2.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p><a href="ifsgfif.html"><tt>ifsgfif</tt></a>, <a href="ifstfif.html"><tt>ifstfif</tt></a></p>
+        
+        <h2>References</h2>
+        <p>
+            [1] K. Daoudi, J. Levy Vehel and Y. Meyer "Construction of continuous functions with prescribed local regularity", Constructive Approximation, Vol. 014(03) (1998), 349-385.<br><br>  
+            [2] J. Levy Vehel and K. Daoudi "Generalized IFS for Signal Processing", IEEE DSP Workshop, Loen, Norway, September 1-4, 1996.
+        </p>
+                
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="genegwei.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">genegwei</td><td>&nbsp;</td><td align="right">ifsgfif</td>
+                <td align="right" width="20"><a href="ifsgfif.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The Segmentation pop-up menu: The Image Multifractal Segmentation sub-menu</TITLE>
+ <LINK HREF="help_segmentation-4.html" REL=next>
+ <LINK HREF="help_segmentation-2.html" REL=previous>
+ <LINK HREF="help_segmentation.html#toc3" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_segmentation-4.html">Next</A>
+<A HREF="help_segmentation-2.html">Previous</A>
+<A HREF="help_segmentation.html#toc3">Contents</A>
+<HR>
+<H2><A NAME="s3">3. The <B>Image Multifractal Segmentation</B> sub-menu</A></H2>
+
+<P>
+<P>
+<P>
+<P>
+<H2><A NAME="ss3.1">3.1 Description.</A>
+</H2>
+
+<P>
+<P>The principle of multifractal based image segmentation is the
+following: it seems intuitively clear that points in an image can be
+classified according to their Hölder exponent. Let us take the example
+of points lying on contours. These points often correspond to
+discontinuities of the grey level map or of its derivative. They thus
+have in general "low" Hölder regularity. However, the exact value of
+the exponent will depend on the characteristics of the image. In
+addition, the property of being an edge is not purely local, and one
+needs a global criterion in order to decide that a given point is an
+edge point: indeed, points lying in textured regions also have in
+general a low regularity, and one has to find a way to distinguish
+them from contours. This is where the second component of multifractal
+analysis enters: since edges are by definition sets of points of
+dimension one, we shall declare a point to lie on a contour if it has
+a exponent such that the associated value of the multifractal spectrum
+is one (see below for more on multifractal spectra). Note that, in
+addition to this geometrical characterization of edge points, a
+statistical one is possible: edge points may be defined through their
+probability of being hit when a pixel is randomly chosen in the image
+at a given resolution. The link between the geometrical and
+statistical characterizations is provided by the multifractal
+formalism.  Instead of detecting edges, one can extract more
+complicated structures using the same principles: Starting again from
+the Hölder exponents, one can decide to keep those points where the
+spectrum has any given value. For instance, choosing a value around
+1.5 will in general allow to extract very irregular contours. A value
+close to 2 will correspond either to smooth regions or to
+textures. The general procedure is the then following: One starts by
+computing the Hölder exponent at each point. This yields the image of
+Hölder exponents. The second step is to compute the multifractal
+spectrum. Finally, one chooses which kind of points to extract,
+i.e. points on smooth edges, textures, etc..., by specifying the
+corresponding value of the spectrum. The segmented image is then
+computed. At each step, several choices are available, that
+we proceed to describe now.
+<P>The first part of the <B>Multifractal Image Segmentation</B> menu lets
+you choose the <B>Analyzed image</B> as in any other menu. Second, one
+may specify a <B>Reference</B> image. If no reference image is given,
+the multifractal analysis will be performed in the usual way. In
+technical terms, this means that all the analysis is performed with
+respect to the Lebesgue measure: Exponents are computed by comparing
+the content of a region with its size, etc... If a reference image R
+is chosen, then the content of the original image will be compared to
+that of R.  This is called <EM>mutual multifractal analysis</EM>. A major use
+of this is when one is interested in detecting changes in sequences of
+images: One compare each image to its predecessor in the sequence. To
+choose a reference image, proceed in the same way as usual: highlight
+an image in the <B>Variables</B> zone of the main window, and hit
+<B>Refresh</B> on the line of <B>Reference</B>. If you change your mind and decide not to perform a
+mutual analysis, just unmark the box called <B>use</B> below the item
+<B>Reference image</B> in the second part of the menu. If you have
+already computed an image of Hölder exponent that you want to use,
+highlight it in the main window and hit the <B>Refresh</B> button on the
+line of <B>Hölder Image</B>. The same holds if you want to re-use a
+spectrum already computed: highlight it and hit the <B>Refresh</B>
+button on the line of <B>Spectrum</B>. Of course, in the usual case
+where no Hölder image and/or spectrum exist, you just leave these
+boxes blank. Each time you compute a new Hölder image or a new
+spectrum, they will automatically be updated, so that you know which
+data you are using for segmentation.
+<P>The second part of this menu deals with the computation of the
+<B>Pointwise Hölder exponent</B>. You first choose the <B>Capacity</B>
+from a choice of <B>sum, lpsum, min, max, iso, adaptive iso</B>.  These
+corresponds to different ways of measuring the content of a given
+region in the image: by choosing <B>sum</B>, you associate to each region
+the sum of the grey level of the pixels in it. <B>lpsum</B> computes the
+Lp norm, i.e. the 1/p-power of the sum of the p-powers of the
+individual grey levels (in the current release of <B>Fraclab</B>, p is
+fixed to 2). <B>min</B> measure the region content by the minimum of the
+grey levels of its pixels, and <B>max</B> of course by the maximum of
+the grey levels. Finally, <B>iso</B> assigns to a region the cardinal of
+the largest subset of pixels having the same grey level. For instance,
+if a region is composed of N pixels all having different grey levels,
+its iso capacity will be one. If all pixels have the same grey level,
+the iso capacity is N, etc.. The <B>adaptive iso</B> is a refinement of
+this taking into account a possible noise in the image. The most
+important capacities are the sum, max, and iso ones. The choice of one
+capacity rather than another one should be performed on a trial and
+error basis. As a general rule, max, min and (adaptive) iso capacities
+give more robust and meaningful results. In any case, you should
+experiment with different capacities and look at the result before you
+decide which one you choose: Different capacities will often highlight
+different aspects of your image. 
+<P>Since the Hölder exponent at any point (x,y) will be computed using regressions on
+windows centered at (x,y) with increasing sizes, you may as usual
+decide the range of sizes of these windows. <B>min size</B> and <B>max
+size</B> lets you choose the minimum and maximal sizes of the involved
+windows. Finally, recall to check or not the <B>use</B> box if you wish
+to perform a mutual analysis. When you're done, hit <B>Compute
+Hölder</B>, and the image of Hölder exponents, called <EM>hld2dCoef_image#</EM>,
+will appear both in this menu on the line <B>Hölder image</B>, and in
+the <B>Variables</B> list of the main window. You may want to view this
+image, as it often contains the most interesting segmentation
+information.
+<P>The next step is to compute a multifractal spectrum. You need first to
+choose which spectrum you want to use, using the list facing the
+<B>Spectrum</B> item. There are three of them. The <B>Hausdorff</B>
+spectrum gives geometrical information pertaining to the dimension of
+sets of points in the image having a given exponent. Basically, you
+will compute some sort of box dimensions (not quite in fact) for these
+sets of points. You thus need to tell <B>Fraclab</B> the minimum and
+maximum sizes of the boxes used to estimate the dimension. Use for
+this the <B>min boxes</B> and <B>max boxes</B> facilities. Be warned that
+excessive <B>max boxes</B> sizes (over 64) will result in long
+computation times. Increasing the <B>min boxes</B> yields smoother but
+less precise spectra. When you hit <B>Compute spectrum</B>, a new 1D
+signal, the spectrum, will be added to the main window, the name of
+which is of the form <EM>hSpectrum_image_fd2d_alpha#</EM>, where "image" is
+the name of your original data and # is an incremental number. This
+spectrum is a curve where abscissa represent all the Hölder exponents
+that occur in your image, and the ordinate is the dimension of the
+sets of pixels with a given exponent. This signal also appears on the
+line <B>Spectrum</B> of this menu.
+<P>The second spectrum is the <B>large deviation</B> spectrum. This
+spectrum yields a statistical information, related to the probability
+of finding a point with a given exponent in the image (or more
+precisely, how this probability behaves under changes of
+resolution). The computation is based on techniques used in density
+estimation, and uses a kernel. You need to tell <B>Fraclab</B> how the
+size of the kernel will be chosen, by selecting, in front of the item
+<B>adaptation</B>, one of <B>maxdev</B>, <B>diagonal</B>, <B>double kernel</B>
+and <B>manual</B>. Only <B>maxdev</B> and <B>manual</B> are implemented in
+the current version of <B>Fraclab</B>. Choosing <B>maxdev</B> will make
+<B>Fraclab</B> use an optimal, signal dependent, size computed from some
+empirical statistical criterion. If you rather want to go for
+<B>manual</B>, then the system will use a fixed value, that has been
+found to be acceptable in a number of situations. Note that in this
+simplified version of the spectrum computation, you cannot enter a
+numerical value in the <B>manual</B> mode, contrarily to what happens in
+the <B>1D signals Multifractal Spectra</B> estimation menu.
+<P>You then choose the shape of the kernel, by selecting in front of
+<B>kernel</B> one of <B>gaussian</B>, <B>boxcar</B>, <B>epanechnikov</B>,
+<B>mollifier</B> and <B>triangle</B> (consult any book on density
+estimation to know more about these kernels). Finally, you need to
+decide at which resolution the spectrum will be estimated. High
+resolution (small value for the parameter <B>coarse graining
+resolution</B>) results in higher accuracy, while low resolution (large
+value for the parameter <B>coarse graining resolution</B>) yields more
+robust results. When you hit <B>Compute spectrum</B>, the 1D signal
+<EM>gSpectrum_image_fg2d_alpha#</EM> is created, where "image" is the name of
+your original data and # is an incremental number. This spectrum is
+a curve where abscissa represent all the Hölder exponents that
+occur in your image, and the ordinate is some sort of probability of
+hitting a pixel with a given exponent.
+<P>The third spectrum is called the <B>Legendre</B> spectrum. It is just a
+concave approximation to the large deviation spectrum. Its main
+interest is that it usually yields much more robust estimates, though
+at the expense of a loss of information. No further parameters are
+necessary for computing this spectrum. The output is called
+<EM>lSpectrum_image_fl2d_alpha#</EM>. Note that the Legendre spectrum always
+assumes that you are working with the sum capacity. In other words,
+whatever your choice of the capacity is, <B>Fraclab</B> will always
+compute the Legendre spectrum as though the Hölder exponent had been
+computed with respect to the sum capacity.
+<P>Once you have obtained an image of Hölder exponents and a spectrum,
+you may proceed to the <B>Segmentation</B> part of the menu. The
+principle is simple: you just need to choose a range of dimensions,
+between <B>min dim.</B> and <B>max dim.</B>. Hitting <B>Compute seg.</B>
+will then extract from the original image those points the exponent of
+which have a corresponding value of spectrum that falls inside this
+range of dimensions. <B>Fraclab</B> will output a binary image, called
+<EM>seg_image#</EM>, where the extracted points are in white and everything
+else is black.  As said above, choosing approximately [0.75,1.25] will
+hopefully result in many cases in a reasonable edge detection. Setting
+the range to, say, [1.5,2], will yield a "fat" binary image (i.e. of
+dimension 2) containing smooth regions and/or textures.
+<P>Finally, the last line of this sub-menu includes the familiar
+<B>Compute all</B> (pressing this will launch the computation of all
+phases of the segmentation), <B>Help</B> and <B>Close</B> buttons.
+<P>Since this menu contains a whole lot a parameters the influence of
+which is not always easy to understand, every effort has been made to
+choose default values which give reasonable results in a variety of
+situations. Thus you should not be too much concerned with tuning
+finely the various parameters. As a rule, only the choice of the
+capacity and associated minimum and maximum sizes, plus the <B>min
+dim.</B> and <B>max dim.</B> values should be extensively investigated.
+<P>
+<P>A last comment: the shape of the spectra for a typical image is very
+different depending on the capacity: for the sum capacity, it generally has
+an approximately bell shape. For the max capacity, it looks more like
+a segment of the form y = 2 - ax, with a > 0, as for the iso one, it
+would resemble y= ax, again with a >0.
+<P>
+<P>
+<P>
+<H2><A NAME="ss3.2">3.2 Known bugs</A>
+</H2>
+
+<P>
+<P>When you launch the <B>Multifractal Image Segmentation</B> menu, the
+currently highlighted signal in the main window is not selected by
+default in the <B>Analyzed</B> box. Sometimes no signal at all is
+selected, other times you get previously processed images. You thus need
+to press <B>Refresh</B> to select the signal you wish to process.
+<P>The computation of the spectra is quite unstable in this version,
+specially the large deviation and Legendre ones. You may thus either
+stick to the Hausdorff spectrum, or use the defaults for the large
+deviation spectrum, or be prepared to launch several times the
+computation before <B>Fraclab</B> accepts to compute a meaningful spectrum.
+Sometimes it is a good idea to close the window and start afresh. You
+may also try and change various parameters such as the kernel shape
+and the maxdev/manual choice. Usual signs that a problem occurred are
+a) an error message in your matlab windows, or b) the "NaN" symbols
+appearing in the <B>min dim.</B> and <B>max dim.</B> boxes. Recall also
+that the Legendre spectrum is always computed assuming that the used
+capacity is the sum one.
+<P>
+<P>
+<P>
+<HR>
+<A HREF="help_segmentation-4.html">Next</A>
+<A HREF="help_segmentation-2.html">Previous</A>
+<A HREF="help_segmentation.html#toc3">Contents</A>
+</BODY>
+</HTML>

@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>multinom2d :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="multinom.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="multinomstoc.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">multinom2d</h1>
+        <p>Generates a pre-multifractal deterministic 2D measure related to Multinomial Measure</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>MES = multinom2d(BASE,S,VP)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>MES = multinom2d(BASE,S,VP)</tt> Generates the pre-multifractal deterministic 2D measure, <tt>MES</tt>, using a base of the multinomial, <tt>BASE</tt>, 
+            a number of scales, <tt>S</tt> and a vector <tt>VP</tt> containing the weight coefficients. The parameters <tt>BASE</tt> and <tt>S</tt> are
+            positive integers not smaller than 2, <tt>BASE</tt> must be a <tt>(X,Y)</tt> vector and the elements in the parameter <tt>VP</tt> are reals in(0,1).
+            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p>The matrix size, <tt>[N1,N2]</tt>, of the generated signal is defined by the base value and the number of scales : <tt>[N1 N2] = (BASE(X)*BASE(Y)).^S</tt><br>
+                        The number of weight coefficients in <tt>VP</tt> must be equal to the product, <tt>BASE(X)*BASE(Y)</tt> and the sum of the coefficients must be equal to 1.
+                    </p>
+                </td></tr></table>
+            </ul>              
+        </p>
+                
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of a pre-multifractal measure</h3>
+            <p class="synopsis">
+                <tt>B = [2,2]; S = 8;<br>
+                    x = multinom2d(B,S,[0.1 0.2;0.3 0.4]);<br>
+                    figure; imagesc(x);<br>
+                    title('Pre-multifractal 2D measure with deterministic multinomial');
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/multinom2d_ex1.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p>  
+            <a href="multinomstoc2d.html"><tt>multinomstoc2d</tt></a>
+        </p>
+        
+        <h2>References</h2>
+        <p>
+            [1] Carl J. G. Evertsz and Benoit B. MandelBrot, "Multifractal Measures", Chaos and Fractals, New Frontiers of Science, Appendix B, 
+                Peitgen, Juergens and Saupe, Springer Verlag, Springer Verlag (1992) 921-953.<br>
+            [2] Benoit B. MandelBrot, "A class of Multinomial Multifractal Measures with negative (latent) values for the 'Dimension' f(alpha)", 
+                Fractals' Physical Origins and Properties, Proceeding of the Eric Meeting, 1988, L. Pietronero, Plenum Press, New York (1989) 3-29.
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="multinom.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">multinom</td><td>&nbsp;</td><td align="right">multinomstoc</td>
+                <td align="right" width="20"><a href="multinomstoc.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

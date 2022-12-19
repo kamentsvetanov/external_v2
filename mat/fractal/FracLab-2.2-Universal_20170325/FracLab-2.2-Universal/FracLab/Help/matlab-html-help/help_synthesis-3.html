@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The Synthesis pop-up menu: Measures</TITLE>
+ <LINK HREF="help_synthesis-4.html" REL=next>
+ <LINK HREF="help_synthesis-2.html" REL=previous>
+ <LINK HREF="help_synthesis.html#toc3" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_synthesis-4.html">Next</A>
+<A HREF="help_synthesis-2.html">Previous</A>
+<A HREF="help_synthesis.html#toc3">Contents</A>
+<HR>
+<H2><A NAME="s3">3. Measures</A></H2>
+
+<P>
+<P>This sub-menu allows to synthesize various multinomial measures. Such
+measures serve as a paradigm in multifractal analysis, because they
+are simple to build and their possess a rich multifractal
+structure. Moreover, their multifractal spectra are easy to compute
+(at least in the deterministic case and in certain random
+situations). Finally, they are examples where the "multifractal
+formalism" holds, i.e. the Hausdorff, large deviation and Legendre
+multifractal spectra all coincide (see the help on the <B>1D
+Multifractal Spectra Estimation</B> for some details on the spectra, or
+references (10) and (11)). In this menu, you can construct both
+deterministic and random 1D and 2D measures. In addition, when the
+spectrum is theoretically known, you can let <B>Fraclab</B> compute it
+for you from the analytical formula using the parameters you chose for
+the measure.
+<P>All 1D multinomial measures in this menu are built in the following
+way: Choose a "base" b, i.e. a integer larger than 1, and b "weights"
+m1, ..., mb. These weights are non negative reals which add to 1, and
+they may be thought of as a probability vector. Starting from the
+uniform measure on the interval [0,1], construct recursively a
+sequence of measures by splitting the support into b sub-intervals of
+same length and distributing the mass unevenly according to the
+weights. For instance, if b=2, after the first iteration, we have the
+two intervals [0,1/2], having mass m1, and [1/2, 1], with mass m2.
+The second iteration yields a measure which attributes mass m1xm1 to
+[0,1/4], m1xm2 to [1/4,1/2], m1xm2 again to [1/2,3/4], and m2xm2 to
+[3/4,1], etc... In two dimensions, the principle is the same, except
+we split the square [0,1]x[0,1] into sub-squares at the first step, and
+iterate from this. Although the mathematical results about
+multifractality only hold in the limit of infinite iteration we
+obviously have to stop at some level in practice: this is the
+<B>resolution</B> parameter, that you may set using the slider or by
+entering directly a value in the corresponding box. Note that if you
+choose to large a resolution, you may exceed the capacities of
+<B>Fraclab</B>: in this case, a error message will appear in the
+<B>Message</B> line of the main window. A known bug of this routine is
+that sometimes the error message does not disappear when you correct
+your parameter, so that you have to <B>Erase</B> it manually, and choose
+a smaller value for the resolution. To the right of the
+<B>resolution</B> box is the <B>#number of intervals</B> box. This is a
+non-editable zone, which tells you how many intervals you'll get at
+the end, i.e. how many different values the final measure will
+assume. This number depends on the <B>resolution</B>, the
+<B>dimension</B>, and the <B>base</B>.  Next, choose to synthesize a
+<B>1d</B> or a <B>2d</B> measure by checking the appropriate box in front
+of <B>dimension</B>. Depending on your choice, the output will be a 1D
+signal or an image. The next parameter is the base, i.e. the number in
+which you split each interval at each resolution. If you chose
+<B>1d</B>, you need only to decide a value for <B>base x</B>, and <B>base
+y</B> is grayed out in this case. Otherwise, you may decide to split the
+original square into a different number of parts in the x and y
+dimensions. With the default values of 7 for the <B>resolution</B> and 3
+for the <B>base x</B>, in the 1D case, <B>Fraclab</B> will iterate three
+times the process of splitting each interval into three sub-parts,
+yielding a total number of intervals of 3^7 = 2187 for the synthesized
+measure. The last line of the upper part of the menu lets you choose
+the weights vector. In 1D, just enter values in the following format:
+[m1 m2 m3] (if the base is 3), and in 2D, type [m1 m2;m3 m4] when
+<B>base x</B> = <B>base y</B> = 2. Note that, though the sum of all
+weights must equal 1, you may set some of them to 0: in this case, the
+resulting measure will be supported on a Cantor set. In particular,
+you'll get a signal/image where many areas are 0.
+<P>The middle-part sub-window lets you decide if you want to generate a
+deterministic or random measure. If you choose <B>deterministic</B>,
+everything will happen exactly as described in the paragraph above. If
+you check <B>stochastic</B> instead, you get a randomized version of the
+construction explained above. When <B>deterministic</B> is checked, all
+the items below <B>stochastic</B> are grayed out. Now if you want to go
+for <B>stochastic</B>, you have several choices: if you check
+<B>micro-canonical</B>, the weights will simply be "shuffled" at all
+resolutions in an independent way, as indicated by the fact that the
+<B>Shuffled</B> box becomes active when you check
+<B>micro-canonical</B>. In other words, assuming for simplicity that we
+are working in one dimension with a base 2, each interval be be
+split into two halves, and each half will get m1 of the mass of the
+father interval with probability 1/2, and m2 with same probability.
+The other choice that appears when you click on <B>Shuffled</B>,
+i.e. <B>Stratified</B>, is not implemented in this version of
+<B>Fraclab</B>. If you check <B>canonical</B> instead of
+<B>micro-canonical</B>, the <B>Shuffled</B> box becomes grayed out, and
+the <B>perturbated</B> box gets active. If you synthesize the measure
+with these choices, at each step, the <B>perturbation</B>, that you may
+choose using the slider or by entering directly a numerical value,
+will be randomly added to some weights and subtracted from others so
+that, in the mean, the mass remains constant. Note that, since the
+weights must remain non negative, you are not allowed to enter a value
+for the <B>perturbation</B> larger than the smaller weight. If you do
+so, you'll get an error in the usual <B>Message</B> zone. Instead of
+<B>perturbated</B>, you may choose <B>uniform</B>. In this case, a random
+number, drawn uniformly from the interval (-<B>perturbation</B>,
++<B>perturbation</B>) will be added to each weight at each iteration for
+all intervals. Again, and for the same reasons, you are not allowed to
+enter a value for the <B>perturbation</B> larger than the smaller
+weight. Finally, you may choose <B>lognormal</B> instead of
+<B>perturbated</B>. In this case, the <B>perturbation</B> box becomes
+grayed out, and the <B>standard deviation</B> ones gets active. You may
+choose any real between <EM>1e-05</EM> and <EM>5.0</EM> for the <B>standard
+deviation</B>. A random variable X with log(X) following a normal law
+with mean 0 and standard deviation <B>standard deviation</B> will be
+added to each weight. 
+<P>The bottom part of the menu allows you to compute the multifractal
+spectrum of the measure you have defined. Since we are talking here of
+analytic computation, as opposed to estimation, you'll obtain the
+theoretical spectrum when the formula is available. To let
+<B>Fraclab</B> compute the spectrum, check the box to the right of
+<B>theoretical spectrum</B>. This is available when you synthesize a
+deterministic measure, or a random one with the options <B>canonical</B>
+and <B>uniform</B> or <B>lognormal</B>. Note that, on some occasions, the
+<B>theoretical spectrum</B> box will be grayed out although you are in
+one of the cases above. In this case, just select again <B>uniform</B>
+or <B>lognormal</B>, and the box will become checkable.
+<P>Once you hit compute, your synthesized measure will be the output
+signal or image called <EM>mu_n#</EM> in the <B>Variables</B> list. If you
+did compute the theoretical spectrum, it will appear as <EM>theof#</EM>.
+A known bug is that the <EM>#</EM> in the <EM>theof#</EM> does not always
+increment, so that you need to be careful and save the spectrum if you
+need to re-use it. Also, since the spectrum is the last computed
+signal, it will be the highlighted one in the <B>Variables</B>
+list. However, since the name <EM>theof#</EM> was already present in this
+list because the <EM>#</EM> did not increment, you'll find that the
+selected signal is not the last one of the list, and your newly
+generated measure is below it. A final bug is that, on occasions,
+<B>Fraclab</B> will compute a void spectrum or no spectrum at all,
+although you requested it. Just close the multifractal measures
+synthesis window and try again afresh: With a bit of luck, it should
+work.
+<P>
+<P>
+<P>
+<HR>
+<A HREF="help_synthesis-4.html">Next</A>
+<A HREF="help_synthesis-2.html">Previous</A>
+<A HREF="help_synthesis.html#toc3">Contents</A>
+</BODY>
+</HTML>

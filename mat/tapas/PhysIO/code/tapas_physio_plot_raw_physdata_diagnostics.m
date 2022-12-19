@@ -12,7 +12,7 @@ function [verbose, c_outliers_low, c_outliers_high, r_hist] = tapas_physio_plot_
 % (either version 3 or, at your option, any later version). For further details, see the file
 % COPYING or <http://www.gnu.org/licenses/>.
 %
-% $Id: tapas_physio_plot_raw_physdata_diagnostics.m 804 2015-08-10 20:48:25Z kasperla $
+% $Id$
 
 
 %% Cardiac analysis of heartbeat rates
@@ -66,25 +66,49 @@ else
     c_outliers_low = [];
 end
 
+
 %% Histogram of breathing amplitudes
 
 if hasRespData
-    nBins = min(length(unique(yResp)), floor(length(yResp)/100));
+    nBins = max(50, min(500, min(length(unique(yResp))/10, floor(length(yResp)/1000))));
     [r_hist, bins] = hist(yResp, nBins);
     
     if isVerbose
         subplot(2,1,2);
-        bar(bins, r_hist);
+        bar(bins, r_hist, 1);
         title('Histogram of breathing belt amplitudes');
     end
 else
     r_hist = [];
 end
 
-%%
 
-nplots = 5;
-n = 2000;
+% Added by kat
+samplingRate = t(2) - t(1);
+samplingFreq = 1/samplingRate;
+durRun = floor(numel(t)/samplingFreq);
+
+switch durRun
+    case num2cell(0:100)
+        nplots = 4;
+    case num2cell(101:200)
+        nplots = 5;
+    case num2cell(201:300)
+        nplots = 6;
+    case num2cell(301:400)
+        nplots = 7;
+    case num2cell(401:500)
+        nplots = 8;
+    case num2cell(501:600)
+        nplots = 9;
+    case num2cell(501:600)
+        nplots = 9;
+end
+durPlot = ceil(durRun/nplots);
+numTick = ceil(durPlot/5);
+durPlot = numTick*5;
+
+n = durPlot * samplingFreq;
 s = 1;
 e = s + n;
 if isVerbose
@@ -95,20 +119,32 @@ if isVerbose
     
     if hasCardiacData
         for ii = 1:nplots
-            if ii ==1
-                title('Temporal lag between subsequent heartbeats (seconds)');
-            end
             subplot(nplots,1,ii);
-            plot(t(s:e), c(s:e), 'Color', [1 0.8, 0.8], 'LineWidth', 1) ; hold on;
-            id = ismember(cpulse,t(s:e));
+            try
+                plot(t(s:e), c(s:e), 'Color', [1 0.8, 0.8], 'LineWidth', 1) ; hold on;
+                id = ismember(cpulse,t(s:e));
+            catch
+                plot(t(s:end), c(s:end), 'Color', [1 0.8, 0.8], 'LineWidth', 1) ; hold on;
+                id = ismember(cpulse,t(s:end));
+            end
+           
             stem(cpulse(id), c(timeCpulse(id)), 'r', 'LineWidth', 0.2,'MarkerSize',3);
-            hold off;
+         
             s = e;
             e = s + n;
+            if ii ==1
+                title('Temporal lag between subsequent heartbeats (seconds)');
+                figHandle = get(gca);
+                xTick = figHandle.XTick;
+                xTick = xTick(xTick>=0);
+            end
+            xTickTemp = xTick + ((ii-1)*durPlot);
+            set(gca,'XTick',xTickTemp)
+            xlim([xTickTemp(1) xTickTemp(end)]);
+            hold off;
         end
     end
 end
  
-
 
 end

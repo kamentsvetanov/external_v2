@@ -1,0 +1,111 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>mbmlevinson :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="mBm2DQuantifKrigeage.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="mBmQuantifKrigeage.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">mbmlevinson</h1>
+        <p>Generates a Mutli-fractional Brownian Motion (mBm) using Cholesky/Levinson factorization</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>MBM = mbmlevinson(N,H)<br>
+                MBM = mBmlevinson(...,'Propertyname',Propertyvalue)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>MBM = mbmlevinson(N,H)</tt> Generates the multi-fractional brownian motion, <tt>MBM</tt>, using a sample size,
+            <tt>N</tt>, and a Holder function, <tt>H</tt>. This allows to model a process the pointwise regularity of which varies in time.
+            The parameter <tt>N</tt> is a positive integer.
+        </p>
+        
+        <p><tt>MBM = mbmlevinson(...,'Propertyname',Propertyvalue)</tt> Generates the multi-fractional brownian motion, <tt>MBM</tt>, 
+            applying the specified property settings. The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'support'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>MBM</tt> is computed using a specific size of time support, <tt>TMAX</tt>. The parameter <tt>TMAX</tt>
+                                    is a positive integer.<br> If <tt>'support'</tt> is not specified, the default value is <tt>TMAX = 1</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'sigma'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>MBM</tt> is computed using a specific standard deviation, <tt>S</tt>, at instant <tt>t = 1</tt>.<br>
+                                    If <tt>'sigma'</tt> is not specified, the default value is <tt>S = 1</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'seed'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>MBM</tt> is computed with a specific random seed, <tt>SEED</tt>. This is useful to generate the same path several times
+                                    or to compare the paths of different <tt>MBMs</tt>.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of a multi-fractional Brownian motion with a periodical Holder function</h3>
+            <p class="synopsis">
+                <tt>N = 1024; t = linspace(0,1,N); Ht = eval('0.5+0.3*sin(4*pi*t)');<br>
+                    mbm = mbmlevinson(N,Ht);<br>
+                    figure; plot(t,mbm);<br>
+                    title('Multi-Fractional Brownian Motion with H(t)'); xlabel('time')
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/mbmlevinson_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Comparison of different multi-fractional Brownian motion signals using a specific random seed</h3>
+            <p class="synopsis">
+                <tt>N = 512; t = linspace(0,1,N); Ht = eval('0.1+0.8*t');<br>
+                    mbm1 = mbmlevinson(N,Ht,'support',1,'seed',100);<br>
+                    mbm2 = mbmlevinson(N,Ht,'support',5,'seed',100);<br>    
+                    figure; plot(mbm1,'k'); hold on; plot(mbm2,'r');<br> 
+                    legend('mbm1: Tmax = 1','mbm2: Tmax = 5');<br>
+                    title('Multi-Fractional Brownian Motion with different Tmax');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/mbmlevinson_ex2.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p>  
+            <a href="mBmQuantifKrigeage.html"><tt>mBmQuantifKrigeage</tt></a><tt>,</tt>
+            <a href="fbmwoodchan.html"><tt>fbmwoodchan</tt></a><tt>,</tt>
+            <a href="fbmlevinson.html"><tt>fbmlevinson</tt></a>
+        </p>
+        
+        <h2>References</h2>
+        <p>
+            [1] N. Levinson "The wiener rms error criterion in filter design and prediction", Journal of Mathematics and Physics, Vol 25 (1947) 261-278.<br>  
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="mBm2DQuantifKrigeage.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">mBm2DQuantifKrigeage</td><td>&nbsp;</td><td align="right">mBmQuantifKrigeage</td>
+                <td align="right" width="20"><a href="mBmQuantifKrigeage.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

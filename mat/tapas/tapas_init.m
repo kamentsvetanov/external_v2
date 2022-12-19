@@ -1,22 +1,28 @@
 function tapas_init()
- 
-% Get the version number
-fileID = fopen('README.txt', 'rt'); 
-firstLine = fgets(fileID);
-fclose(fileID);
+%% Initilizes the toolbox and prints a message in the console.
+%
 
-disp(strcat('Initializing TAPAS',{' '},firstLine,{' '},'...'));
+% aponteeduardo@gmail.com
+% copyright (C) 2017
+%
 
-disp( '_________   _____                _____       _____           ____                ');
-disp( '   |       |     |              |_____|     |     |         |          ');
-disp( '   |       |-----|              |           |-----|          ----|        ');
-disp(['   | NU    |     |LGORITHMS for |sychiatry  |     |dvancing  ____|cience      ','']);
-fprintf('\n');
+f = mfilename('fullpath');
+[tdir, ~, ~] = fileparts(f);
 
+addpath(genpath(tdir));
 
-addpath(genpath(pwd));
+[version, hash] = tapas_version();
+disp(strcat('Initializing TAPAS ...'));
+fprintf(1, 'Version %s.%s.%s\n', version{:});
 
+tapas_print_logo();
 
+% Check if the examples directory exist and print a message is required.
 
+if ~exist(fullfile(tdir, 'examples'), 'dir')
+    fprintf(1, ...
+    ['Example data can be downloaded with ' ...
+    '\''tapas_download_example_data()\''\n']);
+end
 
 end

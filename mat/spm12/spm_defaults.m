@@ -66,14 +66,14 @@ defaults.stats.fmri.hrf = [6 16 1 1 6 0 32];
 
 % Mask defaults
 %==========================================================================
-defaults.mask.thresh    = 0.8;
+defaults.mask.thresh    = 0.2;
 
 % Stats defaults
 %==========================================================================
 defaults.stats.maxmem      = 2^29;
 defaults.stats.maxres      = 64;
 defaults.stats.resmem      = false;
-defaults.stats.fmri.ufp    = 0.001;  % Upper tail F-probability % edit kat changed from 0.001 to 0.05
+defaults.stats.fmri.ufp    = 0.05;  % Upper tail F-probability % edit kat changed from 0.001 to 0.05
 defaults.stats.pet.ufp     = 0.05;
 defaults.stats.eeg.ufp     = 0.05;
 defaults.stats.topoFDR     = 0;% kat changed from 1 to 0, to enable slover to pring FDR results

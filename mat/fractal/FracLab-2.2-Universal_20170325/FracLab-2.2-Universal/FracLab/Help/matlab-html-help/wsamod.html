@@ -1,0 +1,119 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>wsamod :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="waveshrink2d.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="fralphabeticlab.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">wsamod</h1>
+        <p>Computes a model of a 1D signal. This model is a Weakly Self-Affine function i.e. a function which has a weak form of scale invariance.
+            Based on this model, a segmentation of the original signal is then proposed.
+        </p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>F = wsamod(x,QMF)<br>
+                F = wsamod(...,'Propertyname',Propertyvalue)<br>
+                [F,count] = wsamod(...);    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>F = wsamod(x,QMF)</tt> Computes the WSA model, <tt>F</tt>, of the input signal, <tt>x</tt>, using a quadrature mirror filter <tt>QMF</tt>.
+            The size of the signal <tt>x</tt> must be a power of 2.
+            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                 <td>
+                            <p>A figure is displayed plotting the input signal <tt>x</tt> (in blue), the synthetic signal <tt>F</tt> (in green)
+                                and the segmentation marks (as red crosses)
+                            </p>
+                </td></tr></table>
+            </ul>
+        </p>
+
+        <p><tt>WGP = wsamod(...,'Propertyname',Propertyvalue)</tt> Computes the WSA model, <tt>F</tt>, applying the specified property settings. 
+            The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'scale'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The synthetic signal <tt>F</tt> is computed using a specific <b>scale depth</b> parameter, <tt>S</tt>, which is a positive
+                                    integer strictly greater than 2 and smaller than <tt>log2(N)-1</tt>.
+                                    The parameter <tt>S</tt> tunes the number of scales in the input signal <tt>x</tt> which are taken into
+                                    account in the WSA modelling. Scales larger than <tt>S</tt> are ignored.<br>
+                                    If <tt>'scale'</tt> is not specified, the default value is <tt>S = log2(N)-1</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'threshold'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The synthetic signal <tt>F</tt> is computed using a specific <b>maximum error</b>, <tt>ERR</tt>, which is a positive real.
+                                    The parameter <tt>ERR</tt> tunes the maximum pointwise discrepancy allowed between the input signal <tt>x</tt> and the model.
+                                    If discrepancies larger than <tt>ERR</tt> occur, the signal is segmented to reduce this error.<br>
+                                    If <tt>'threshold'</tt> is not specified, the default value is <tt>ERR = 10</tt>.    
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'limits'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The synthetic signal <tt>F</tt> is computed using specific <b>lower</b> and <b>upper</b> scaling coefficients for the WSA model.
+                                    These values are positive reals and the upper value can be greater than 1 but the continuity of F is no longer guaranteed in this case. 
+                                    Coefficients which are large or close to <tt>0</tt> tend to produce large variations,
+                                    and should most of the time be ignored in the modelling.<br>
+                                    If <tt>'limits'</tt> is not specified, the default value is <tt>[lower, upper] = [0.1,1]</tt>.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>[F,count] = wsamod(...)</tt> Computes the WSA model <tt>F</tt> and returns, at the same time, the percentage of scaling coefficients which 
+            have been processed, <tt>count</tt>, based on the <tt>[lower,upper]</tt> couple. Tighter limits yield better behaved models, 
+            but at the price of a larger percentage of non-processed (ignored) coefficients.
+        </p>
+            
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Computation of the Weakly Self-Affine function and Segmentation</h3>
+            <p class="synopsis">
+                <tt>N = 8192; H = 0.5;<br>
+                    x = fbmwoodchan(N,H);<br>
+                    QMF = MakeQMF('daubechies',4);<br>
+                    y = wsamod(x,QMF);
+                </tt>
+            </p>
+            <p><img src="images_examples/Segmentation/wsamod_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Using the Weakly Self-Affine function to model irregular acoustic signals</h3>
+            <p class="synopsis">
+                <tt>images_loc = which('wsamod.html');<br>
+                    x = textread(fullfile(fileparts(images_loc),'images_examples','Segmentation','satdrum.dat'));<br>
+                    QMF = MakeQMF('daubechies',4);<br>
+                    y = wsamod(x,QMF);<br>
+                    sound(x,44000);pause(.5);sound(y,44000);  
+                </tt>
+            </p>
+            <p><img src="images_examples/Segmentation/wsamod_ex2.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="waveshrink2d.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">waveshrink2d</td><td>&nbsp;</td><td align="right">Functions -- Alphabetical List</td>
+                <td align="right" width="20"><a href="fralphabeticlab.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><addonProperties xmlns="http://schemas.mathworks.com/matlab/addon/2014/addonProperties"><identifier type="GUID">988c00c0-6131-42e7-8246-e1efbf8825a2</identifier><description>When color is a numerical axis, it should not be distorted. 
+
+This function is similar to the cmocean (Thyng et al., 2016) function also found on File Exchange, but this one's for Fabio Crameri's colormaps (Crameri 2018a,b). 
+</description><authors><author><name>Chad Greene</name><contact></contact><organization>NASA Jet Propulsion Laboratory</organization></author></authors></addonProperties>

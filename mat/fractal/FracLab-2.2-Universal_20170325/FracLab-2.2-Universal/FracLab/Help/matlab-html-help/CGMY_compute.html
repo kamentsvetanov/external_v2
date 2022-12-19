@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>CGMY_principal :: Functions(FracLab)</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.4.1  (Win32)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="Jacques ">
+	<META NAME="CHANGED" CONTENT="20121119;13295300">
+	<META NAME="chunktype" CONTENT="refpage">
+	<SCRIPT LANGUAGE="JavaScript" SRC="Fraclab/fraclab/Help/matlab-html-help/docscripts.js"></SCRIPT>
+    <link rel="stylesheet" href="docstyle.css" type="text/css">
+	<!--
+		P { color: #000000 }
+		TD P { color: #000000 }
+		H1 { color: #000000 }
+		H1.reftitle { color: #990000; font-weight: normal }
+		H2 { color: #990000 }
+		H2.cjk { font-family: "SimSun" }
+		H2.ctl { font-family: "Mangal" }
+		H3 { color: #990000 }
+		H3.cjk { font-family: "SimSun" }
+		H3.ctl { font-family: "Mangal" }
+		P.synopsis { margin-left: 0.85cm }
+		A:link { color: #0000ff }
+		TT.cjk { font-family: "NSimSun", monospace }
+	-->
+	</STYLE>
+</HEAD>
+<BODY>
+<a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+<table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="asmlevy.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="asmlinfrac.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+<H1 CLASS="reftitle">CGMY_principal</H1>
+<P>Generates a tempered Alpha-Stable Levy Motion 
+</P>
+<H2 CLASS="western">Syntax</H2>
+<P CLASS="synopsis"><TT CLASS="western">cgmy =
+CGMY_Principal(alpha,C,G,M,N,seed);</TT></P>
+<H2 CLASS="western">Description</H2>
+<P><TT CLASS="western">cgmy = CGMY_Principal(alpha,C,G,M,N,NaN)</TT>
+Generates the tempered alpha-stable L&eacute;vy motion, <TT CLASS="western">cgmy</TT>,
+using a sample size, <TT CLASS="western">N</TT>, a stability
+parameter, <TT CLASS="western">alpha</TT>, a scale parameter, <FONT FACE="Courier New, monospace">C</FONT>,
+a tempering parameter for the negative jumps, G,  a tempering
+parameter for the positive jumps, M, and a random seed, <FONT FACE="Courier New, monospace">seed</FONT>.
+<TT CLASS="western">N</TT> is a positive integer, <TT CLASS="western">alpha</TT>
+is a real in (0,2), <FONT FACE="Courier New, monospace">C,G</FONT>
+and <FONT FACE="Courier New, monospace">M</FONT> are positive reals. 
+</P>
+<P><TT CLASS="western">cgmy = CGMY_Principal(alpha,C,G,M,N,seed)</TT>
+Generates<FONT FACE="Times New Roman, serif"> </FONT><TT CLASS="western"><FONT FACE="Times New Roman, serif">the
+tempered alpha-stable L&eacute;vy motion</FONT></TT><TT CLASS="western">,
+cgmy,</TT> with a specific random seed, <TT CLASS="western">seed</TT>.
+This is useful to generate the same path several times or to compare
+the paths of different CGMY<TT CLASS="western">s</TT>. 
+</P>
+<P>General tempered stable processes were studied in [1]. We only
+simulate here so-called CGMY processes as introduced in [2]. The
+synthesis is performed in the Fourier domain. Tempering means that
+one removes large jumps. This is done independantly for positive and
+negative jumps. A large G (resp. M) translates into stronger
+tempering for negative (resp. positive) jumps.</P>
+<H2 CLASS="western">Examples</H2>
+<UL>
+		<UL>
+			<H3 CLASS="western">Example 1 : Synthesis of a tempered
+			alpha-Stable L&eacute;vy motion with no negative jumps</H3>
+		</UL>
+	<P CLASS="synopsis"><TT CLASS="western">N = 1000; A = 1.2; C =
+	0.001; G=200;M=1&nbsp;;<BR>cgmy1=CGMY_Principal(A,C,G,M,N,NaN);<BR>figure;
+	plot(cgmy1);<BR>title('Tempered alpha-stable L&eacute;vy motion with
+	alpha= 1.2, C=0.001, G=200, M=1')&nbsp;;</TT></P>
+	<P><IMG SRC="CGMY_compute_html_m436454b1.png" NAME="images3" ALIGN=LEFT WIDTH=561 HEIGHT=420 BORDER=0><BR CLEAR=LEFT></P>
+	<UL>
+		<UL>
+			<H3 CLASS="western">Example 2 : Comparison of different tempered
+			alpha-stable L&eacute;vy motions using a specific random seed</H3>
+		</UL>
+	</UL>
+	<P CLASS="synopsis"><TT CLASS="western">N = 1000; A1 = 1.3;
+	A2=1.5&nbsp;;C = 0.001;</TT></P>
+	<P CLASS="synopsis"><TT CLASS="western">G1=5&nbsp;; G2=2&nbsp;;
+	M1=2&nbsp;; M2=5;seed=123&nbsp;;<BR>cgmy2=CGMY_Principal(A1,C,G1,M1,N,seed);</TT></P>
+	<P CLASS="synopsis"><TT CLASS="western">cgmy3=CGMY_Principal(A2,C,G2,M2,N,seed);<BR>figure;
+	plot(cgmy2);hold on&nbsp;; plot(cgmy3,'k')<BR>title('Tempered
+	alpha-stable L&eacute;vy motions with alpha= 1.3, C=0.001, G=5, M=2
+	(blue), alpha= 1.5, C=0.001, G=2, M=5 (black)');</TT></P>
+	<P><IMG SRC="CGMY_compute_html_2e27d634.png" NAME="images4" ALIGN=LEFT WIDTH=652 HEIGHT=371 BORDER=0><BR CLEAR=LEFT></P>
+</UL>
+<P CLASS="synopsis"><BR><BR>
+</P>
+<H2 CLASS="western">See Also</H2>
+<P><TT CLASS="western"><A HREF="Fraclab/fraclab/Help/matlab-html-help/asmlinfrac.html">asmlinfrac</A>,</TT>
+<TT CLASS="western"><A HREF="Fraclab/fraclab/Help/matlab-html-help/asmornhulen.html">asmornhulen</A>,</TT>
+<TT CLASS="western"><A HREF="Fraclab/fraclab/Help/matlab-html-help/msmlevy.html">msmlevy</A>,
+amslevy, </TT><FONT FACE="Courier New, monospace">mst_processes</FONT></P>
+<H2 CLASS="western">References</H2>
+<P>[1] J. Rosinski, Tempering stable processes, Stochastic Process.
+Appl. 117 (2007) 677-707.<BR><BR>[2] Carr, P., Geman, H., Madan, D.,
+and Yor, M. (2002). The &#64257;ne structure of asset returns: an</P>
+<P>empirical investigation. Journal of Business 75, 305&ndash;332.</P>
+
+<table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="asmlevy.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">asmlevy</td><td>&nbsp;</td><td align="right">asmlinfrac</td>
+                <td align="right" width="20"><a href="asmlinfrac.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+
+</BODY>
+</HTML>

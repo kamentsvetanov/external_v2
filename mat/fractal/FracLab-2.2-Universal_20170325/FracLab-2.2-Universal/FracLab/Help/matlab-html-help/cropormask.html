@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>cropormask :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="contwt.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="dla.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">cropormask</h1>
+        <p>Crops an image or creates a mask using a 2D signal (an image)</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>cropormask(x,'varname')<br>
+                cropormask(x,'varname','mask')<br>
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>cropormask(x,'varname')</tt>  displays the image of <tt>x</tt> in a figure window and creates 
+            an interactive image tool, associated with the image of <tt>x</tt>. The tool is a moveable, resizable
+            rectangle that is interactively placed and manipulated using the mouse.<br>
+            <ul>
+                By choosing <tt>Extract</tt> from the tool's context menu the user crops the image. 
+            </ul>
+            The cropped image is saved in the variable <tt>varname</tt> and is added to the list of variables of fraclab.<br>
+            <ul>        
+                By choosing <tt>Modify</tt> the user can modify the tool at any time.<br>
+            </ul>
+            The current figure is closed once the operation is done.<br><br>
+            
+            <center><img src="images_examples/Miscellaneous/cropormask_ex1.png" height="460" width="721" alt=""></center>
+        </p>
+        
+        <p><tt>cropormask(x,'varname','mask')</tt> displays the image of <tt>x</tt> in a figure window and creates 
+            an interactive image tool, associated with the image of <tt>x</tt>. Using the tool's context menu, 
+            the user creates a mask which has the same size of <tt>x</tt>.<br> 
+            <ul>
+                By choosing <tt>Mask of ones</tt> the user keeps the region surrounded by the resizable rectangle 
+                and put the rest of the image to zero.<br> 
+                By choosing <tt>Mask of zeros</tt> the user puts the region surrounded by the resizable rectangle 
+                to zero and do not modify the rest of the image.<br>
+            </ul>
+            Once the type of mask is selected, it is displayed for a second the result of the combination 
+            of the original image and the created mask.<br>       
+            <ul>    
+                By choosing <tt>Save</tt> the mask is saved in the variable <tt>varname</tt> 
+                and is added to the list of variables of fraclab <br> 
+                By choosing <tt>Modify</tt> the user modifies the tool at any time.<br>
+                By choosing <tt>Cancel</tt> the user restores the original image of <tt>x</tt> at any time.<br>
+            </ul>
+            The current figure is closed once the operation is done.<br><br>
+            <center><img src="images_examples/Miscellaneous/cropormask_ex2.png" height="459" width="1132" alt=""></center>
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="contwt.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">contwt</td><td>&nbsp;</td><td align="right">dla</td>
+                <td align="right" width="20"><a href="dla.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>      
+    </body>
+</html>

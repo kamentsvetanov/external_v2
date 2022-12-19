@@ -1,0 +1,319 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The 1D Exponents Estimation pop-up menu: Pointwise Hölder Exponent</TITLE>
+ <LINK HREF="help_1D_exponents-3.html" REL=next>
+ <LINK HREF="help_1D_exponents-1.html" REL=previous>
+ <LINK HREF="help_1D_exponents.html#toc2" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_1D_exponents-3.html">Next</A>
+<A HREF="help_1D_exponents-1.html">Previous</A>
+<A HREF="help_1D_exponents.html#toc2">Contents</A>
+<HR>
+<H2><A NAME="s2">2. Pointwise Hölder Exponent</A></H2>
+
+<P>Many techniques have been developed to estimate pointwise (and local)
+Hölder exponents, none of which give satisfactory results in all
+cases. Estimating a local irregularity index on discrete data without
+any a priori assumption is indeed a difficult task. One way to obtain
+robust results is to use a parametric approach. Such estimators have
+been developed mainly in the case of fractional Brownian motion and
+its extensions, such as multifractional Brownian motion. One such
+method is implemented in <B>Fraclab</B>. Non parametric methods, which
+are more numerous, generally give the correct estimation only when
+some technical conditions are met. <B>Fraclab</B> currently includes
+three such estimators, which are, in order of increasing quality : a
+standard method based on the continuous wavelet transform, with
+various improvements ; a second one relying on the use of generalized
+iterated functions systems. And a third one based on the evaluation of
+the oscillations. Note finally that more robust estimates of both the
+pointwise and local exponents, which work under broader assumptions,
+are available when one computes the 2-microlocal exponents. See the
+help corresponding to this topic below.
+<P>
+<P>
+<H2><A NAME="ss2.1">2.1 Parametric estimation of the exponent of an fBm or an mBm.</A>
+</H2>
+
+<P>For an fBm or an mBm with smooth H(t), the local and pointwise
+exponent are the same. The parametric estimator implemented here is
+based on (4), and is proved to converge almost surely as soon as one
+is dealing with a discrete trace of an fBm or mBm.
+<P>As in most processing tools of <B>Fraclab</B>, the first line of the
+sub-menu window, entitled <B>Input Signal</B>, should display the signal
+currently analyzed.  A known bug here is that the current signal of
+the <B>Variables</B> list sometimes does not appear by default. When
+this occurs, or if you wish to switch to another signal by
+highlighting another selection in the Variables list, press
+<B>Refresh</B>. There is only parameter that needs to be chosen before
+you launch the estimation, which is the <B>window size</B>. The
+<B>optimal</B> choice, as the name indicate, is the theoretical best
+size, i.e. the size which minimizes the risk. As is often the case in
+such situations, visually more pleasing results are obtained by using
+a slightly larger size, typically by multiplying the optimal size by a
+logarithmic factor: choosing <B>enlarged</B> just does this. In many
+situations, you'll find that it gives a clearer picture of the
+meaningful variations of H, because the variance has been decreased
+(at the expense of course of an increase in bias). When you suspect
+that your analyzed signal is an fBm, i.e. the exponent is the same all
+along the path, a more judicious choice is to use the whole signal as
+a window. This is the third choice, <B>constant H</B>. Once you have
+decided a window size, press <B>Compute</B> as usual. The output signal,
+denoted <EM>estim_Hölder_func_sig#</EM> (where sig is your input signal), is a
+1D vector which gives the exponent at each point. The two other
+buttons are the customary <B>Help</B> and <B>Close</B> buttons. Note
+finally that computing times can get very large if your input signal
+has more than 1024 points.
+<P>A known bug in this sub-menu is that border effects have not been
+satisfactorily taken into account. As a result, the estimates on the
+first points are sometimes weird (e.g. you get a plateau which has no
+real meaning).
+<P>
+<P>
+<P>
+<H2><A NAME="ss2.2">2.2 CWT-based estimation</A>
+</H2>
+
+<P>The Continuous-Wavelet-Transform-based non parametric estimator of the
+Hölder function is probably the most well known method for estimating
+exponents, although it is not the most precise one. It is based on a
+remarkable property of wavelet coefficients: They are bounded from
+above by a quantity that depends on scale and on the Hölder
+exponent. Since this bound is optimal, it can serve as a basis for an
+estimation method. However, the bound is practical only of one assumes
+that the relevant coefficients for estimating the exponent at point t
+are located "nearly above" t. This is equivalent to assuming that the
+pointwise and local exponents coincide. This condition is hard to
+verify in practice, and somewhat restrictive.
+<P>When you launch this method, you get a window entitled "Local Hölder
+Exponent Estimation" (recall that this will also be the pointwise one
+if the procedure is applicable). In this simple form, you need just
+decide at which point you want to compute the exponent, by entering a
+value in the <B>Estimation time</B> box (the default is 1, which is a
+bit unfortunate, since the first point will always suffer from border
+effects). On hitting <B>Compute</B>, the value of the estimated exponent
+will appear in the <B>Local Scaling Exponent</B> box. If you need more
+control on the computations, hit <B>Advanced compute</B>. A new window
+appears, entitled <B>Hölder Function or Local Exponent</B>. Check first
+in the <B>Input Signal</B> box that you are dealing with the desired
+signal, otherwise <B>Refresh</B> it in the usual way. You will then
+specify various parameters related to the wavelet transform: <B>fmin</B>
+and <B>fmax</B> let you choose the minimum and maximum frequencies of
+analysis. The default values are the ones yielding maximal span
+compatible with the size of the signal. You may change the extreme
+frequencies either by typing values under <B>fmin</B> and <B>fmax</B>, or
+by using the predefined values on the menus to the right. The
+<B>Voices</B> parameters governs the number of intermediate frequencies
+between <B>fmin</B> and <B>fmax</B> at which the continuous wavelet
+coefficients will be computed. Be warned that giving an excessive
+number of voices may result in large computing times for long
+signals. Checking the <B>Mirror</B> item will deal the border effects by
+mirroring the signal at its extremities. Otherwise, zero-padding is
+used. Finally, you may choose the <B>Size</B> and <B>Type</B> of your
+analyzing wavelet: available wavelets are the <B>Mexican Hat</B>, and
+the real and analytic <B>Morlet</B> wavelet. The size may be any
+positive number (this parameter is not available for the Mexican
+hat). Once all the parameters that define the wavelet transform are
+chosen, hit <B>Compute WT</B>. The output signal is a matrix of size
+"number of voices" x "size of the original signal".  It is called
+<EM>cwt_signal#</EM>, if "signal" is the name of your data, and where # is as
+usual an incremental parameter. It should appear in the <B>Input CWT</B>
+box just below the <B>Compute WT</B> button. You may want to view the
+continuous wavelet transform using the <B>View</B> menu. Note that
+<B>Fraclab</B> recognizes wavelet transforms, and display them
+differently form regular images. In particular, it uses a fixed aspect
+ratio (this is useful for instance if the number of voices is much
+smaller than the size of the signal), and the "jet" color-map, which
+often allows to highlight the important structures. If you want to
+view the transform as a normal image, or make other changes in the
+appearance, use the functionalities of the <B>View</B> menu described in
+the <B>Overview</B> help file.
+<P>The <B>Refresh</B> button to the left of the <B>Input CWT</B> box lets you
+load a wavelet transform which would already be present in the
+<B>Variables</B> list of the main window. This avoids computing several
+times the same transform. Once you are happy with your transform, move
+to the lower part of the window, which performs the actual computation
+of the exponents. Decide first if you wish to compute a <B>Single
+Time Exponent</B> (default), otherwise uncheck this box, and it will
+become <B>Hölder Function</B>. In the first case, you need to give the
+<B>Time Instant</B> at which the exponent will be estimated (with again
+the unfortunate default "1"). In the second case, this choice becomes
+unavailable, because you will compute the exponent at each point. In
+fact, this last statement is not quite true: Because the CWT-based
+estimator is a bit slow, it has been arbitrarily decided that only one
+point every four points would actually be processed. This is why the
+output signal is four times smaller than the input one. This fact may
+seem somewhat strange, because it means that the results of this menu
+cannot really be used in actual applications you may have. However,
+our justification is that the CWT-based estimation does not usually
+give good results. This window is thus mainly included because
+wavelet-based estimators are widely used, and for comparison
+purposes. Some of the reasons why the method often fails are explained
+at the end of this paragraph. 
+<P>Recall that the exponent is obtained thanks to the fact that the
+coefficients are bounded from above by a certain quantity. As a
+consequence, in many cases, more relevant estimates are obtained if
+one chooses, at each scale, the largest coefficient among the ones
+which are located "nearly above" the current point t. This is the
+default in <B>Fraclab</B>, as is indicated by the fact that the
+<B>Local Maxima</B> box is checked. If you unmark this box by pressing
+the button to the left of <B>Yes</B> (which subsequently becomes
+<B>No</B>), then the program will use the coefficients which are in the
+column <EM>strictly</EM> above t. In case you want to use the local
+maxima, you need to tell <B>Fraclab</B> where to look for the largest
+coefficient. In other words, you must define precisely what is meant
+by "the coefficients located <EM>nearly</EM> above the point t". This is
+the purpose of the <B>Radius</B> and <B>Scale Depth</B> parameters. The
+default values of respectively 8 and 1 mean that, starting from the point
+t, the program will look for the largest coefficients at the scale
+immediately above (this is the "1"), and in a spatial neighbourhood of
+size 8. These two parameters are available for both the estimation at
+a single point and at all points. To the contrary, the <B>Specify
+Regression Range</B> choice is only meaningful for a single time
+exponent. When <B>Specify Regression Range</B> is chosen, you will be
+able to decide which range of frequencies is to be used for the
+estimation of the exponent (we explain how at the end of this
+paragraph). Otherwise, when <B>Full Range Regression</B> is
+selected, the estimation is performed using all coefficients between
+<B>fmin</B> and <B>fmax</B>. The exponents will be obtained through
+a regression of the logarithm of the wavelet coefficients modulus with
+respect to scale, and you may choose the type of regression: The default
+is <B>Least Square Regression</B>. Other choices are <B>Weighted Least
+Square</B>, <B>Penalized Least Square</B>, <B>Maximum Likelihood</B> and
+<B>Lepskii Adaptive Procedure</B>. Only the last one is not well
+known. See (6) for details.
+<P>When you hit <B>Compute</B>, three things may happen: if <B>Hölder
+Function</B> was checked, the program will output a signal called
+em/signal_Ht#/, with the usual naming conventions.  If <B>Single Time
+Exponent</B> was checked instead, with the option <B>Full Range
+Regression</B>, the program will display a graphic window showing in
+abscissa the log-scale, and in ordinate the log of the modulus of the
+coefficients. This display helps to check if the regression is
+meaningful, i.e. if the points on this graph are well aligned. In that
+view, the regression line is displayed in red. In parallel, you get
+the value of the estimated exponent in the box <B>Local Scaling
+Exponent</B>. If <B>Specify Regression Range</B> was checked instead of
+<B>Full Range Regression</B>, you also get a graphic window, but this
+time you have additional information and control: to the left of this
+window, you see the part of the wavelet transform which lies in the
+neighbourhood of the selected time instant. Note that a grey levels
+color-map is used. You will also see two red curves, which show the
+region in which local maxima are searched for when this option is
+activated. Finally, you should see, at each scale, i.e. on each line
+of the wavelet transform, a circle which indicates which coefficient
+was chosen at this particular scale. If no local maxima were used,
+this circles will lie exactly above t, while otherwise they might be
+distributed anywhere between the two red curves. The graph to the
+right of the window is the same as in the previous case, i.e. it shows
+in abscissa the log-scale, and in ordinate the log of the modulus of
+the coefficients. Now <B>Specify Regression Range</B> means that, using
+the large cross that appears when you point to this window, you will
+be able to select a range of frequencies between which the regression
+will be performed. Of course, you want to choose a region where the
+points are reasonably well aligned. Sometimes there is no such
+region. In other cases, there might be two or more sub-parts in the
+graph where linear behaviours are observed. Since we are interested
+here in local exponents, you should in general prefer to choose the
+region containing the highest frequencies. To actually select the
+region, click first on the left end of the chosen interval, then click
+again on its right end, or vice-versa. Each time you have selected a
+frequency range, <B>Fraclab</B> will compute an estimated exponent and
+show its value in the caption above the graph to the right of the
+window. In addition, the regression line will be displayed in red. If
+you want to test another region, just click again its endpoints. Once
+you are satisfied with a result, hit <B>Enter</B> on your keyboard, and
+the cross will disappear. The exponent will then appear in the
+<B>Hölder Function or Local Exponent</B> window in front of <B>Local
+Scaling Exponent</B>. You may now close the graphic window showing the
+evolution of the wavelet coefficients.
+<P>To understand some of the reasons why the method is not so good, try
+it on a deterministic Weierstrass function synthesized with the
+defaults options. Launch the <B>Advance compute</B> procedure, and use
+again the defaults, except that you estimate at the middle point of
+your signal, i.e. at abscissa 128. Observe how the log-log plot
+display oscillations: By choosing a regression range on various parts
+of the frequency interval, you will be able to get essentially any
+exponent you want, including negative ones.
+<P>
+<P>
+<H2><A NAME="ss2.3">2.3 GIFS-based estimation</A>
+</H2>
+
+<P>
+<P>This method is applicable only when the pointwise and local exponents
+coincide. In contrast with the CWT-based one, it is very fast. The
+principle is the following: The extension of IFS called GIFS allows
+to construct signals which are able to approximate (in L2 and
+L-infinity norms) any L2 signal with arbitrary precision. GIFS are
+just IFS where the number of maps and the various parameters are
+allowed to change at each scale (see (2) for details). The first step
+in this estimation method is to compute a GIFS which approximates at
+best the original signal. In that view, one starts by computing the
+discrete wavelet transform of the signal. The parameters of the GIFS
+are then simply obtained as ratios of the wavelet coefficients. Once
+the GIFS is known, the estimation of the exponent is easy, because
+there is an analytical formula which gives the exponent at each point
+of a GIFS as a function of its parameters. Because the formula in only
+valid in the limit of infinite resolution, the obtained result is of
+course a finite size approximation.
+<P>From a practical point of view, you start as usual by checking and
+maybe updating the <B>Input</B> signal. You then choose which
+approximation procedure you want to use, i.e. the <B>Limit type</B> in a
+choice of <B>regression</B> and <B>Cesaro</B> (choosing one or the other
+option will in general hardly affect the result). Finally, you may
+choose which <B>Wavelet</B> to use, although in the current
+implementation of <B>Fraclab</B> only Daubechies 4 is available. On
+pressing <B>Compute</B>, you get an output signal, named
+<EM>alphagifs_signal#</EM>, which contains the estimated Hölder function. Note
+that this program assumes that the input data contains 2^N
+points. If this is not the case, only the first 2^N points will
+processed, where N is the largest integer such that the 2^N does not
+exceed the actual number of points in the signal. The remaining points
+will simply be ignored.
+<P>Test this method on a deterministic Weierstrass function synthesized with the
+defaults options.
+<P>
+<P>
+<H2><A NAME="ss2.4">2.4 Oscillation-based estimation</A>
+</H2>
+
+<P>In contrast with previous ones, this method does not assumes that the
+local and pointwise exponents coincide. It truly tries to estimate the
+pointwise one. The principle is very simple: it just uses the
+definition of the exponent as a measure of how the oscillation of the
+signal in a neighbourhood of a given point t behaves with respect to
+the size of the neighbourhood. As usual, you first check the <B>Input
+data name</B> box and <B>Refresh</B> it if needed. You then need to choose
+what are the minimal and maximal sizes of the neighbourhood that will
+be used to investigate the behaviour of the oscillations. Enter the
+appropriate values in the <B>Nmin</B> and <B>Nmax</B> boxes, either
+directly or using the menus. Any integer will do, as long as Nmin is
+smaller than Nmax and Nmax is compatible with the size of the
+signal. These values should be understood as follows: Nmax = 8, for
+instance, means that the largest neighbourhood will be composed of 8
+points to each side of the point where one wishes to perform the
+estimation. In other words, the neighbourhood will be a window of size
+17 sample points centered at the point of interest. Increasing the
+values of both Nmin and Nmax yields smoother estimates, at the expense
+of precision. A value of Nmin larger than 1 roughly means that a high
+frequency cut-off is in effect. Larger values of Nmax let you include
+more low frequency information in the estimation.
+<P>Finally, you may choose a <B>Regression Type</B> from the usual choice
+of <B>Least Square Regression</B>, <B>Weighted Least Square</B>,
+<B>Penalized Least Square</B>, <B>Maximum Likelihood</B> and <B>Lepskii
+Adaptive Procedure</B> (see reference (6)). On hitting <B>Compute</B>, you
+get the output <EM>data pht_signal#</EM>, which contains the estimated
+exponent at each point. Note that refinements of this oscillation
+based method exist. They use a Bayesian framework that allows to
+minimize the effect of discretization. We hope to include these
+extensions in a future release of <B>Fraclab</B>.
+<P>
+<P>
+<HR>
+<A HREF="help_1D_exponents-3.html">Next</A>
+<A HREF="help_1D_exponents-1.html">Previous</A>
+<A HREF="help_1D_exponents.html#toc2">Contents</A>
+</BODY>
+</HTML>

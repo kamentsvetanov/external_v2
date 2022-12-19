@@ -1,0 +1,88 @@
+button_red_on=[1 0.35 0.35]
+button_red_off=[1 0.65 0.65]
+button_green_on=[0.23 1 0.23]
+button_green_off=[0.65 1 0.65]
+button_blue_on=[0.23 0.5 1]
+button_blue_off=[0.65 0.65 1]
+frac_spectrum_max_coeff=3.5
+frac_spectrum_values=400
+write_statistics_2_file=0
+statistics_filename='statistics02.txt'
+evaluation_bigger_is_better = 1
+evol_disable_fitnessmap = 0
+evol_amin_min=0
+evol_amin_max=0.5
+evol_gmin_min=0
+evol_gmin_max=1
+evol_amax_min=0.01
+evol_amax_max=20
+evol_gmax_min=0.2
+evol_gmax_max=1
+evol_anod_min=0.0001
+evol_anod_max=2
+evol_sigma_min=0.1
+evol_sigma_max=100
+evol_filters=[1 2 3 4 5 6 7 9]
+user_prefered_regions=[0 0 0.01 0.2 0.0001 0.1 1; 0.5 1 20 1 2 100 9]
+evol_amin_mutation=0.2
+evol_gmin_mutation=0.2
+evol_anod_mutation=0.2
+evol_amax_mutation=0.2
+evol_gmax_mutation=0.2
+evol_sigma_mutation=0.2
+evol_filter_mutation=0.2
+evol_population_size=64
+image_count=6
+evol_generation_gap=0.9
+evol_fitness_method='nearest'
+evol_do_mutation=1
+evol_do_random_mutation=1
+evol_do_prefered_area_directed_mutation=0
+evol_do_prefered_area_directed_mutation_plus_random_mutation=1
+evol_do_crossover=1
+evol_do_random_crossover=6
+evol_do_swapping_crossover=0
+evol_do_factory_crossover=1
+
+evol_rank_selection_pressure = 1.1;
+
+evol_parent_selection_method='rank'
+evol_offspring_selection_method='fittest'
+evol_offspring_fill_selection_method='fittest'
+evol_image_selection_method='fittest'
+
+evol_offspring_selection_weighted_fitness=0
+evol_cycle_best_individuals=3
+
+evol_parent_distinct_individuals=0
+evol_offspring_fill_distinct_individuals=1
+evol_image_distinct_individuals=1
+evol_offspring_distinct_individuals=1
+
+evol_parent_selection_sharing=1
+evol_offspring_selection_sharing=0
+evol_image_selection_sharing=0
+evol_offspring_fill_selection_sharing=0
+
+evol_mutate_offspring_fill = 0
+
+evol_parent_selection_sharing_weight=1/10000
+evol_offspring_selection_sharing_weight=1/1000
+evol_offspring_fill_selection_sharing_weight=1/1000
+evol_image_selection_sharing_weight=1/1000
+
+save_CData_for_fitnessmap = 0
+
+allow_superindividuals = 1
+
+slider_color_red=[1 0.9 0.8 0.75 0.7 0.65 0.5 0.4 0.3 0.2 0.1 0 0]
+slider_color_green=[0 0 0.1 0.2 0.3 0.4 0.5 0.65 0.7 0.75 0.8 0.9 1]
+slider_color_blue=[0 0 0.1 0.2 0.3 0.4 1 0.4 0.3 0.2 0.1 0 0]
+history_statistics_size=60
+population_statistics_1=cell2struct({'Truecolor Variance','image_variance';'Gray Variance','image_gray_variance';'Gray Deviation,Shift,%','image_gray_deviation';'Gray Mean','image_gray_mean';'Gray Correlation','image_gray_correlation';'Spec.[Max&Shift,Weight&Shift])','image_spectral_measure';'Amount of Labels','image_label_number';'Area of Objects','image_objects_area';'Euler Number','image_euler_number';'Image difference','image_difference'},{'name','function'},2)
+population_statistics_2=cell2struct({'Distance To Population','geno_distance'},{'name','function'},2)
+population_statistics_heading_1='Phenotype:'
+population_statistics_heading_2='Genotype:'
+population_statistics_panel_color=0
+population_statistics_text_color='k'
+population_statistics_text_background_color='w'

@@ -35,7 +35,7 @@ function [correlation,x,y] = tapas_physio_corrcoef12(x,y, isZtransformed)
 % (either version 3 or, at your option, any later version). For further details, see the file
 % COPYING or <http://www.gnu.org/licenses/>.
 %
-% $Id: tapas_physio_corrcoef12.m 748 2015-06-19 11:29:27Z kasperla $
+% $Id$
 if nargin < 3
     isZtransformed = [0 0];
 end
@@ -50,28 +50,31 @@ end
 
 %C(i,j)/SQRT(C(i,i)*C(j,j)).
 
-nSamples = numel(x);
-normFactor = 1/(nSamples-1);
-
-% make column vectors
-if size(x,1) ~= nSamples
-    x = x(:);
-    y = y(:);
-end
-
-if ~isZtransformed(1) % perform z-transformation
-    x = x - sum(x)/nSamples;
-    x = x./sqrt(x'*x*normFactor);
-end
-if ~isZtransformed(2) % perform z-transformation
-    y = y - sum(y)/nSamples;
-    y = y./sqrt(y'*y*normFactor);
-end
-
-if numel(x) == numel(y)
-    correlation = x'*y*normFactor;
-else
-    correlation = [];
+correlation = 0;
+if any(x) && any(y) % all-zero vectors result in zero correlation
+    
+    nSamples = numel(x);
+    normFactor = 1/(nSamples-1);
+    
+    % make column vectors
+    if size(x,1) ~= nSamples
+        x = x(:);
+        y = y(:);
+    end
+    
+    if ~isZtransformed(1) % perform z-transformation
+        x = x - sum(x)/nSamples;
+        x = x./sqrt(x'*x*normFactor);
+    end
+    if ~isZtransformed(2) % perform z-transformation
+        y = y - sum(y)/nSamples;
+        y = y./sqrt(y'*y*normFactor);
+    end
+    
+    if numel(x) == numel(y)
+        correlation = x'*y*normFactor;
+        % otherwise, correlation stays zero
+    end
 end
 
 %end % else doUseSlow

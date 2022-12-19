@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>lacunary :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="lacunarity.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="lepskiiap.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">lacunary</h1>
+        <p>Generates a the discrete wavelet transform of which is a lacunary sequence</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>LAC = lacunary(N,H,L,QMF)</tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>LAC = lacunary(N,H,L,QMF)</tt> Generates the process, <tt>LAC</tt>, using a sample size, <tt>N</tt>, a Holder exponent, <tt>H</tt>,
+            a Lacunary coefficient, <tt>L</tt>, and a quadrature mirror filter <tt>QMF</tt>. The parameter <tt>N</tt> is a positive integer, the parameters <tt>H</tt> and <tt>L</tt> 
+            are reals in (0,1).
+            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p>At each scale <tt>j</tt>, <tt>2^L(j)</tt> coefficients are chosen randomly and their value is
+                        set to <tt>2^-j*H</tt>, the others being 0, independently at each scale.
+                    </p>
+                </td></tr></table>
+            </ul>
+        </p>
+                
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of a process with a Lacunary Wavelet</h3>
+            <p class="synopsis">
+                <tt>N = 1024; H = 0.5; L = 0.9; t = linspace(0,1,N);<br>
+                    QMF = MakeQMF('daubechies',2);<br>
+                    lac = lacunary(N,H,L,QMF);<br>
+                    figure; plot(t,lac);<br>
+                    title('Process with Lacunary Wavelet H = 0.5, L = 0.9 and 2-daubechies filter');<br> 
+                    xlabel('time')
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/lacunary_ex1.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p><a href="wave1f.html"><tt>wave1f</tt></a></p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="lacunarity.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">lacunarity</td><td>&nbsp;</td><td align="right">lepskiiap</td>
+                <td align="right" width="20"><a href="lepskiiap.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

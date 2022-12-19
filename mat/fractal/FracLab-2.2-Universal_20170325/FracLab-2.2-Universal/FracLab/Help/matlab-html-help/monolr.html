@@ -1,0 +1,174 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>monolr :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="mfdpumping2d.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="msmlevy.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">monolr</h1>
+        <p>monovariate linear regression</p>
+        
+        <p>This C_LAB routine provides six different algorithms to proceed linear regression on monovariate data:  least square, weighted  least square,
+           penalized least square, multiple least square, maximum likelyhood and Lepskii's adaptive procedure least square, in one sole routine.
+        </p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>[a_hat,[b_hat,y_hat,e_hat,sigma2_e_hat,optvarargout]= monolr(x,y,[lrstr,optvarargin])</tt>
+        </p>
+        
+        <h3>Inputs</h3>
+        <p><b><tt>x :</tt></b> real vector [1,J] or [J,1]. Contains the abscissa.</p>
+        
+        <p><b><tt>y :</tt></b> real vector [1,J] or [J,1]. Contains the ordinates to be regressed.</p>
+        
+        <p><b><tt>lrstr :</tt></b><br>
+            Contains the string which specifies  the type of linear regression to be used. It can be :
+            <ul>
+                <li>'ls' for least square
+                <li>'wls' for weighted least square
+                <li>'pls' for penalized least square
+                <li>'mls' for multiple least square  (that is for  j varying from  1  to J)
+                <li>'ml' for maximum likelyhood
+                <li>'lapls'  for   Lepskii's adaptive   procedure least square.
+            </ul>
+            The default value for lrstr is 'ls'.
+        </p>
+        
+        <p><b><tt>optvarargin :</tt></b><br>
+            Contains optional variable input arguments. Depending on the choice of linear regression, the fourth parameter can be :
+            <ul>
+                <li> w : strictly positive real vector [1,J] or [J,1]. If weighted least square is chosen, contains the weights.
+                <li>I : strictly positive real (integer) scalar. If penalized least square is chosen, contains the number of iterations.
+                <li> sigma2_j : strictly positive real vector [1,J] or [J,1]. If Lepskii's  adaptive procedure least square  is chosen, contains the sequence of variances.
+            </ul>
+            The fifth parameter can be :
+            <ul> 
+                <li>m : real scalar. If penalized least square is chosen, contains the mean of the normal weights.
+                <li>K : strictly positive real scalar. If Lepskii's adaptive procedure least square is chosen, contains the confidence constant.
+            </ul>
+            The sixth parameter can be :
+            <ul><li>s : strictly positive real scalar. If penalized  least  square is  chosen, contains  the variance  of the normal weights.</li></ul>
+        </p>
+        
+        <h3>Outputs</h3>
+        <p><b><tt>a_hat :</tt></b> real scalar or vector [1,J]. Contains the estimated slope.</p>
+
+        <p><b><tt>b_hat :</tt></b> real scalar or vector [1,J]. Contains the estimated ordimate at the origin.</p>
+        
+        <p><b><tt>y_hat :</tt></b> real vector [1,J] or [1,(J+2)*(J-1)/2]. Contains the regressed ordinates.</p>
+        
+        <p><b><tt>bounds :</tt></b> Bounds of linearity of log2(Nboxes) in function of log2(Size). Interesting if reg==1.</p>
+        
+        <p><b><tt>e_hat :</tt></b> real vector [1,J] or [1,(J+2)*(J-1)/2]. Contains the residuals.</p>
+        
+        <p><b><tt>sigma2_e_hat :</tt></b> real scalar. Contains the residuals' variance (that is, the mean square error).</p>
+        
+        <p><b><tt>optvarargout :</tt></b><br>
+            Contains optional  variable output  arguments.  If  Lepskii's adaptive procedure least square is chosen, the parameters are
+            <ul>
+                <li> K_star : strictly positive real scalar. Contains the optimal confidence constant.
+                <li>j_hat : strictly positive real (integer) scalar. Contains the selected index.
+                <li>I_c_j_min : real vector [1,J]. Contains the minimum bounds of the confidence intervals.
+                <li>I_c_j_max : real vector [1,J]. Contains the maximum bounds of the confidence intervals.
+                <li>E_c_j_hat_min : real scalar. Contains the minimum bound of the selected intersection interval.
+                <li>E_c_j_hat_max : real scalar. Contains the maximum bound of the selected intersection interval.
+            </ul>
+        </p>
+        
+        <h2>Description</h2>
+        <p>The abscissa x and the ordinate y  to be regressed with must be of the same size [1,J] or [J,1].<br>
+            The weights w or the sequence  of variances sigma2_j must be strictly positive and of size [1,J] or [J,1].<br>
+            For the meaning of the variable optional input parameters sigma2_j and K, see  lepskiiap (Lepskii's  Adaptive Procedure) C_LAB routine's help.<br>
+            The number of iterations I must be >=2. The variance of the normal weights s must be strictly positive.<br>
+            If multiple least square, maximum likelyhood or Lepskii's adaptive procedure least square is chosen, the estimated slope a_hat and the
+            ordinate at the origin b_hat are vectors of size [1,J], resp. The regressed ordinates y_hat and the residuals e_hat
+            vectors are of size [1,(J+2)*(J-1)/2] (as they contains results for multiple linear regression, be aware of that when vizualising them,
+            (see examples), otherwise there are scalars, resp. vectors of size [1,J]. For maximum likelyhood, multiple least square
+            linear regressions are proceeded in order to obtain variance estimates. Then maximum likelyhood linear regression is
+            proceeded (corresponding results are found in a_hat(1), b_hat(1), y_hat(1:J), e_hat(1:J) and sigma2_e_hat(1), (see examples).<br>
+            
+            For the meaning of the variable optional output parameters K_star, j_hat, I_c_j_min, I_c_j_max, E_c_j_max, and E_c_j_max, see lepskiiap (Lepskii's Adaptive Procedure) C_LAB routine's help.<br>
+            For the details of the Lepskii's adaptive procedure, see lepskiiap (Lepskii's Adaptive Procedure) C_LAB routine's help.
+        </p>
+        
+        <h2>Example</h2>
+        <p class="synopsis">
+            <tt>J=32; x=1+linspace(0,1,J);<br>
+                % Wiener process<br>
+                W=randn(1,J); epsilon=.1; y=x+epsilon*W;<br>
+                % least square<br>
+                [a_hat,b_hat,y_hat,e_hat,sigma2_e_hat]=monolr(x,y);<br>
+                plot(x);hold on;plot(y);plot(y_hat,'kd');<br>
+                plot(epsilon.*W);hold on;plot(e_hat);<br>
+                title('least square'); disp('type return'); pause; clf;<br>
+                % weighted least square<br>
+                epsilon=linspace(.05,.5,J); y=x+epsilon.*W;<br>
+                [a_hat,b_hat,y_hat,e_hat,sigma2_e_hat]=monolr(x,y,'wls',1./epsilon);<br>
+                plot(x);hold on;plot(y);plot(y_hat,'kd');<br>
+                plot(epsilon.*W);hold on;plot(e_hat);<br>
+                title('weighted least square'); disp('type return'); pause; clf;<br>
+                % penalized least square<br>
+                [a_hat,b_hat,y_hat,e_hat,sigma2_e_hat]=monolr(x,y,'pls',30);<br>
+                plot(x);hold on;plot(y);plot(y_hat);<br>
+                title('penalized least square'); disp('type return'); pause; clf;<br>
+                % multiple least square<br>
+                [a_hat,b_hat,y_hat,e_hat,sigma2_e_hat]=monolr(x,y,'mls');<br>
+                plot(x);hold on;plot(y)<br>
+                start_j=0; hold on;<br>
+                for j=2:J<br>    
+                <ul>
+                    plot([1:j],y_hat(start_j+1:start_j+j),'k');<br>
+                    disp(['estimated slope a_hat =',num2str(a_hat(j))]);<br>
+                    disp('type return');<br>
+                    pause;<br>
+                    start_j=start_j+j;<br>
+                    j=j+1;<br>
+                </ul>
+                end<br>
+                clf<br>
+                % maximum likelyhood<br>
+                [a_hat,b_hat,y_hat,e_hat,sigma2_e_hat]=monolr(x,y,'ml');<br>
+                plot(x);hold on;plot(y_hat(1:J),'kd');<br>
+                plot(epsilon.*W);hold on;plot(e_hat(1:J));<br>
+                clf;<br>
+                % Lespkii's adaptive procedure<br>
+                epsilon=.01; y(1:16)=x(1:16)+epsilon*W(1:16); y(16:32)=2*x(16:32)+epsilon*W(16:32);<br>
+                [a_hat,b_hat,y_hat,e_hat,sigma2_e_hat,K_star,j_hat,I_c_j_min,I_c_j_max,E_c_j_hat_min,E_c_j_hat_max]=monolr(x,y,'lapls');<br> 
+                plot(a_hat); hold on;<br> 
+                plot(I_c_j_max,'r^'); plot(I_c_j_min,'gV');<br> 
+                title('LAP: estimator vs. index'); xlabel('index: j'); ylabel('estimator: \theta_j');<br> 
+                plot(j_hat,E_c_j_hat_min,'ko');<br> 
+                plot(j_hat,E_c_j_hat_max,'ko');<br>
+            </tt>
+        </p>
+        
+        <h2>See Also</h2>
+        <p>
+            <a href="lepskiiap.html"><tt>lepskiiap</tt></a>
+        </p>
+
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="mfdpumping2d.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">mfdpumping2d</td><td>&nbsp;</td><td align="right">msmlevy</td>
+                <td align="right" width="20"><a href="msmlevy.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>    
+    </body>
+</html>

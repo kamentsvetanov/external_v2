@@ -10,14 +10,14 @@
 % (either version 3 or, at your option, any later version). For further details, see the file
 % COPYING or <http://www.gnu.org/licenses/>.
 %
-% $Id: tapas_physio_check_efficacy.m 541 2014-10-11 16:40:49Z kasperla $
+% $Id$
 
 %% ========================================================================
 % START #MOD
 
 % general paths study
 pathSPM         = '~/Documents/code/matlab/spm12b';
-% pathPhysIO      = '~/Documents/code/matlab/spm12b/toolbox/PhysIO';
+pathPhysIO      = '~/Documents/code/matlab/spm12b/toolbox/PhysIO';
 fileReport      = ['~/Dropbox/Andreiuta/physio_rest_ioio_pharm/' ...
     'physio_IOIO_pharm/results/PhysIOTest_cardiac_overview_inferior_sliceParallel.ps']; % where contrast maps are saved
 
@@ -81,8 +81,8 @@ scans = {scans.name};
 subjectIndices = 1:length(scans);
 
 delete(fileReport);
-% addpath(pathPhysIO);
-% addpath(pathSPM);
+addpath(pathPhysIO);
+addpath(pathSPM);
 spm('defaults', 'fMRI');
 spm_jobman('initcfg');
 

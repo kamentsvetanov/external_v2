@@ -1,0 +1,31 @@
+<productinfo>
+
+<matlabrelease>R2008b</matlabrelease>
+<name>FracLab</name>
+<type>toolbox</type>
+<icon>$toolbox/fraclab/Data/fraclabicon.gif</icon>
+<help_location>.</help_location>
+
+<list>
+
+<listitem>
+<label>Help</label>
+<callback>fl_doc</callback>
+<icon>$toolbox/matlab/icons/bookicon.gif</icon>
+</listitem>
+
+<listitem>
+<label>Demos</label>
+<callback>fl_doc fraclab_demos</callback>
+<icon>$docroot/techdoc/matlab_env/examples/demoicon.gif</icon>
+</listitem>
+
+<listitem>
+<label>Web Site</label>
+<callback>web http://fraclab.saclay.inria.fr/ -browser</callback>
+<icon>CommonIcon.WEB</icon>
+</listitem>
+
+</list>
+
+</productinfo>

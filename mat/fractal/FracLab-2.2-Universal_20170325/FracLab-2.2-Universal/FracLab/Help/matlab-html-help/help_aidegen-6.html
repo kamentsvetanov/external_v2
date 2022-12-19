@@ -1,0 +1,447 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Overview and main functionalities of Fraclab: Homework</TITLE>
+ <LINK HREF="help_aidegen-7.html" REL=next>
+ <LINK HREF="help_aidegen-5.html" REL=previous>
+ <LINK HREF="help_aidegen.html#toc6" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_aidegen-7.html">Next</A>
+<A HREF="help_aidegen-5.html">Previous</A>
+<A HREF="help_aidegen.html#toc6">Contents</A>
+<HR>
+<H2><A NAME="s6">6. Homework</A></H2>
+
+<P>
+<P>In many of the help files associated with the various menus of
+<B>Fraclab</B>, you'll find a "homework" section that describes an
+example of application of the corresponding tools. This is intended to
+help you get started with <B>Fraclab</B> and to show the possibilities
+of a fractal approach to signal processing.
+<P>In this general help, we highlight three examples taken from the
+following menus: <B>1D exponents estimation</B>, <B>Denoising</B> and
+<B>Segmentation</B>. See the corresponding helps for more details.
+<P>
+<P>
+<P>
+<H2><A NAME="ss6.1">6.1 Analysis of a stock market log</A>
+</H2>
+
+<P>
+<P>The stock market is a fascinating area for fractal analysis.  Many
+authors have argued that models based on stochastic processes
+exhibiting long dependence and/or infinite variance are relevant in
+this area. <B>Fraclab</B> can compute both long range dependence
+exponents and various parameters that characterize processes without a
+second moment. However, the main focus in <B>Fraclab</B> is on the
+measure of local regularity: independently of any assumption of long
+dependence and/or infinite variance, it is certainly true that stock
+market logs are very irregular. Moreover, this irregularity is a
+function of time, and we expect that, for instance, at "quiet"
+periods, the market should evolve smoothly, while krachs translate
+into sudden changes in the regularity. 
+<P>A nice illustration of the above intuition is provided by the analysis
+of the Nikkei225 index during the period 01/01/80 to 05/11/2000.  The
+log consists in 5313 daily values corresponding to that period. Load
+first these data into <B>Fraclab</B>: Press the <B>Load</B> button in the
+main window. A new window appears, showing the files of your current
+directory. Change directory to the <B>DATA</B> directory that comes with
+the <B>Fraclab</B> release. Choose the file called <EM>nikkei225.txt</EM> by
+clicking on it. Its name is then displayed at the top of the window,
+in the <B>Name:</B> box. Since this file is plain text, click on the
+button to the right of <B>Load as:</B>, and select the item
+<B>ASCII</B>. Then press <B>Load</B>, and <B>Close</B> the loading window.
+The <EM>nikkei225</EM> file should appear in your <B>Variables</B> list of
+the main window, under the name <EM>fnikkei225</EM>.  View this signal: Open the
+<B>View</B> window by pressing on the <B>View</B> button. In the <B>View</B>
+window, click on <B>View in new</B>. This will open a window displaying
+the stock market log. Like most data of this type, this signal is
+quite erratic. Other obvious features include a steady increase at the
+beginning of the log, and strong discontinuities around the points
+1780, 2040, 2650, 2760 or 3200. Let us see if we can highlight these
+and other significant events with a local regularity analysis.
+<P>Financial analysts do not work directly on the prices, but on their
+logarithms, so we'll first type <EM>lnikkei = log(fnikkei225);</EM> in the
+matlab window, and import <EM>lnikkei</EM> into <B>Fraclab</B>. To do this,
+press the <B>Scan Workspace</B> button in the main window. In the new
+windows that appears, titled <B>Import Data from MATLAB
+Workspace</B>, locate the signal <EM>lnikkei</EM>, select it by clicking on
+it, and hit <B>Import</B>, then <B>Close</B> this window. <EM>lnikkei</EM> will
+appear in the <B>Variables</B> list of the main window, under the same
+name. 
+<P>We will now estimate the local regularity of <EM>lnikkei</EM>: Click on
+<B>1D Exponents Estimation</B> and choose <B>Local Hölder Exponent</B>
+then <B>oscillation based method</B>. In the window that appears, check
+that the <B>Input data</B> is <EM>lnikkei</EM>. Otherwise, select
+<EM>lnikkei</EM> by clicking on it in the <B>Variables</B> list of the main
+window, and hit <B>Refresh</B> in the <B>Local Hölder Exponent</B>
+window. Set the parameters as follows: <B>Nmin = 1</B>, <B>Nmax = 8</B>,
+<B>Neighbourhood size = 16</B>, and regression type = <B>Least Square</B>
+(see the help file corresponding to this menu for details on the
+meaning of these parameters). Hit <B>Compute</B>, and wait for less than
+a minute. The output signal appears in the <B>Variables</B> list of the
+main window, and is called <EM>pht_lnikkei0</EM>. View this signal, by
+pressing <B>View in new</B> in the <B>View</B> menu (check that
+<EM>pht_lnikkei0</EM> is selected before doing so). As you see, most
+values of the local Hölder exponent are between 0 and 1, with a few
+peaks above 1 and up to more than 6. Recall that a Hölder exponent
+between 0 and 1 means that the signal is continuous but not
+differentiable at the considered point. In addition, the lower the
+exponent, the more irregular the signal. Looking at the original
+signal, it appears obvious that the log is almost nowhere smooth,
+which is consistent with the values of <EM>pht_lnikkei0</EM>. What is more
+interesting is that important events in the log have a specific
+signature in <EM>pht_lnikkei0</EM>: periods where "things happen" are
+characterized by sudden increase in regularity, which passes above 1,
+followed by very small values, e.g. below 0.2, which correspond to low
+regularity. Let us take some examples. The most prominent feature of
+<EM>pht_lnikkei0</EM> is the peak at abscissa 2018 with amplitude larger
+than 6. Note also that the points with the lowest values in regularity
+of the whole log are located just after this peak: The Hölder exponent
+is around 0.2 at abscissa roughly between 2020 and 2050, and 0.05 at
+abscissa between 2075 and 2100. Both values are well below the mean of
+<EM>pht_lnikkei0</EM>, which is 0.4 (its variance of is 0.036). As a
+matter of fact, only 10 percent of the points of the signal have an
+exponent smaller than 0.2.  Now the famous October 19 1987 krach
+corresponds to abscissa 2036, right in the middle on the first low
+regularity period after the peak. The days with smallest regularity in
+the whole log are thus logically located in the weeks following the
+krach, and one can assess precisely which days were more
+erratic. However, if you go back to original <EM>fnikkei225</EM> signal,
+things are not so clear: although the krach is easily seen as a
+downward discontinuity at abscissa 2036, the area around this point
+does not appear to be more "special" than, for instance, the last part
+of the log (you may zoom on the different areas for easier
+visualization).
+<P>Consider now another region which contains many points with low Hölder
+exponents with a few isolated very regular points (i.e. with exponent
+larger than 1). Look at the area between abscissa 4450 and 4800: This
+roughly corresponds to the "Asian crisis" period, which approximately
+took place between January 1997 and June 1998 (there are no exact
+dates for the beginning and end of the crisis. Some authors place the
+beginning of the crisis mid-1997, and the end by late 1999, or even
+later). On the graph of the original log of the Nikkei225, you can see
+that this period is quite erratic, with some discontinuities and
+pseudo-cycles (this behaviour arguably seems to extend between points
+3500 and maybe the end of the trace). Looking now at
+<EM>pht_lnikkei0</EM>, we notice that there are two peaks with exponents
+larger than one in the considered period (there is an additional such
+point around abscissa 4300, which, however, is not followed by points
+with low values of regularity -e.g. smaller than 0.15-, but is
+preceded by such points, between abscissa 4255 and 4285). The first
+peak is around 4455, and is followed by irregular points between 4465
+and 4475. The second is around 4730. This region, between abscissa
+4450 and 4800, has a large proportion of irregular points: 12 percent
+of its points have exponent smaller than 0.15. This is three times the
+proportion observed in the whole log. In addition, this area is the
+one with highest density of points with exponent smaller than 0.15 (we
+exclude in these calculations the first and last points of the log,
+because of border effects). A nice way of seeing this is to zoom on
+the graph of <EM>pht_lnikkei0</EM> to display only the ordinates between,
+say, 0.05 and 0.2. This can easily be done using the <B>axes control</B>
+facility in the <B>View</B> menu of <B>Fraclab</B> by selecting the
+appropriate <B>Y range</B> (don't forget to hit <B>Apply</B> so that your
+settings take effect).
+<P>Although the discussion above is overly simplistic, it shows that
+strong perturbations in this particular financial log generally
+correspond to regions with very low values of the local regularity,
+with most of the times the presence of a single or a couple of
+extremely regular points. Such a behaviour has been observed in a
+large number of other logs. You may care to try the same kind of
+analysis on your own signals. Chances are that "interesting" regions,
+or points, will have a specific signature in the regularity graph: The
+evolution of the Hölder exponents brings an information which is, in
+some situations, perhaps more intrinsic than the amplitude of the
+original signal.
+<P>
+<P>Before leaving this signal, let us compute its "long range dependence"
+exponent. More precisely, <B>Fraclab</B> allows you to compute an
+exponent that describes the power law behaviour of the frequency
+spectrum of the increments of the signal around the origin (i.e. at
+low frequencies), of course assuming that such a power law holds. If
+this is the case and if the exponent is larger than 1/2, one says that
+the data display long range dependence (LRD), in the sense that the
+correlations decay "slowly" when the time lag increases. The LRD
+exponent estimator in <B>Fraclab</B> is a wavelet-based one. Select
+first <EM>lnikkei</EM> in the <B>Variables</B> list, then go to <B>1D
+Exponents Estimation</B> and choose <B>LRD Exponent</B>. In the window that
+appears, choose <B>Advanced Compute</B>. A new window pops up, titled
+<B>Long Range Dependence Parameter</B>. Check that the <B>Input Signal</B>
+is <EM>lnikkei</EM>, and modify the <B>Voices</B> parameter from its default
+128 to 64, just to speed up a little bit the computations. Then hit
+<B>Compute WT</B>. This will launch the computation of the continuous
+wavelet transform of <EM>lnikkei</EM>, using the complex Morlet wavelet as
+an analyzing wavelet, and with the various parameters specified in the
+window (see the help corresponding to this area of <B>Fraclab</B> for
+more). When the computation is over, you should see a new structure in
+the <B>Variables</B> list, called <EM>cwt_lnikkei0</EM>. This is the
+continuous wavelet transform of <EM>lnikkei</EM>, that you may care to
+visualize in the usual way: hit <B>View in new</B> in the <B>View</B> menu (if
+the <B>View</B> menu is not opened, hit <B>View</B> in the main window).
+<EM>cwt_lnikkei0</EM> should also appear in the box facing <B>Input CWT</B>
+in the lower part of the <B>Long Range Dependence Parameter</B>
+window. Now hit <B>Compute</B> at the bottom of this window. A new
+window appears, showing a graph where abscissa represent the
+logarithms of the scales in the wavelet transform, and ordinates are
+estimates of the logarithms of the energy in the signal at the
+corresponding scale. The red line is the least square regression line
+corresponding to the displayed circles. You'll see that the linear fit
+is poor when the whole graph is considered, as it is here. Since we
+are interested in LRD, we should however restrict our attention to
+large scales. Using the black cross that appears when you point inside
+the graphic window, select the region between abscissa 3 and 7: put
+the pointer at any point above abscissa 3, click, then put the pointer
+at any point above abscissa 7, and click again. The red line should
+now fit approximately the part of the graph above these abscissa. The
+<B>Estimated Global Scaling Exponent</B> displayed above the graph
+should be around 0.56. You may try to compute the least square
+regression line above other parts of the graph by repeating the same
+steps. When you're finished, hit <B>Return</B> on your keyboard, as
+indicated on the lower right part of the graphic window. This will
+make the cross disappear and will display the last estimated value of
+the exponent at the bottom of the <B>Long Range Dependence Parameter</B>
+window, in the box facing <B>Scaling Exponent</B>. To make the graphic
+window go away, close it manually in the usual way (i.e. not with the
+help of the <B>View</B> menu). According to this estimate, thus, our
+financial log exhibit a slight long range dependence, because the
+exponent is a bit above 0.5.
+<P>
+<P>
+<P>
+<H2><A NAME="ss6.2">6.2 Synthetic Aperture Radar image denoising</A>
+</H2>
+
+<P>
+<P>SAR images are generally difficult to read and to analyze because they
+contain a large amount of a specific noise, called speckle. Dozens of
+methods have been proposed to enhance their quality. Some use precise
+knowledge about, e.g., the statistics of the noise, while other are
+rather generic. The fractal denoising method is based on the following
+simple observation : consider an image I, and its noisy version
+J. Pick a particular location (x,y) at random in the image. Then,
+chances are that the local regularity of I around (x,y) will be larger
+than the one of J. Of course, this statement is rather imprecise if we
+do not define how we measure regularity. We will however content
+ourselves here with the intuitive fact that adding noise decreases the
+local regularity at all points. Denoising can then be performed by
+increasing in a controlled way the local regularity. This is exactly
+how the fractal method works.
+<P>To see a practical example of this, first load a SAR image into
+<B>Fraclab</B> by following these steps: Press the <B>Load</B> button in
+the main window. A new window appears, showing the files of your
+current directory. Change directory to the <B>DATA</B> directory that
+comes with the <B>Fraclab</B> release. Choose the file called
+<EM>sar.tif</EM> by clicking on it. Its name is then displayed at the top
+of the window, in the <B>Name:</B> box. Check that the <B>Load as:</B> box
+displays the item <B>image</B>, and press <B>Load</B>. Then <B>Close</B> the
+loading window.  The <EM>sar</EM> image should appear in your
+<B>Variables</B> list of the main window, under the name <EM>im2d_0</EM> (or
+<EM>im2d_1</EM>, etc...).  View this image: Open the <B>View</B> window by
+pressing on the <B>View</B> button. In the <B>View</B> window, click on
+<B>View in new</B>. This will open a window displaying the SAR image. As
+you'll see, this image appears very noisy, and does not seem to hold
+any useful information. However, this is not quite true, as this scene
+does contain a river flowing from North to South. Our aim here is to
+perform a pre-processing that will enhance the image so that it will
+be possible to detect automatically the river. Such a procedure is
+used by the IRD, a French agency, which, in this particular
+application, is interested in monitoring water resources in this
+region of Africa.
+<P>Go to <B>Denoising</B>, and choose <B>Multifractal Pumping</B>. In the new
+window that appears, check that the name appearing in the <B>Analyzed
+signal</B> box is <EM>im2d_0</EM>. Then choose a <B>Spectrum shift value</B>,
+either by using the sliders or by entering directly a value. A value
+of 1.5 will give you an interesting result at this stage. Press
+<B>Compute</B>. The processing is fast (probably less than a
+second). You should see a new signal in the <B>Variables</B> list,
+called <EM>den_im2d_00</EM>. Display this image by clicking <B>View in
+new</B> in the <B>View</B> menu. If everything went right, you should be
+able to distinguish some structures on the processed image. Most
+prominently, the river now appears, flowing from the top of the image
+and assuming roughly an inverted "Y" shape. Other values of the
+<B>Spectrum shift value</B> around 1.5 may give more visually pleasing
+results.
+<P>Here are some other tests worth trying. A characteristic feature of
+the <B>Multifractal Pumping</B> is that it is invertible. A striking
+illustration is to denoise the SAR image with a large <B>Spectrum
+shift value</B>, say 5.  You obtain as an output the "enhanced" image
+<EM>den_im2d_01</EM>, say. View <EM>den_im2d_01</EM>, and notice that it is
+very blurred, and thus seems to contain even less information than the
+original data. Now, with <EM>den_im2d_01</EM> selected in the
+<B>Variables</B> list, hit <B>Refresh</B> in the denoising window, so that
+<B>Fraclab</B> knows that you want to process this new signal. Enter -5
+as <B>Spectrum shift value</B> (that is, instead of denoising, you
+"increase the noise"). View the output, called
+<EM>den_den_im2d_010</EM>. You'll see that this last image exactly
+coincides with <EM>im2d_0</EM>.
+<P>A final test is to compare this <B>Multifractal Pumping</B> with the
+classical wavelet shrinkage method. Wavelet shrinkage is a denoising
+procedure that gives excellent results for data corrupted with
+independent additive noise, provided the original signal has some
+minimum regularity. In our case, the noise is non additive and
+strongly correlated with the signal, which, furthermore, has no <EM>a
+priori</EM> regularity. Thus, we do not expect this method to behave well
+here. Go to <B>Denoising</B>, and open the <B>Wavelet shrinkage</B>
+window. Check that the name appearing in the <B>Analyzed signal</B> box
+is <EM>im2d_0</EM>. Otherwise, select the signal <EM>im2d_0</EM> in the
+<B>Variables</B> list and hit <B>Refresh</B> in the <B>Wavelet shrinkage</B>
+window. Choose a <B>threshold value</B> and hit <B>Compute</B>. No matter
+which value you choose for the threshold, the output signal never
+appears really "denoised".
+<P>
+<P>
+<P>
+<H2><A NAME="ss6.3">6.3 Optical image segmentation</A>
+</H2>
+
+<P>
+<P>This is intended to show how multifractal analysis may be used for
+edge detection. Very roughly speaking, the multifractal analysis of a
+signal or an image consists in two steps: One first compute the Hölder
+exponents of each point in the signal. Second, one groups all points
+with the same exponent, say t, to form a set E(t). The multifractal
+spectrum is the function that associates to each t the "dimension" of
+the set E(t). In other words, multifractal analysis computes, for each
+singularity exponent, the "size" of the set of points in the image
+where this exponent is found.
+<P>To apply multifractal analysis to edge detection, we thus start by
+characterizing the local regularity of the image around each point
+by its Hölder exponent. Edge points are usually irregular points, so
+we expect them to have low Hölder exponent. This is true however when
+one measures the local regularity in the "usual way", i.e. by
+comparing the grey levels in a given zone with the size of this
+zone. In this experiment, we use a different measure of regularity: We
+associate to each region in the image the maximum of its grey levels,
+and we record the regularity of this quantity. More precisely, we do
+the following: Around each point in the image, we center windows of
+increasing size. We "measure" the content of each window by the
+maximum of the grey levels in the window. The regularity exponent is
+then obtained by evaluating the scaling law between the logarithms of
+the maxima and those of the window sizes. It is easy to see that
+smooth regions will now have a low regularity exponent, while textured
+zones have a large exponent. For instance, in a zone with constant
+grey levels, the maximum will not depend on the window size, thus the
+scaling exponent is 0 (see the references given in the help file of
+the <B>Segmentation</B> menu for more).
+<P>Let us try this on an optical image. Load first the image called
+<EM>door.tif</EM> into <B>Fraclab</B> by following these steps: Press the
+<B>Load</B> button in the main window. A new window appears, showing the
+files of your current directory. Change directory to the <B>DATA</B>
+directory that comes with the <B>Fraclab</B> release. Choose the file
+called <EM>door.tif</EM> by clicking on it. Its name is then displayed at
+the top of the window, in the <B>Name:</B> box. Check that the <B>Load
+as:</B> box displays the item <B>image</B>, and press <B>Load</B>. Then
+<B>Close</B> the loading window.  The <EM>door</EM> image should appear in
+your <B>Variables</B> list of the main window, under the name
+<EM>im2d_0</EM> (or <EM>im2d_1</EM>, etc...).  View this image: Open the
+<B>View</B> window by pressing on the <B>View</B> button. In the <B>View</B>
+window, click on <B>View in new</B>. This will open a window displaying
+the <EM>door</EM> image. This is an image of a Japanese door (more
+precisely, a <EM>toryi</EM>).
+<P>Click on the <B>Segmentation</B> pop-up menu and select <B>Image
+multifractal segmentation</B>.  In the new window that appears, click on
+<B>Refresh</B> on the first line, in front of <B>Analyzed</B> (check
+before that <EM>im2d_0</EM> was selected in the <B>Variables</B> list of the
+main window). <EM>im2d_0</EM> should appear on the first line, meaning the
+it will be the analyzed image. Ignore the three lines below, and move
+the <B>Pointwise Hölder exponent</B> zone. Note that the <B>max</B>
+capacity is selected: This corresponds to the fact that we will be
+measuring the content of a region by its maximum grey level, as
+explained above. You will now change the <B>max size</B> parameter from
+5, its default, to 3. Do this by selecting 3 in the pop-up list that
+appears when you click on 5. Next, hit <B>Compute Hoelder</B>. After a
+few seconds, a new signal should appear in your <B>Variables</B> list,
+called <EM>hld2dCoef_im2d_00</EM>. This is the image of the Hölder
+exponents. You can view this image by clicking on <B>View in new</B> in
+the <B>View</B> menu. Notice that the image of the Hölder exponents
+gives a nice representation of the main edges of <EM>im2d_0</EM>. As
+explained above, pixels with low regularity, as are edges, appear as
+bright points, while smooth regions have low grey levels.
+<P>Technically, however, <EM>hld2dCoef_im2d_00</EM> does not represent an
+edge extraction of the original image, because edge images are
+supposed to be binary images: edge points are displayed in white,
+while all other points are in black. In this easy example, it seems
+that a simple threshold could turn <EM>hld2dCoef_im2d_00</EM> into a
+binary image that would coincide more or less with the contours. We
+will follow another path here, by using the second part of
+multifractal analysis. We thus proceed to compute the multifractal
+spectrum of our image, i.e. the function that will give the dimension
+of the sets of pixels having a given exponent. There are several type
+of multifractal spectra, and we will use the <B>Hausdorff</B> one, which
+is the default in <B>Fraclab</B>. In the zone facing <B>max boxes</B>,
+replace the default 32 by 128. This will yield a more precise
+spectrum. Hit <B>Compute spectrum</B>. The new signal
+<EM>hSpectrum_im2d_0_fd2d_alpha0</EM> is added to the <B>Variables</B>
+list. View this signal by clicking on <B>View in new</B> in the
+<B>View</B> menu. This is a 1D graph: abscissa represent the various
+Hölder exponents present in the image, while ordinates display the
+associated dimensions. Thus, for instance, the dimension 2
+corresponding to the exponent 0 means that a subset of pixels of
+dimension 2 have exponent 0. Since no other exponent has associated
+dimension 2, this means that "most" points (more precisely
+Lebesgue-almost all points) in the image have exponent 0. Recalling the
+0 is the exponent of points in smooth regions, we recover the visual
+fact that, in the door image, most points lie in smooth regions.
+Notice the shape of the spectrum, which is roughly a decreasing
+segment starting from the point (0, 2) and ending at (x, 0) (here, x=
+0.9). This shape is characteristic of optical non noisy images when
+one measure the exponents using the maxima of the grey levels. Here,
+we are interested in contours. Let us see how we can detect them using
+the spectrum: Since contours must form a set of dimension 1 in the
+image (because contours are smooth curves), and because we expect
+contours to be made of points which have roughly the same regularity,
+we expect that edge points should be approximately characterized by
+those exponents t such that the dimension of E(t) is 1. To verify this
+assumption, we will perform the segmentation of the image by putting
+all pixels with exponent t such that E(t) has dimension close to 1 to
+white, and all other points to black. To do this, go to the
+<B>Segmentation</B> part of the <B>Multifractal Image Segmentation</B>
+window, and set the <B>min dim.</B> to 0.9 and the <B>max dim.</B> to
+1.1. Hit <B>Compute seg.</B>. The output image, called <EM>seg_im2d_00</EM>
+appears in the <B>Variables</B> list. View this image by clicking on
+<B>View in new</B> in the <B>View</B> menu. As you can see, we have
+obtained, by the very simple procedure above, a good approximation to
+the edges of our original image. Notice in particular that some fine
+details have been detected, such as the small triangular holes on the
+right part of the door, the delicate contour of the bush, or the small
+sphere and the defect in the water on the lower left part of the
+image. Also, the method has detected some features inside the bush on
+the left part. These do correspond to some irregularities, that you can see
+by manipulating a little bit the grey levels of the original image.
+<P>An interesting additional feature of this approach is that one can
+extract relevant subsets of points other than the contours, again
+based on a dimension analysis. For instance, we expect that sets of
+irregular points that lie in strongly textured region should form a
+set, roughly homogeneous with respect to the Hölder exponent, and of
+dimension between 1 and 2: smooth contours are 1D curves, while smooth
+regions are 2D areas; textures form subsets which lie "in-between"
+those two extremes. Verify this by extracting now those points with
+associated dimension between, say, 1.3 and 1.7, i.e. set <B>min dim.</B>
+to 1.3 and <B>max dim.</B> to 1.7 (beware that, since <B>Fraclab</B>
+checks that <B>min dim.</B> is smaller than <B>max dim.</B>, you need to
+enter these values in the right order, otherwise <B>Fraclab</B> will
+return to its default values 0 and 2). Hit <B>Compute seg.</B> again,
+and view the output. You should see in white mostly points on the
+water and in the bush, with additional pixels on the door and the
+foreground mountains, where one can distinguish some textures. The sky
+and the background mountains, which only display smoothly varying grey
+levels, are mostly black, except the edge of the mountain to the right
+of the image. These sets of white points could rightfully be called
+"textured points". Finally, if you put <B>min dim.</B> to 1.9 and
+<B>max dim.</B> to 2, you will verify that you do get full 2D regions
+mainly composed of points in smooth regions. These three segmentations
+show that a multifractal analysis of the image allows to extract
+several kind of points using the information contained in the
+spectrum.  Of course, much more refined methods based on the technique
+explained here can be applied. See the references indicated above.
+<P>
+<P>
+<P>
+<HR>
+<A HREF="help_aidegen-7.html">Next</A>
+<A HREF="help_aidegen-5.html">Previous</A>
+<A HREF="help_aidegen.html#toc6">Contents</A>
+</BODY>
+</HTML>

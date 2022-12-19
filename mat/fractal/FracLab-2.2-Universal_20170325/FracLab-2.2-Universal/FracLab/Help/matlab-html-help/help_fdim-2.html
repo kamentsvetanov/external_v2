@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The Fractional Dimensions pop-up menu: Regularization Dimension</TITLE>
+ <LINK HREF="help_fdim-3.html" REL=next>
+ <LINK HREF="help_fdim-1.html" REL=previous>
+ <LINK HREF="help_fdim.html#toc2" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_fdim-3.html">Next</A>
+<A HREF="help_fdim-1.html">Previous</A>
+<A HREF="help_fdim.html#toc2">Contents</A>
+<HR>
+<H2><A NAME="s2">2. Regularization Dimension</A></H2>
+
+<P>
+<P>This dimension is defined is the following way: One first computes smoother
+and smoother versions of the original signal, obtained simply through
+convolution with a kernel. Now, if the original signal is "fractal", its graph
+has infinite length, while all regularized versions have
+finite length. When the smoothing parameter tends to 0, the smoothed
+version tends to the original signal, and its length will tend to
+infinity. The regularization dimension measures the speed at which
+this convergence to infinity takes place. In many cases, this will
+coincide with the usual box dimension. In general, it can be shown
+that the regularization dimension is more precise than the box
+dimension, in the sense that it is always smaller, but still larger
+than the Hausdorff dimension. In addition, the regularization
+dimension lends to more robust estimation procedures for various
+reasons. One of them is that we may choose the regularization
+kernel. Also, the smoothed versions are adaptive by
+construction. Finally, the smoothing parameter can be varied in very
+small steps, as box sizes have to undergo sudden changes. Another
+advantage is that, due to the fully analytical definition of the
+regularization dimension, it is easy to derive an estimator in
+the presence of noise.
+<P>Check first, as usual, the <B>Input data name</B>. The current
+implementation of the regularization dimension allows to deal with
+both 1D and 2D signals, in a way which is transparent to the user:
+Just input your signal, and <B>Fraclab</B> will recognize its type.
+<P>Second, you need to decide on the minimum and maximum amount of
+smoothing. This is done by specifying the corresponding sizes for the
+kernel, using the <B>Nmin</B> and <B>Nmax</B> parameters. This is
+expressed in sample units, i.e. a value of 5 means that your kernel
+will have a "width" of 11 sample points (the precise definition of the
+width depends on the kernel). You then choose a <B>Kernel</B> shape
+among <B>Gaussian</B> and <B>Rectangular</B>. The width in the Gaussian
+case in simply the standard deviation, while it is the number of non
+zero coefficients in the case of the rectangular kernel. The
+<B>Voices</B> parameter lets you choose how many smoothed curves you
+want to compute. A value of, e.g., 64, means that 64 smoothed signals
+will be generated with smoothing parameters regularly spaced between
+<B>Nmin</B> and <B>Nmax</B>.  As alluded to above, the estimation of the
+regularization dimension can accommodate for the presence of additive
+white Gaussian noise in the data. If you want to use this feature,
+just enter the standard deviation of the noise in the <B>StD</B> box
+below the <B>Noise</B> heading (estimate your noise using any classical
+method, or use the built-in estimation available in the Denoising
+menu).  As usual, the dimension will be estimated through regression,
+and you may choose which type of regression you will use,
+i.e. <B>Least Square Regression</B>, <B>Weighted Least Square</B>,
+<B>Penalized Least Square</B>, <B>Maximum Likelihood</B> or <B>Lepskii
+Adaptive Procedure</B>. All these methods are well-known except the last
+one, for which you may consult reference (2). If you select <B>Range
+Specify</B>, you will be able to choose interactively a region where an
+approximate linear behaviour holds (the next paragraph details how
+to do this). Otherwise, set the <B>Range</B> to <B>Automatic</B>. It is
+sometimes instructive to look at the <B>Regularized graphs</B>: when
+this option is checked, you will get a graphic window displaying all
+the regularized version of your signal (these will be contour plots in
+case you are dealing with an image). <B>No regularized graphs</B> is the
+default. In case you are interested in keeping the regularized
+versions for further processing, check the <B>Save regularized
+graphs</B> button. <B>Forget regularized graphs</B> is the default (note
+that this option is disabled if <B>No regularized graphs</B> has been
+checked). Be careful that, if you use a large number of voices and you
+keep the regularized graphs, you will add a large number of variables
+to your environment (each regularized graph is a distinct structure).
+<P>You are now ready to hit the <B>Compute</B> button. If you decided to
+use the <B>Automatic</B> range, then you will simply get the estimated
+dimension to the right of the box <B>Regularization Dimension=</B>. If
+you selected <B>Range Specify</B>, then a graphic window will pop up. In
+both graphs of this window, abscissa represents the logarithm of the
+smoothing parameter. In the lower graph, the ordinate represents the
+logarithm of the length of the regularized versions. If the parameter
+<B>StD</B> is 0, the upper graph simply represents the increments of the
+lower graph. This device is useful because it allows to emphasize more
+clearly a possible linear behaviour (linearity in the lower graph
+translates into constancy in the upper graph). Otherwise (if <B>StD</B>
+is positive), the upper graph displays a curve related to the relative
+strength of the noise and the signal at all scales (see reference (1)
+for more). Using the cross that appear when you point inside the
+graphic window, choose a region where approximate linearity holds:
+Select this region by clicking on its endpoints. A red line showing
+the regression will appear, and the corresponding estimated dimension
+will be displayed above the lower graph. Repeat this selection
+operation until you are satisfied, then hit <B>return</B> on your
+keyboard. The cross will disappear, and the final estimated dimension
+will be displayed to the right of the box <B>Regularization
+Dimension=</B>, at the very bottom of the <B>Regularization Dimension</B>
+window.
+<P>Note that if you select both <B>Range Specify</B> and <B>Regularized
+graphs</B>, the graphic window displaying the regularized graphs will
+appear first, then the window for the regression range selection will
+appear on the top of it and will mask it. Just move it if you want to
+inspect the regularized graphs.
+<P>
+<P>
+<HR>
+<A HREF="help_fdim-3.html">Next</A>
+<A HREF="help_fdim-1.html">Previous</A>
+<A HREF="help_fdim.html#toc2">Contents</A>
+</BODY>
+</HTML>

@@ -1,0 +1,87 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>spotted :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="regression_elimination.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="srmpfbm.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">spotted</h1>
+        <p>Computes the black and white segmentation of the f(alpha) image and performs the Small Objects Detection over the original image.<br><br>
+           <b>NOTE:</b> In the FracLab graphical interface this function is associated with the <a href="alphaimage.html"><tt>alphaimage</tt></a> function
+           and the <a href="falphaimage.html"><tt>falphaimage</tt></a> function.
+       </p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>[Yh,catSe] = spotted(x,f)<br>
+                [Yh,catSe] = spotted(...,[min,max])
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>[Yh,catSe] = spotted(x,f)</tt> Estimates the black and white segmentation, <tt>Yh</tt>, of the f(alpha) image, <tt>f</tt>,
+            and estimates the Haussdorf segmentation, <tt>catSe</tt>, in order to perform the small object detection over the input image <tt>x</tt>.
+        </p>
+        
+        <p><tt>[Yh,catSe] = spotted(x,f,[min,max])</tt> Estimates the black and white segmentation, <tt>Yh</tt>, of the f(alpha) image, <tt>f</tt>,
+            and estimates the Haussdorf segmentation, <tt>catSe</tt>, within the interval <tt>(min:max)</tt>. The parameters <tt>min</tt> and <tt>max</tt>
+            are positive reals in <tt>(0:2)</tt>. The couple <tt>[min,max]</tt> sets the range of values of f(alpha) that defines the segmentation, 
+            i.e. points in the original image with alpha such that f(alpha) belongs to <tt>[min,max]</tt> are kept in the segmented image. If <tt>[min,max]</tt>
+            is not specified the default value are <tt>[min,max] = [0,0.25]</tt>.
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Choose specific [min,max] parameter for the segmentation</h3>
+            <p class="synopsis">
+                <tt>images_loc = which('spotted.html');<br>
+                    x = imread(fullfile(fileparts(images_loc),'images_examples','Segmentation','m213.pgm'));<br>
+                    x = ima2mat(x); A = alphaimage(x,2,'neg'); F = falphaimage(A,100);<br>
+                    [Y1,C1] = spotted(x,F);<br> [Y2,C2] = spotted(x,F,[0.5,1]);
+                    figure; subplot(1,2,1); imagesc(x); title('Original image x');<br>
+                    subplot(1,2,2); imagesc(F); title('f(alpha) image');<br>
+                    figure; subplot(1,2,1); imagesc(Y1); colormap(gray); title('Segmentation [min,max]=[0,0.25]');<br>
+                    subplot(1,2,2); imagesc(C1); title('Small object detection [min,max]=[0,0.25]');<br>
+                    figure; subplot(1,2,1); imagesc(Y2); colormap(gray); title('Segmentation [min,max]=[0.5,1]');<br>
+                    subplot(1,2,2); imagesc(C2); title('Small object detection [min,max]=[0.5,1]');<br>    
+                </tt>
+            </p>
+        </ul>
+        <p><img src="images_examples/Segmentation/spotted_ex1.png" height="470" width="760" alt=""></p>
+        <p><img src="images_examples/Segmentation/spotted_ex2.png" height="470" width="760" alt=""></p>
+        <p><img src="images_examples/Segmentation/spotted_ex3.png" height="470" width="760" alt=""></p>
+        
+        <h2>See Also</h2>
+        <p><a href="alphaimage.html"><tt>alphaimage</tt></a>, <a href="falphaimage.html"><tt>falphaimage</tt></a></p>
+        
+        <h2>References</h2>
+        <p>
+            [1] J. L&eacute;vy-V&eacute;hel, P. Mignot "Multifractal segmentation of images", Fractals, Vol. 2 No. 3, (2004) 379-382.<br><br>  
+            [2] T. Stojic, I. Reljin, B. Reljin "Adaptation of multifractal analysis to segmentation of microcalcifications in digital mammograms",
+                Physica A: Statistical Mechanics and its Applications, Vol. 367 No. 15, (2006) 494-508.
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="regression_elimination.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">regression_elimination</td><td>&nbsp;</td><td align="right">srmpfbm</td>
+                <td align="right" width="20"><a href="srmpfbm.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

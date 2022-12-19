@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>asmlinfrac :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="CGMY_compute.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="asmornhulen.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">asmlinfrac</h1>
+        <p>Generates an Alpha-Stable Linear Fractional Motion </p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>ASM = asmlinfrac(N,ALPHA,H,M,m)<br>
+                ASM = asmlinfrac(...,SEED)    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>ASM = asmlinfrac(N,ALPHA,H,M,m)</tt> Generates the alpha-stable linear fractional motion, <tt>ASM</tt>, using a sample size,
+            <tt>N</tt>, a stability parameter, <tt>ALPHA</tt>, a self-similirity parameter, <tt>H</tt>, a kernel cut-off parameter, <tt>M</tt>
+            and a number of discretization steps, <tt>m</tt>. The parameters <tt>N,M and m</tt> are positive integers and this triplet
+            should be chosen so that the value <tt>m*(N+2*M)</tt> is a power of 2. <tt>ALPHA</tt> is a real in (0,2) and <tt>H</tt>
+            must be a real in (0,1) different to <tt>(1/ALPHA)</tt>.
+        </p>
+                
+        <p><tt>ASM = asmlinfrac(...,SEED)</tt> Generates the alpha-stable linear fractional motion, <tt>ASM</tt>, with a specific random
+            seed, <tt>SEED</tt>. This is useful to generate the same path several times or to compare the paths of different <tt>ASMs</tt>.
+        </p>
+                
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of a Linear Fractional Motion with a specific alpha parameter</h3>
+            <p class="synopsis">
+                <tt>N = 1000; A = 1.5; H = 0.5; M = 12; m = 32; t = linspace(0,1,N);<br>
+                    asm = asmlinfrac(N,A,H,M,m);<br>
+                    figure; plot(t,asm);<br>
+                    title('Linear Fractional Motion with alpha = 1.5 and H = 0.5'); xlabel('time')
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/asmlinfrac_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Comparison of different Linear Fractional Motion processes using a specific random seed</h3>
+            <p class="synopsis">
+                <tt>N = 2000; A1 = 1.5; A2 = 1.8; H = 0.5; M = 24; m = 32;<br>
+                    asm1 = asmlinfrac(N,A1,H,M,m,25);<br>
+                    asm2 = asmlinfrac(N,A2,H,M,m,25);<br>    
+                    figure; plot(asm1,'k'); hold on; plot(asm2,'r');<br> 
+                    legend('asm1: alpha = 1.5','asm2: alpha = 1.8','Location','NorthWest');<br>
+                    title('Linear Fractional Motion with different values of alpha parameter');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/asmlinfrac_ex2.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p>  
+            <a href="asmlevy.html"><tt>asmlevy</tt></a><tt>,</tt>
+            <a href="asmornhulen.html"><tt>asmornhulen</tt></a><tt>,</tt>
+            <a href="msmlinmfrac.html"><tt>msmlinmfrac</tt></a>
+        </p>
+        
+        <h2>References</h2>
+        <p>
+            [1] S. Stoev, M. Taqqu "Simulation methods for linear fractional stable motion and FARIMA using the Fast Fourier Transform", Fractals, Vol. 12, No. 1 (2004) 95-121.<br><br>  
+            [2] K. Falconer, R. Le Gu&eacute;vel, J. L&eacute;vy V&eacute;hel <a href="http://hal.archives-ouvertes.fr/hal-00293375/fr/"> "Localisable moving average stable and multistable processes"</a>, Stochastic Models.
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="CGMY_compute.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">CGMY_principal</td><td>&nbsp;</td><td align="right">asmornhulen</td>
+                <td align="right" width="20"><a href="asmornhulen.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

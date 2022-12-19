@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The Denoising pop-up menu: The Multifractal Regularization (L2 norm) sub-menu</TITLE>
+ <LINK HREF="help_denoising-6.html" REL=next>
+ <LINK HREF="help_denoising-3.html" REL=previous>
+ <LINK HREF="help_denoising.html#toc4" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_denoising-6.html">Next</A>
+<A HREF="help_denoising-3.html">Previous</A>
+<A HREF="help_denoising.html#toc4">Contents</A>
+<HR>
+<H2><A NAME="s4">4. The <B>Multifractal Regularization (L2 norm)</B> sub-menu</A></H2>
+
+<P>
+<P>The framework is now that of regularization, i.e. we make no
+assumption whatsoever about a possible noise. We just seek a signal Z,
+which is close in the L2 sense to the observations Y (your input signal), and with
+regularity equal to that of Y plus a shift. Just specify your
+<B>Analyzed signal</B>, and the desired <B>Hölder exponent shift</B>. Then
+hit <B>Compute</B> to get the regularized signal, called <EM>mreg_signal#</EM>.
+Typical values for the shift in this case are again around 2.
+<P>
+<P>
+<H2><A NAME="s5">5. The <B>Multifractal Regularization (pseudo Kullback norm)</B></A></H2>
+<P>
+<P>This is exactly the same as above, except this time we minimize the
+distance between Z and Y using the Kullback norm (or something close
+to it). The regularized signal is called <EM>mreglog_signal#</EM>. The
+advantages of this distance are that the computations are much simpler
+(the numerical minimization is replaced by an analytical one), and that
+it allows for further generalizations. For instance, the forthcoming
+version of <B>Fraclab</B> will include a multiplicative transform of the
+exponents instead of a shift, in the case where this distance is use.
+Typical values for the shift in this case are around 1.
+<P>
+<P>    
+<HR>
+<A HREF="help_denoising-6.html">Next</A>
+<A HREF="help_denoising-3.html">Previous</A>
+<A HREF="help_denoising.html#toc4">Contents</A>
+</BODY>
+</HTML>

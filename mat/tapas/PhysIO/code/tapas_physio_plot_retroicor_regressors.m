@@ -27,7 +27,7 @@ function fh = tapas_physio_plot_retroicor_regressors(R, order, ...
 % (either version 3 or, at your option, any later version). For further details, see the file
 % COPYING or <http://www.gnu.org/licenses/>.
 %
-% $Id: tapas_physio_plot_retroicor_regressors.m 815 2015-08-18 20:52:47Z kasperla $
+% $Id$
 
 if nargin < 3
     hasCardiacData = 1;
@@ -92,7 +92,7 @@ for s = 1:3
         plotY = [y + ...
             repmat(-1+2*ceil((1:size(y,2))/nPerOrder{s}),length(y),1)];
         
-        for iPerOrder = 1:nPerOrder{s};
+        for iPerOrder = 1:nPerOrder{s}
             plot(plotY(:,iPerOrder:nPerOrder{s}:end), ...
                 'LineStyle', lineStyles{iPerOrder}); hold on;
             xlabel('scan volumes');

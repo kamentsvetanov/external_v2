@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>percolation :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="parametric_g.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="pseudoaw.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">percolation</h1>
+        <p>Simulates an Invasion Percolation</p>  
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>[P,PC,PCB] = percolation(MAT)<br>
+                [P,PC,PCB] = percolation(...,'Visualization')<br>
+                [P,PC,PCB] = percolation(...,'Propertyname',Propertyvalue)<br>
+                [...,depth,front] = percolation(...)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>[P,PC,PCB] = percolation(MAT)</tt> Simulates an invasion percolation in a input material, <tt>MAT</tt>, and it returns the
+            percolation cluster superimposed on the given material, <tt>P</tt>. The function also returns the percolation cluster alone, <tt>PC</tt>
+            and the binary version of the percolation cluster, <tt>PCB</tt>. The parameter <tt>MAT</tt> is a real matrix.
+        </p>
+        
+        <p><tt>[P,PC,PCB] = percolation(...,'Option')</tt> Simulates an invasion percolation using a specific option. 
+            The supported Options can be choosen from the list below :
+            <ul><h3>Option Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Option Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'visu'</tt></td><td bgcolor="#F2F2F2"><p>Show the progression of the percolation (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'novisu'</tt></td><td bgcolor="#F2F2F2"><p>Don't show animation </p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>[P,PC,PCB] = percolation(...,'Propertyname',Propertyvalue)</tt> Simulates an invasion percolation and returns <tt>P,PC</tt> and <tt>PCB</tt> 
+            applying the specified property settings. The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'iter'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The simulation is performed using number of iterations, <tt>NI</tt>. The parameter <tt>NI</tt>
+                                    is a positive integer.<br> If <tt>'iter'</tt> is not specified, the default value is <tt>NI = 1000</tt>.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>[...,depth,front] = percolation(...)</tt> Simulates an invasion percolation and returns the depth of the
+            percolation cluster, <tt>depth</tt>, and the length of the percolation cluster front, <tt>front</tt>, both as a 
+            function of time.
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Simulation of an Invasion Percolation</h3>
+            <p class="synopsis">
+                <tt>I = synth2(128,0.4);<br>
+                    [P,PC,PCB,depth,front] = percolation(I,'iter',2000);<br>
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/percolation_ex1.png" height="420" width="561" alt=""></p>
+        </ul>
+            <p><img src="images_examples/Synthesis/percolation_ex2.png" height="473" width="650" alt=""></p>
+        <ul>
+            <p><img src="images_examples/Synthesis/percolation_ex3.png" height="420" width="561" alt=""></p>
+        </ul>
+                
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="parametric_g.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">parametric_g</td><td>&nbsp;</td><td align="right">pseudoaw</td>
+                <td align="right" width="20"><a href="pseudoaw.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

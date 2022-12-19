@@ -39,7 +39,7 @@ p
 
 %%
 % As you can see, mvnrnd did not complain at all.
-mvnrnd(zeros(1,100),Uj,1)
+mvnrnd(zeros(1,100),U,1)
 
 %%
 % nearest_posdef would have failed here, as U was not even symmetric, nor

@@ -1,0 +1,114 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>ifstfif :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="ifsgfif.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="lacunarity.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">ifstfif</h1>
+        <p>Generates a radom Fractal Interpolation Function based on Stochastic Iterated Function System</p>  
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>IFS = ifstfif(N,MI,VC)<br>
+                IFS = ifstfif(...,'Law')<br>
+                IFS = ifstfif(...,'Propertyname',Propertyvalue)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>IFS = ifstfif(N,MI,VC)</tt> Generates the fractal interpolation function, <tt>IFS</tt>, using a sample size, <tt>N</tt>, 
+            a 2x3 matrix of interpolation points, <tt>MI</tt>, and a 1x2 vector of contraction ceofficients <tt>VC</tt>. 
+            The parameter <tt>N</tt> is a positive, power of 2, integer and the parameters <tt>MI</tt> and <tt>VC</tt> are reals.
+        </p>
+        
+        <p><tt>IFS = ifstfif(...,'Law')</tt> Generates the fractal interpolation function, <tt>IFS</tt>, using a specific type of law
+            for the contraction coefficients. The supported Laws can be choosen from the list below :
+            <ul><h3>Law Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Law Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'uniform'</tt></td><td bgcolor="#F2F2F2"><p>Uniform random law (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'normal'</tt></td><td bgcolor="#F2F2F2"><p>Normal random law</p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>H = ifstfif(...,'Propertyname',Propertyvalue)</tt> Generates the fractal interpolation function, <tt>IFS</tt>, applying the specified property settings. 
+            The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'ratio'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>IFS</tt> is computed using a specific ratio, <tt>S</tt> that rules the variance decrease across scales.<br>
+                                    If <tt>'sigma'</tt> is not specified, the default value is <tt>S = 1</tt>.
+                                    <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                                        <td>
+                                            <p>At each scale <tt>j</tt>, the variance of the contraction coefficients is equal to <tt>1/j^S</tt>.</p>
+                                        </td></tr></table>
+                                    </ul>
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of a Fractional Interpolation Function</h3>
+            <p class="synopsis">
+                <tt>N = 1024; t = linspace(0,1,N);<br>
+                    Mxx = [0 0;0.5 1;1 1]; Myy = [0.5;0.9];<br>
+                    x = ifstfif(N,Mxx,Myy);<br>
+                    figure; plot(t,x);<br>
+                    title('Signal with uniform law'); xlabel('time');
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/ifstfif_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Synthesis of a Fractional Interpolation Function with normal law</h3>
+            <p class="synopsis">
+                <tt>N = 1024; t = linspace(0,1,N);<br>
+                    Mxx = [0.3 0.5;0.5 1;1.3 1]; Myy = [0.3;1.1];<br>
+                    x = ifstfif(N,Mxx,Myy,'normal');<br>
+                    figure; plot(t,x);<br>
+                    title('Signal with normal law'); xlabel('time');
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/ifstfif_ex2.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p><a href="ifsfif.html"><tt>ifsfif</tt></a>, <a href="ifsgfif.html"><tt>ifsgfif</tt></a></p>
+        
+        <h2>References</h2>
+        <p>
+            [1] J. Levy Vehel and K. Daoudi "Generalized IFS for Signal Processing", IEEE DSP Workshop, Loen, Norway, September 1-4, 1996.
+        </p>
+                
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="ifsgfif.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">ifsgfif</td><td>&nbsp;</td><td align="right">lacunarity</td>
+                <td align="right" width="20"><a href="lacunarity.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

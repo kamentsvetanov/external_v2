@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The Denoising pop-up menu: The Multifractal Pumping sub-menu</TITLE>
+ <LINK HREF="help_denoising-3.html" REL=next>
+ <LINK HREF="help_denoising-1.html" REL=previous>
+ <LINK HREF="help_denoising.html#toc2" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_denoising-3.html">Next</A>
+<A HREF="help_denoising-1.html">Previous</A>
+<A HREF="help_denoising.html#toc2">Contents</A>
+<HR>
+<H2><A NAME="s2">2. The <B>Multifractal Pumping</B> sub-menu</A></H2>
+
+<P>
+<P>The most obvious way to increase the local Hölder regularity by an
+amount d is simply to multiply all the wavelet coefficients at scale j
+by 2^(-dj). This roughly amounts to performing a fractional
+integration of order d (indeed, the local Hölder exponent is related
+to a notion of local fractional derivative). This sub-menu does
+exactly this. You just have to select the <B>Analyzed signal</B> and to
+adjust a <B>Spectrum shift value</B>, either by entering a value or by
+using the arrows. The spectrum shift value is the parameter d
+mentioned above (the justification for this denomination is that all
+exponents are increased by d, thus the whole multifractal spectrum is
+shifted to the right by an amount of d), and hit <B>Compute</B>. The
+output will be called <EM>den_signal#</EM>, and will be a regularized version
+of your original (1D or 2D) signal. It is interesting to note that you
+can input negative values for d, so that you may decrease the
+regularity of your signal. Also, this procedure is fully reversible,
+except for numerical round-offs. Try a large positive value for d
+(e.g. 4). The result will be a very blurred signal, which seems to
+contain almost no information. Since the blurred signal is the
+currently selected one in the <B>Variables</B> list, hit <B>Refresh</B> so
+that the denoising algorithm knows that you now want to process
+another signal. Select -d as a spectrum shift. You will recover your
+original signal.
+<P>Note finally that typical values for the shift in this case are around 0.5.
+<P>
+<P>
+<HR>
+<A HREF="help_denoising-3.html">Next</A>
+<A HREF="help_denoising-1.html">Previous</A>
+<A HREF="help_denoising.html#toc2">Contents</A>
+</BODY>
+</HTML>

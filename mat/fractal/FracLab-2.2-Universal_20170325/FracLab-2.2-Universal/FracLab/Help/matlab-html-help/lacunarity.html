@@ -1,0 +1,95 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>lacunarity :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="ifstfif.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="lacunary.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">lacunarity</h1>
+        <p>Computes the heterogeneity or lacunarity for a 2D signal (an image)</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>L = lacunarity(x,kv)<br>
+                L = lacunarity(...,'mask',M)<br>
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>L = lacunarity(x,kv)</tt> Computes the lacunarity <tt>L</tt> of the image <tt>x</tt> by centering 
+            at each point of <tt>x</tt> a window and comparing the "mass" in this window to the average mass.
+            A lacunarity is computed for each size of window.  The desired different sizes of windows are defined 
+            as a list by the input vector <tt>kv</tt>. Thus the output <tt>L</tt> of this code is also a vector of lacunarities.
+            If (<tt>N1</tt>,<tt>N2</tt>) are the size of <tt>x</tt>, then the values of <tt>kv</tt> 
+            must be included in the interval <tt>[1 : max(N1,N2)]</tt>.
+        </p>
+        
+        <p><tt>L = lacunarity(...,'mask',M)</tt> Computes the lacunarity <tt>L</tt> 
+            using a specific input mask, <tt>M</tt> which defines a region where <tt>L</tt> is really computed.
+            The mask must be the same size as <tt>x</tt>.
+            
+            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p><b>Lacunarity for grey level images is computed as follow:</b><br><br>
+                        One basically compares the "mass" in a sliding window of fixed
+                        size to the average mass of a window of the same size.<br>
+                        In the case of binary images the mass is simply the number of white pixels, 
+                        but for a grey level image, it is assumed that the intensity is normalized so that
+                        white = 1, black = 0 (this is done automatically in Fraclab). 
+                        Thus the mass is simply the sum of the grey levels.<br>
+                    </p>
+                </td></tr></table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Compute the lacunarity function for an image</h3>
+            <p class="synopsis">
+                <tt><ul><li>Load a 2D image, <tt>x</tt>, then create and load a mask, <tt>xmask</tt><br><br>
+                        images_loc = which('lacunarity.html');<br>
+                        x = imread(fullfile(fileparts(images_loc),'images_examples','Dimensions','cheess.png'));<br>
+                        xmask = imread(fullfile(fileparts(images_loc),'images_examples','Dimensions','cheess_mask.png'));<br>
+                        x = ima2mat(x); xmask = ima2mat(xmask);<br>    
+                        figure; subplot(1,2,1); imagesc(x); colormap(gray);<br>
+                        xlabel('number of points'); title('2-D image: x');<br>
+                        subplot(1,2,2); imagesc(xmask); xlabel('number of points');title('Associated mask: xmask');
+                </ul></tt>               
+            <p><img src="images_examples/Dimensions/lacunarity_ex1.png" height="472" width="647" alt=""></p>
+               <tt><ul><li>Compute the lacunarity of <tt>x</tt>, with and without a mask: <tt>Lx</tt>, <tt>Lxmask</tt><br><br>
+                        Lx = lacunarity(x,[1:1:75]);<br>
+                        Lxmask = lacunarity(x,[1:1:75],'mask',xmask);<br>
+                        figure; plot(Lx); hold on; <br>
+                        plot(Lxmask,'r'); legend('Lx','Lxmask');<br>
+                        xlabel('Window size'); ylabel('Lacunarity');
+                </ul></tt>
+            </p>
+            <p><img src="images_examples/Dimensions/lacunarity_ex2.png" height="472" width="647" alt=""></p>
+        </ul>
+        <h2>See Also</h2>
+        <p><a href="cropormask.html"><tt>cropormask</tt></a></p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="ifstfif.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">ifstfif</td><td>&nbsp;</td><td align="right">lacunary</td>
+                <td align="right" width="20"><a href="lacunary.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

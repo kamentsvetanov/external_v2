@@ -14,7 +14,7 @@ function [traj, infStates] = tapas_hgf_binary_mab(r, p, varargin)
 %     transformed space, and 'trans' is a flag indicating this.
 %
 % --------------------------------------------------------------------------------------------------
-% Copyright (C) 2013 Christoph Mathys, TNU, UZH & ETHZ
+% Copyright (C) 2017 Christoph Mathys, TNU, UZH & ETHZ
 %
 % This file is part of the HGF toolbox, which is released under the terms of the GNU General Public
 % Licence (GPL), version 3. You can redistribute it and/or modify it under the terms of the GPL
@@ -23,7 +23,7 @@ function [traj, infStates] = tapas_hgf_binary_mab(r, p, varargin)
 
 
 % Transform paramaters back to their native space if needed
-if ~isempty(varargin) && strcmp(varargin{1},'trans');
+if ~isempty(varargin) && strcmp(varargin{1},'trans')
     p = tapas_hgf_binary_mab_transp(r, p);
 end
 
@@ -120,7 +120,7 @@ for k = 2:1:n
         % 1st level
         % ~~~~~~~~~
         % Prediction
-        muhat(k,1,:) = tapas_sgm(muhat(k,2,:), 1);
+        muhat(k,1,:) = tapas_sgm(ka(1) *muhat(k,2,:), 1);
         
         % Precision of prediction
         pihat(k,1,:) = 1/(muhat(k,1,:).*(1 -muhat(k,1,:)));
@@ -144,10 +144,10 @@ for k = 2:1:n
 
         % Updates
         pi(k,2,:) = pihat(k,2,:);
-        pi(k,2,y(k)) = pihat(k,2,y(k)) +1/pihat(k,1,y(k));
+        pi(k,2,y(k)) = pihat(k,2,y(k)) +ka(1)^2/pihat(k,1,y(k));
 
         mu(k,2,:) = muhat(k,2,:);
-        mu(k,2,y(k)) = muhat(k,2,y(k)) +1/pi(k,2,y(k)) *da(k,1);
+        mu(k,2,y(k)) = muhat(k,2,y(k)) +ka(1)/pi(k,2,y(k)) *da(k,1);
 
         % Volatility prediction error
         da(k,2) = (1/pi(k,2,y(k)) +(mu(k,2,y(k)) -muhat(k,2,y(k)))^2) *pihat(k,2,y(k)) -1;
@@ -257,13 +257,27 @@ w(1,:)       = [];
 da(1,:)      = [];
 y(1)         = [];
 
+% Responses on regular trials
+yreg = y;
+yreg(r.irr) =[];
+
 % Implied learning rate at the first level
-mu2       = squeeze(mu(:,2,:));
-mu2obs    = mu2(sub2ind(size(mu2), (1:size(mu2,1))', y));
-mu1hat    = squeeze(muhat(:,1,:));
-mu1hatobs = mu1hat(sub2ind(size(mu1hat), (1:size(mu1hat,1))', y));
-upd1      = tapas_sgm(mu2obs,1) -mu1hatobs;
-lr1       = upd1./da(:,1);
+mu2          = squeeze(mu(:,2,:));
+mu2(r.irr,:) = [];
+mu2obs       = mu2(sub2ind(size(mu2), (1:size(mu2,1))', yreg));
+
+mu1hat          = squeeze(muhat(:,1,:));
+mu1hat(r.irr,:) = [];
+mu1hatobs       = mu1hat(sub2ind(size(mu1hat), (1:size(mu1hat,1))', yreg));
+
+upd1 = tapas_sgm(ka(1)*mu2obs,1) -mu1hatobs;
+
+dareg          = da;
+dareg(r.irr,:) = [];
+
+lr1reg = upd1./dareg(:,1);
+lr1    = NaN(n-1,1);
+lr1(setdiff(1:n-1, r.irr)) = lr1reg;
 
 % Create result data structure
 traj = struct;
@@ -279,20 +293,29 @@ traj.w      = w;
 traj.da     = da;
 
 % Updates with respect to prediction
-traj.ud = muhat -mu;
+traj.ud = mu -muhat;
 
 % Psi (precision weights on prediction errors)
-psi      = NaN(n-1,l);
-pi2      = squeeze(pi(:,2,:));
-pi2obs   = pi2(sub2ind(size(pi2), (1:size(pi2,1))', y));
-psi(:,2) = 1./pi2obs;
+psi = NaN(n-1,l);
+
+pi2          = squeeze(pi(:,2,:));
+pi2(r.irr,:) = [];
+pi2obs       = pi2(sub2ind(size(pi2), (1:size(pi2,1))', yreg));
+
+psi(setdiff(1:n-1, r.irr), 2) = 1./pi2obs;
+
 for i=3:l
-    pihati    = squeeze(pihat(:,i-1,:));
-    pihatiobs = pihati(sub2ind(size(pihati), (1:size(pihati,1))', y));
-    pii       = squeeze(pi(:,i,:));
-    piiobs    = pii(sub2ind(size(pii), (1:size(pii,1))', y));
-    psi(:,i)  = pihatiobs./piiobs;
+    pihati          = squeeze(pihat(:,i-1,:));
+    pihati(r.irr,:) = [];
+    pihatiobs       = pihati(sub2ind(size(pihati), (1:size(pihati,1))', yreg));
+    
+    pii          = squeeze(pi(:,i,:));
+    pii(r.irr,:) = [];
+    piiobs       = pii(sub2ind(size(pii), (1:size(pii,1))', yreg));
+    
+    psi(setdiff(1:n-1, r.irr), i) = pihatiobs./piiobs;
 end
+
 traj.psi = psi;
 
 % Epsilons (precision-weighted prediction errors)

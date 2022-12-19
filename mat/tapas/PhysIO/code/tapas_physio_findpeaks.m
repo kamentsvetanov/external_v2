@@ -44,7 +44,11 @@ function [pks,locs] = tapas_physio_findpeaks(X,varargin)
 %   Copyright 2007-2010 The MathWorks, Inc.
 %   $Revision: 235 $  $Date: 2013-08-19 18:28:07 +0200 (Mon, 19 Aug 2013) $
 
-error(nargchk(1,11,nargin,'struct'));
+if verLessThan('matlab','8.4')
+    error(nargchk(1,11,nargin,'struct'));
+else
+    narginchk(1,11);
+end
 
 [X,Ph,Pd,Th,Np,Str,infIdx] = parse_inputs(X,varargin{:});
 [pks,locs] = getPeaksAboveMinPeakHeight(X,Ph);
@@ -66,12 +70,24 @@ if (M < 3)
 end
 
 %#function dspopts.findpeaks
-hopts = tapas_physio_uddpvparse('dspopts.findpeaks',varargin{:});
-Ph  = hopts.MinPeakHeight;
-Pd  = hopts.MinPeakDistance;
-Th  = hopts.Threshold;
-Np  = hopts.NPeaks;
-Str = hopts.SortStr;
+%hopts = tapas_physio_uddpvparse('dspopts.findpeaks',varargin{:});
+if nargin
+    varargin(1:2:end) = lower(varargin(1:2:end));
+end
+
+defaults.minpeakheight = -Inf;
+defaults.minpeakdistance = [];
+defaults.threshold = 0;
+defaults.npeaks = [];
+defaults.sortstr = 'none';
+
+hopts = tapas_physio_propval(varargin, defaults);
+
+Ph  = hopts.minpeakheight;
+Pd  = hopts.minpeakdistance;
+Th  = hopts.threshold;
+Np  = hopts.npeaks;
+Str = hopts.sortstr;
 
 % Validate MinPeakDistance 
 if ~isempty(Pd) && (~isnumeric(Pd) || ~isscalar(Pd) ||any(rem(Pd,1)) || (Pd < 1))

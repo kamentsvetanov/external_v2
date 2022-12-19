@@ -1,0 +1,326 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The Synthesis pop-up menu: Functions</TITLE>
+ <LINK HREF="help_synthesis-3.html" REL=next>
+ <LINK HREF="help_synthesis-1.html" REL=previous>
+ <LINK HREF="help_synthesis.html#toc2" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_synthesis-3.html">Next</A>
+<A HREF="help_synthesis-1.html">Previous</A>
+<A HREF="help_synthesis.html#toc2">Contents</A>
+<HR>
+<H2><A NAME="s2">2. Functions</A></H2>
+
+<P>
+<P>
+<H2><A NAME="ss2.1">2.1 Stochastic</A>
+</H2>
+
+<P>
+<A NAME="fBm"><H3>fBm</H3></A>
+
+<P>This functionality allows to generate a fractional Brownian motion
+using the Cholesky method and a Durbin Levinson algorithm.  You may
+choose <B>the Hölder exponent</B> (a real number strictly between 0 and
+1), which governs both the pointwise regularity and the shape around 0
+of the power spectrum, the <B>sample size</B> (use the predefined values
+for powers of 2 or simply type any positive integer in the white zone),
+and finally the <B>random seed</B> : this is useful when you need to
+generate the same path several times or if you want to compare the
+paths of two fBm-s which correspond to the same random event but with
+different H.  The output is a one dimensional vector named
+<EM>fBm#</EM>, where "#" is incremented by 1 from 0 each time you create
+a new path.
+<P>See references (1) and (2) for more on this topic.
+<P>
+<P>
+<P>
+<A NAME="mBm"><H3>mBm</H3></A>
+
+<P>This functionality allows to generate an approximation of a
+multifractional Brownian motion. This stochastic process is a
+generalization of fBm where the parameter H is allowed to vary
+along the path instead of remaining fixed : this means that H is now a
+function H(t) instead of being a real number.  This is useful if you
+need to model a process the pointwise regularity of which varies in
+time, since H(t) will indeed be almost surely the regularity of the
+mBm at t, under certain smoothness conditions on H. Compared to the
+fBm generation window, the only difference is that you now want to
+prescribe a Hölder function H instead of a Hölder exponent ; there are
+two ways of doing this. Either use one of the two pre-defined choices
+: <B>piecewise constant</B> will generate an mBm with H=0.2 on the first
+half of the support and H=0.8 on the second half, and <B>h(t)=t</B> will
+generate an mBm with Hölder exponent t at point t. Or define your own
+H function, in which case you select <B>user defined</B> in the menu and
+simply type your function (in the same way you would do it on a Matlab
+command line) in the white zone below, after having erased the given
+example.  Any continuously differentiable H function with values
+between 0 and 1 will yield an mBm with pointwise regularity equal to
+H(t) at point t almost surely. The output is a vector, called
+<EM>mBm#</EM>.
+<P>Remark : since the Cholesky Levinson algorithm is somewhat slow 
+and this routine
+generates as many fBm-s as there points in the signal, computing times can get
+very large for paths with more than a few hundreds of points (see reference (3)).
+<P>
+<P>Try the choice <B>h(t)=t</B> to get a feeling of what it means for a process to
+have smoothly increasing regularity.
+<P>
+<P>
+<A NAME="Wavelet_based"><H3>Wavelet based 1/f process</H3></A>
+
+<P>This allows to generate a "1/f" process by specifying its wavelet 
+coefficients : at scale j, the coefficients are iid random variables
+following a centered Gaussian law with variance 2^j(-2H+1), where H is
+as usual the Hölder exponent, and coefficients at different scales 
+are independent. You first choose the <B>Wavelet</B> type in a list, then the
+<B>Hölder exponent</B> between 0 and 1, the <B>Sample Size</B> and finally
+the <B>Random Seed</B>. The output
+is a vector, <EM>Wfbm#</EM> (reference (4)). 
+<P>
+<P>
+<A NAME="Stable_motion"><H3>Stable motion</H3></A>
+
+<P>A stable motion is a process with i.i.d increments which follow a
+stable law. Stable laws are a generalization of the Gaussian, in the
+sense that they are the only laws that are preserved under
+convolutions. Except for the Gaussian, stable laws do not have a
+variance, and there exists a real number alpha in (0,2) such that all
+moments of order equal to or greater than alpha do not exist. The most
+well known non Gaussian stable law is the Cauchy law.
+<P>In this menu, you can synthesize a stable process by specifying the
+four parameters characterizing the stable law governing its
+increments. The <B>Characteristic Exponent</B>, alpha, between 0 and 2,
+controls the thickness of the tail of the process. alpha equal 1 gives
+the Cauchy law, and alpha lower than or equal to one yields a process
+without a mean. The <B>Skewness Parameter</B> is between -1
+(distribution totally skewed to the left) and 1 (distribution totally
+skewed to the right), and controls the symmetry : the distribution is
+symmetric (around its location parameter) if and only if the skewness
+parameter is 0. The <B>Location Parameter</B>, which is simply the mean
+when alpha is greater than 1, is any real number. Finally, the
+<B>Scale Parameter</B> is a positive number related to the "size" of the
+distribution : multiplying the process by a positive number w results
+in a multiplication of the scale parameter by w.  When alpha equals 2
+(Gaussian case), the square of the scale parameter is simply the
+variance divided by 2 (see reference (5) for more).
+<P>Once the computation is over, two signals are generated : the stable process
+itself, named <EM>stable_process#</EM> and its increments, which are iid realizations
+of a stable law, <EM>stable_increments#</EM>. Both are vectors.
+<P>
+<P>
+<A NAME="SGIFS"><H3>SGIFS</H3></A>
+
+<P>An SGIFS or semi-generalized Iterated Function System is a set of
+functions that allows to generate a fractal curve interpolating a
+finite number of points with control on the box dimension of the
+graph,and its multifractal spectrum.  The graph is generated through
+an iterative procedure, starting from the interpolation points and
+applying iteratively the functions of the SGIFS. At level or iteration
+k, 2^k functions are applied. Within <B>fltool</B>, the number of
+<B>Interpolation points</B> is fixed to three.  You enter the (x,y)
+coordinates of these points on the first line. Since the functions of
+the SGIFS are restricted to be affine in this implementation (although
+a much wider class of operators may be used in general), and because
+of graph continuity constraints, each function has only one free
+parameter, called here the <B>Contraction factor</B>. You may enter two
+numbers in these fields, c1 and c2, which will correspond to the mean
+of this factor for respectively functions of odd and even ranks. These
+means are numbers with absolute value between 0.5 and 1.  At each step
+k (the number of these steps is the parameter <B>Number of
+Iterations</B> on the third line), 2^k contraction factors are generated
+according to a normal or uniform law, depending on your choice of the
+<B>Probability law</B>, with mean c1 for factors of odd rank and c2 for
+factors of even rank, and variance j^(-var), where var is the
+<B>Variance decrease exponent</B>, a positive real. To each of these
+factors corresponds an affine function, which is applied to a part of
+the currently generated graph according to rules described in the
+references (6) and (7).
+<P>For large values of the <B>Variance 
+decrease exponent</B>, large (close to +-1) values of c1 and c2 
+yield irregular graphs, while values of c1/c2 close to +-0.5 
+generate "smoother" graphs.  Values of the <B>Variance 
+decrease exponent</B> close to 0 add variability at small scales and 
+"burstiness" in the graphs.
+<P>The number of points of the synthesized graph is 2^(number of iterations) + 1.
+The outputs consist in <EM>sgifs_ord_#</EM>, a vector containing 
+the synthesized function, <EM>sgifs_ci_#</EM>, a vector containing the randomly
+chosen contraction factors, and <EM>sgifs_#</EM>, a structure used for internal 
+purposes. 
+<P>
+<P>
+<A NAME="Weierstrass"><H3>Weierstrass</H3><A>
+
+<P>The Weierstrass function is one of the first instances of a continuous
+nowhere differentiable function (reference (8)). It is basically a sum
+of damped sines with increasing frequencies. Its <B>Hölder exponent</B>
+H is the same at each point, and you can enter any value between 0 and
+1 for H in the first line. The <B>Sample size</B> controls the length of
+the generated signal.  The <B>lambda</B> parameter governs the spacing
+between adjacent frequencies : The n-th frequency is simply lambda^n.
+In this stochastic version, the damping factor, lambda^(-h*n), of the
+n-th frequency component is multiplied by a Gaussian random variable
+with mean 0 and variance 1. In addition a uniformly distributed random
+phase is added to each sine.  The signal will be generated on the
+interval (0, <B>time support</B>).  The <B>Sum order</B> is the number of
+terms effectively computed in the sum of sines (which theoretically
+contains infinitely many terms). If you plan to use Fourier tools for
+the analysis of this signal, it is advised to choose a value such that
+the synthesized signal will meet the hypotheses of the sampling
+theorem (this is the <B>Default</B>, so that you don't need to perform
+the calculation yourself). If on the contrary you will operate with
+time-domain analyzing tools, you'll get better results by choosing a
+much higher value for the sum order than the default, typically around
+20. If you are not sure, go for the higher value, which will give more
+relevant results in general (see the help on the deterministic
+Weierstrass for more on this topic). Thus, in this particular case,
+the default should be changed in most cases. The output <EM>Wei#</EM> is a
+vector containing the synthesized function.
+<P>
+<P>
+<A NAME="Generalized_Weierstrass"><H3>Generalized Weierstrass</H3></A>
+
+<P>This is an easy generalization of the classical Weierstrass function
+where you can control, under some conditions, the Hölder exponent at
+each point (reference (7)): You choose the <B>Hölder function</B>, either from one of
+the two pre-defined choices (<B>piecewise constant</B> or linear, i,e,
+<B>h(t)=t</B>), or you select <B>user defined</B> and type in your own
+regularity function following the example given in the dialog box. Any
+continuously differentiable H function with values between 0 and 1
+will yield a signal with pointwise regularity equal to H(t) at point
+t.  The other parameters are as in the "Weierstrass Function
+Synthesis" menu. The output is vector named <EM>Gwei#</EM>.
+<P>
+<P>
+<A NAME="2D_stationary"><H3>2D stationary increments</H3></A>
+
+<P>This sub-menu allows to generate a 2D random field with stationary
+increments. The first parameter is the <B>Hölder exponent</B>, which
+controls as usual the smoothness of the image. The <B>Matrix Size</B>
+parameter lets you choose the size of the field : Values larger than
+256 will result in quite long computing times. Finally, the
+<B>Structure Fcn</B> parameter (for structure function) controls the anisotropy : at this
+time, only the "fBm" structure function is available, yielding an
+isotropic 2D fractional Brownian motion (reference (9)). The output is a square
+matrix, called <EM>StInc2D#</EM>.
+
+<A NAME="SelfReg"><H3>Self-Regulating multifractal processes</H3></A>
+
+<P>Self-regulating multifractal processes are processes whose regularity is a deterministic function of the value. </P>
+<UL>
+<LI>For 1D-SRMP, you can choose between the following methods: fbm-based or midpoint displacement. 2D-SRMP are generated by the fbm-based method.</LI>
+<LI>The g(Z) function is the function linking the regularity exponent to the value of the function: alpha=g(Z). This function must take its value between 0 and 1.</LI>
+<LI> You can choose the sample size of the signal.</LI>
+<LI> If you choose the fbm-based method, it is possible to prescribe the shape of the signal, which means that the signal takes its value be near a regular function. The higher the mixing parameter, the nearer the signal is from the shape.</LI>
+<LI> If you choose the mid-point method, it is possible to prescribe the first value and the last value of the signal. The amplitude parameter influences the variations of the output signal.</LI>
+</UL>
+<P>
+<P>
+<H2><A NAME="ss2.2">2.2 Deterministic</A>
+</H2>
+
+<P>
+<A NAME="ss2.2.1"><H3>IFS</H3></A>
+
+<P>An IFS or Iterated Function System is a set of functions that allows
+to generate a fractal curve interpolating a finite number of points
+with control on the box dimension of the graph and its global Hölder
+regularity (reference (10)). The graph is generated through an iterative procedure,
+starting from the interpolation points and applying iteratively the
+functions of the IFS. You first choose any number of <B>Interpolation
+points</B> by giving their (x,y) coordinates. The number of functions in
+the IFS will be the number N of interpolations points minus 1.  Since
+the functions of the IFS are restricted to be either affine or sine
+polynomial in this implementation (although a much wider class of
+operators may be used in general), and because of graph continuity
+constraints, each function has only one free parameter, called here
+the <B>Contraction factor</B>. You may thus enter N-1 <B>Contraction factors</B>,
+which should be real numbers with absolute value between 1/(N-1) and 1. Large
+values result in irregular graphs, while small values gives smoother graphs.
+More precisely, the almost sure Hölder exponent of the graph is the base
+N-1 logarithm of the product of the contraction factors, divided by -N+1.
+The <B>Number of points</B> gives the length of the graph, and the <B>IFS type</B>
+lets you choose between affine functions and sine polynomials for the IFS.
+The output consists in <EM>ifs_ord_#</EM>, a vector containing 
+the synthesized function, and <EM>ifs_#</EM>, a structure used for internal 
+purposes. 
+<P>
+<P>
+<A NAME="ss2.2.2"><H3>GIFS</H3></A>
+
+<P>A GIFS or Generalized Iterated Function System is a set of functions
+that allows to generate a fractal curve interpolating a finite number
+of points with control on the box dimension of the graph, its
+multifractal spectrum, and even its pointwise Hölder regularity (reference (7)). The
+graph is generated through an iterative procedure, starting from the
+interpolation points and applying iteratively the functions of the
+GIFS. At level or iteration k, 2^k functions are applied. Within
+<B>fltool</B>, the number of <B>Interpolation points</B> is fixed to
+three.  You enter the (x,y) coordinates of these points on the first
+line. You enter next the <B>Hölder function</B>, which will rule the
+Hölder exponent of the graph at each point. You may use one of the
+three pre-defined choices : <B>piecewise constant</B>, <B>h(t)=t</B>, or
+<B>|sin(3Pi*t)|</B>, or define your own regularity function by selecting
+<B>user defined</B> and following the example given in the dialog
+box. The <B>Hölder function</B> should be a continuous function between 0
+and 1.  The parameter <B>Number of iterations</B> controls the length of
+the synthesized graph : 2^(Number of iterations) points will be
+generated.  The output consists in <EM>prescribedH_ord_#</EM>, a vector
+containing the synthesized function, and <EM>prescribedH_#</EM>, a structure
+used for internal purposes.
+<P>
+<P>
+<P>
+<A NAME="ss2.2.3"><H3>Weierstrass</H3></A>
+
+<P>The Weierstrass function is one of the first instances of a continuous
+nowhere differentiable function (reference (8)). It is basically a sum
+of damped sines with increasing frequencies. Its <B>Hölder exponent</B>
+H is the same at each point, and you can enter any value between 0 and
+1 for H in the first line. The <B>Sample size</B> controls the length of
+the generated signal.  The <B>lambda</B> parameter governs the spacing
+between adjacent frequencies : the n-th frequency is simply
+lambda^n. Its damping factor is lambda^(-H*n).  The signal will be
+generated on the interval (0, <B>time support</B>).  The <B>Sum order</B>
+is the number of terms effectively computed in the sum of sines (which
+theoretically contains infinitely many terms). If you plan to use
+Fourier tools for the analysis of this signal, it is advised to choose
+a value such that the synthesized signal will meet the hypotheses of the
+sampling theorem (this is the <B>Default</B>, so that you don't need to
+perform the calculation yourself). If on the contrary you will operate
+with time-domain analyzing tools, you'll get better results by
+choosing a much higher value for the sum order than the default,
+typically around 20. If you are not sure, go for the higher value,
+which will give more relevant results in general. The following simple
+test tells you why: Generate two Weierstrass functions with exponent H
+= 0.2, 256 points, a time support of 1, and a large lambda, e.g. 25,
+with both the default sum order and a sum order of 20. Visualize and
+compare the two synthesized signal and notice that the first one looks
+very smooth. This explains why, in this particular case, the default
+should be changed in most cases.
+<P>The output <EM>Wei#</EM> is a vector containing the synthesized function.  
+<P>
+<P>
+<A NAME="ss2.2.4"><H3>Generalized Weierstrass</H3></A>
+
+<P>This is an easy generalization of the classical Weierstrass function
+where you can control, under some conditions, the Hölder exponent at
+each point (reference (7)): You choose the <B>Hölder function</B>, either from one of
+the two pre-defined choices (<B>piecewise constant</B> or linear, i,e,
+<B>h(t)=t)</B>, or you select <B>user defined</B> and type in your own
+regularity function following the example given in the dialog box. Any
+continuously differentiable H function with values between 0 and 1
+will yield a signal with pointwise regularity equal to H(t) at point
+t.  The other parameters are as in the "Weierstrass Function
+Synthesis" menu. The output is vector named <EM>Gwei#</EM>.
+<P>
+<P>
+<HR>
+<A HREF="help_synthesis-3.html">Next</A>
+<A HREF="help_synthesis-1.html">Previous</A>
+<A HREF="help_synthesis.html#toc2">Contents</A>
+</BODY>
+</HTML>

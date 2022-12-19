@@ -1,0 +1,137 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>dla :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="cropormask.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="ebpsimulate.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">dla</h1>
+        <p>Simulates a Diffusion Limited Agregation</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>A = dla(N)<br>
+                A = dla(...,'Visualization')<br>
+                A = dla(...,'Propertyname',Propertyvalue)<br>
+                [A,PNP,RNP] = dla(...)    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>A = dla(N)</tt> Simulates the diffusion limited agregate, <tt>A</tt>, using a matrix size <tt>N</tt>.
+            The parameter <tt>N</tt> is a positive integer that defines the size of the matrix containing the cluster where the
+            simulation is performed.
+            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p><b>The simulation</b><br><br>
+                       The simulation starts with a particle at the center of the screen, which will develop into the agregation cluster.<br>
+                        A fixed number of particles are then launched, one by one, from "infinity", i.e. from a launching circle of radius <tt>RL</tt>.
+                        The position on the circle is chosen randomly.<br> The particles then diffuses randomly, i.e. at each step it moves one
+                        step to one the eight neighbouring positions (lattice diffusion).<br><br>
+                        Three things may then happen : <br>
+                        <ul><li>The particle hits the cluster, in which case it sticks to it with a probability, <tt>SP</tt></ul>
+                        <ul><li>The particle goes to far away from the center of the screen, i.e. its distance the origin gets larger than 
+                            the killing radius,<tt>RK</tt>. The particle is then annihilated.
+                        </ul>
+                        <ul><li>The particle has wandered more than the maximum allowed number of movements, <tt>NM</tt>. Again the particle is annihilated.</ul><br>
+                        Another particle is then launched and the process goes on.<br><br>
+                        To speed up the simulation, the launching radius, <tt>RL</tt> and the killing radius, <tt>RK</tt> are not fixed, but grow as a function
+                        of the radius of the cluster, <tt>RC</tt> :
+                        <ul><tt>RL(i) = RC + RL</tt> and <tt>RK(i) = RL(i) + RK</tt></ul><br>
+                        The colours in the cluster represents the arrival time of each particle.
+                    </p>
+                </td></tr></table>
+            </ul>
+        </p>
+        
+        <p><tt>A = dla(...,'Visualization')</tt> Simulates the diffusion limited agregate, <tt>A</tt>, using a specific type of visualization.
+            The supported Visualizations can be choosen from the list below :
+            <ul><h3>Visualization Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Visualization Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'visup'</tt></td><td bgcolor="#F2F2F2"><p><b>Slow :</b> Show each agregated particle (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'visud'</tt></td><td bgcolor="#F2F2F2"><p><b>Extremely Slow :</b> Show diffusion</tt></p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'novisu'</tt></td><td bgcolor="#F2F2F2"><p><b>Fast :</b> Don't show animation</tt></p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>A = dla(...,'Propertyname',Propertyvalue)</tt> Generates the diffusion limited agregate, <tt>A</tt>, 
+            applying the specified property settings. The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'radius'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The simulation <tt>A</tt> is computed using specific circle radius, <tt>[RL, RK]</tt>. The parameters <tt>RL</tt> and <tt>RK</tt>
+                                    are positive reals that respectly define<br> the launching radius, from where the particles are launched, and the killing radius,
+                                    where the particles are annihilated if they reach it.<br>
+                                    If <tt>'radius'</tt> is not specified, the default value is <tt>[RL,RK] = [1,20]</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'parts'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The simulation <tt>A</tt> is computed with a specific number of particles, <tt>NP</tt>. The parameter <tt>NP</tt> is a positive integer
+                                    that defines<br> the maximum number of particles that have to be included to perform the simulation.<br>
+                                    If <tt>'parts'</tt> is not specified, the default value is <tt>NP = 10000</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'moves'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The simulation <tt>A</tt> is computed with a specific number of movements, <tt>NM</tt>. The parameter <tt>NM</tt> is a positive integer
+                                    that defines<br> the maximum number of moves allowed to the particles in the simulation.<br>
+                                    If <tt>'moves'</tt> is not specified, the default value is <tt>NM = 2000</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'stick'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The simulation <tt>A</tt> is computed with a specific sticking probability, <tt>SP</tt>. The parameter <tt>SP</tt> is a positive real in (0,1).<br>
+                                    If <tt>'stick'</tt> is not specified, the default value is <tt>SP = 1</tt>.    
+                                </p>
+                        </td></tr>                        
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>[A,RNP,PNP] = dla(...)</tt> Simulates the diffusion limited agregate, <tt>A</tt>, and computes the radius of the cluster, <tt>RNP</tt>, 
+            and the number of particles, <tt>PNP</tt>, as a function of the number of launched particles, <tt>NP</tt>.
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Simulation of a Diffusion Limited Agregation</h3>
+            <p class="synopsis">
+                <tt>N = 256; <br>
+                    rl = 1; rk = 20; %defining the launching and killing radius<br>
+                    np = 10000; nm = 2000; %defining the maximum number of particles and movements<br>    
+                    [A, rnp, pnp] = dla(N,'radius',[rl,rk],'parts',np,'moves',nm,'stick',1);
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/dla_ex1.png" height="420" width="561" alt=""></p>
+            <p><img src="images_examples/Synthesis/dla_ex2.png" height="420" width="561" alt=""></p>
+        </ul>
+                
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="cropormask.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">cropormask</td><td>&nbsp;</td><td align="right">ebpsimulate</td>
+                <td align="right" width="20"><a href="ebpsimulate.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

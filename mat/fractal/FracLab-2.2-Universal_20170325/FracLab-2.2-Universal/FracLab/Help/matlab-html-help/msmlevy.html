@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>msmlevy :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="monolr.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="MST_compute.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">msmlevy</h1>
+        <p>Generates a Multistable Levy Motion </p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>MSM = msmlevy(N,ALPHA)<br>
+                MSM = msmlevy(...,SEED)    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>MSM = msmlevy(N,ALPHA)</tt> Generates the multistable Levy motion, <tt>MSM</tt>, using a sample size, <tt>N</tt>, 
+            and a stability function, <tt>ALPHA</tt>. The parameter <tt>N</tt> is a positive integer and the parameter <tt>ALPHA</tt> is
+            in (0,2). This allows to model a process whose index of stability varies in time.
+        </p>
+                
+        <p><tt>MSM = msmlevy(...,SEED)</tt> Generates the multistable levy motion, <tt>MSM</tt>, with a specific random seed, <tt>SEED</tt>.
+            This is useful to generate the same path several times or to compare the paths of different <tt>MSMs</tt>.
+        </p>
+                
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of a Multistable Levy Motion with a specific alpha parameter</h3>
+            <p class="synopsis">
+                <tt>N = 1000; t = linspace(0,1,N); alphat = eval('1.5+0.3*sin(2*pi*t)');<br>
+                    msm = msmlevy(N,alphat);<br>
+                    figure; plot(t,msm);<br>
+                    title('Multistable Levy Motion with alphat'); xlabel('time')
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/msmlevy_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Comparison of different Multistable Levy Motion processes using a specific random seed</h3>
+            <p class="synopsis">
+                <tt>N = 2000; t = linspace(0,1,N);<br>
+                    alphat1 = eval('1.5+0.3*sin(2*pi*t)');
+                    alphat2 = eval('1.5+0.3*sin(4*pi*t)');<br>
+                    msm1 = msmlevy(N,alphat1,10);<br>
+                    msm2 = msmlevy(N,alphat2,10);<br>    
+                    figure; plot(msm1,'k'); hold on; plot(msm2,'r');<br> 
+                    legend('msm1: alphat1 = 1.5+0.3*sin(2*pi*t)','msm2: alphat2 = 1.5+0.3*sin(4*pi*t)','Location','NorthWest');<br>
+                    title('Multistable Levy Motion with different alpha functions');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/msmlevy_ex2.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p>  
+            <a href="msmlinmfrac.html"><tt>msmlinmfrac</tt></a><tt>,</tt>
+            <a href="msmornhulen.html"><tt>msmornhulen</tt></a><tt>,</tt>
+            <a href="asmlevy.html"><tt>asmlevy</tt></a>
+        </p>
+        
+        <h2>References</h2> 
+        <p>
+            [1] K. Falconer, J. L&eacute;vy V&eacute;hel 
+            <a href="http://www.springerlink.com/content/d8710vk157221t16/"> "Multifractional, multistable, and other processes with prescribed local form"</a>, 
+            Journal of Theoretical Probability, Vol. 22 (2009) 375-401
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="monolr.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">monolr</td><td>&nbsp;</td><td align="right">mst_processes</td>
+                <td align="right" width="20"><a href="MST_compute.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

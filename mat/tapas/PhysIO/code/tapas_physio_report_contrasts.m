@@ -10,7 +10,7 @@ function varargout = tapas_physio_report_contrasts(varargin)
 %
 %   args = tapas_physio_report_contrasts(...
 %                   'fileReport', 'physio.ps', ...
-%                   'fileSpm', 'analysisFolder/SPM.mat'
+%                   'fileSpm', 'analysisFolder/SPM.mat', ...
 %                   'filePhysIO', 'analysisFolder/physio.mat', ...
 %                   'fileStructural', 'anatomyFolder/warpedAnatomy.nii')
 %
@@ -18,7 +18,12 @@ function varargout = tapas_physio_report_contrasts(varargin)
 %
 %   Required parameters:
 %
-%                  fileReport: post-script file to print results to
+%                  fileReport: sets the path and file name for the postscript 
+%                              file your contrast report is printed to. 
+%                              A reasonable (and default) location is the 
+%                              single subject analysis folder so the file 
+%                              resides with the GLM (fileSPM)
+%                              default: 'pathSpm/physio_report_contrasts.ps';
 %              fileStructural: structural underlay for results,
 %                              e.g. 'mean.nii'
 %                     fileSpm: SPM.mat holding physiological regressors,
@@ -28,7 +33,6 @@ function varargout = tapas_physio_report_contrasts(varargin)
 %
 %   Optional Parameters:
 %
-%                  pathPhysIO:  path of physIO Toolbox code
 %          namesPhysContrasts: cell Array of contrast names in design matrix
 %                              e.g. {'All Phys', 'Cardiac', 'Respiratory',
 %                               'Card X Resp Interation',
@@ -39,6 +43,10 @@ function varargout = tapas_physio_report_contrasts(varargin)
 %                               e.g. [1:7] for all physiological contrasts
 %     reportContrastThreshold: 0.001
 %    reportContrastCorrection: 'none' or 'FWE'
+%    reportContrastMax:        maximum value of contrast colormap
+%                              to scale different contrasts with equal
+%                              F-values (default: Inf, scales to max F of
+%                              map)
 %      reportContrastPosition: 'max' or [1,3] vector of crosshair position
 %                               (in mm)
 %               fovMillimeter: field of view in mm; set to 0 for full FOV
@@ -49,6 +57,9 @@ function varargout = tapas_physio_report_contrasts(varargin)
 %                              See also tapas_physio_new
 %         titleGraphicsWindow: additional title prepended to contrast name
 %                              in each plot
+%       saveTable              true of false (default)
+%                              prints screenshot of results table to
+%                              ps-file as well
 %
 % OUT
 %   args    structure of default and updated arguments used in this
@@ -58,7 +69,7 @@ function varargout = tapas_physio_report_contrasts(varargin)
 % EXAMPLE
 %   tapas_physio_report_contrasts
 %
-%   See also
+%   See also tapas_physio_overlay_contrasts
 %
 % Author: Lars Kasper
 % Created: 2014-10-16
@@ -76,38 +87,27 @@ function varargout = tapas_physio_report_contrasts(varargin)
 % general paths study
 defaults.titleGraphicsWindow = '';
 % PhysIO Toolbox code should be in same folder as this file
-defaults.pathPhysIO      = fileparts(mfilename('fullpath'));
-defaults.filePhysIO      = ''; 
+defaults.filePhysIO      = 'physio.mat';
 defaults.fileReport      = 'physio_report_contrasts.ps'; % where contrast maps are saved
 defaults.fileStructural  = 'mean.nii';
 defaults.fileSpm         = 'SPM.mat';
 defaults.drawCrosshair   = true;
 
-defaults.namesPhysContrasts = {
-    'All Phys'
-    'Cardiac'
-    'Respiratory'
-    'Card X Resp Interation'
-    'HeartRateVariability'
-    'RespiratoryVolumePerTime'
-    'Noise Rois'
-    'Movement'
-    };
+defaults.namesPhysContrasts = tapas_physio_get_contrast_names_default();
 
 % selection of physiological contrasts to be reported, corresponding to
 % namesPhysContrasts order
-defaults.indReportPhysContrasts = 1:7;
+defaults.indReportPhysContrasts = 1:9;
 
 defaults.reportContrastThreshold     = 0.001; % 0.05; 0.001;
 defaults.reportContrastCorrection    = 'none'; % 'FWE'; 'none';
-%reportContrastPosition      = [0 -15 -2*16]; 'max'; % 'max' to jump to max; or [x,y,z] in mm
-%fovMillimeter               = 50; %mm; choose 0 to plot whole FOV (bounding box)
+defaults.reportContrastMax           = Inf;
 defaults.reportContrastPosition      = 'max'; % 'max' to jump to max; or [x,y,z] in mm
 defaults.fovMillimeter               = 0; %mm; choose 0 to plot whole FOV (bounding box)
 
 % if true, voxel space (parallel to slices), not world space (with interpolation) is used
 defaults.doPlotSliceParallel          = true;
-
+defaults.saveTable                    = false;
 physio                                = tapas_physio_new('RETROICOR');
 defaults.model                        = physio.model; % holding number of physiological regressors
 
@@ -120,47 +120,22 @@ tapas_physio_strip_fields(args);
 spm('defaults', 'FMRI');
 
 % make sure to use absolute paths from now on...
-if iscell(fileSpm)
-    fileSpm = fileSpm{1};
-end
-
-if iscell(fileStructural)
-    fileStructural = fileStructural{1};
-end
-
-if iscell(fileReport)
-    fileReport = fileReport{1};
-end
-
-if iscell(filePhysIO)
-    filePhysIO = filePhysIO{1};
-end
-
-fp = fileparts(fileSpm);
-if isempty(fp) || (~ispc && fp(1) ~= '/') || (ispc && fp(2) ~= ':')
-    fileSpm = fullfile(pwd, fileSpm);
-end
-
-fp = fileparts(fileReport);
-if isempty(fp) || (~ispc && fp(1) ~= '/') || (ispc && fp(2) ~= ':')
-    fileReport = fullfile(pwd, fileReport);
-end
-
-fp = fileparts(fileStructural);
-if isempty(fp) || (~ispc && fp(1) ~= '/') || (ispc && fp(2) ~= ':')
-    fileStructural = fullfile(pwd, fileStructural);
-end
-
-fp = fileparts(filePhysIO);
-if isempty(fp) || (~ispc && fp(1) ~= '/') || (ispc && fp(2) ~= ':')
-    filePhysIO = fullfile(pwd, filePhysIO);
-end
+fileSpm = tapas_physio_filename2path(fileSpm);
+fileStructural = tapas_physio_filename2path(fileStructural);
+fileReport = tapas_physio_filename2path(fileReport);
+filePhysIO = tapas_physio_filename2path(filePhysIO);
 
 load(fileSpm);
 nContrasts = numel(indReportPhysContrasts);
 
+if ~exist(fileStructural, 'file')
+    % take standard structural from SPM, if overlay file does not exist
+    pathSpm = fileparts(which('spm'));
+    fileStructural = fullfile(pathSpm, 'canonical', 'avg152T1.nii');
+end
+
 % if input file given, load PhysIO-object
-if ~isempty(filePhysIO)
+if exist(filePhysIO, 'file')
     load(filePhysIO, 'physio');
     model = physio.model;
 end
@@ -169,99 +144,35 @@ end
 tmpWindowStyle = get(0, 'DefaultFigureWindowStyle');
 set(0, 'DefaultFigureWindowStyle', 'normal');
 
-%% Check whether contrasts already exist in SPM.mat
-indContrasts = zeros(nContrasts,1);
+% create physiological contrasts that don't exist so far and can be created
+% due to the model components included
+SPM = tapas_physio_create_missing_physio_contrasts(SPM, model, namesPhysContrasts);
+
+%% report contrasts with overlays
+
 for c = 1:nContrasts
     iC = indReportPhysContrasts(c);
-    indContrasts(c) = tapas_physio_check_get_xcon_index(SPM, ...
+    idxContrasts(c) = tapas_physio_check_get_xcon_index(SPM, ...
         namesPhysContrasts{iC});
 end
 
+idxContrasts = idxContrasts(idxContrasts > 0);
 
-%% Generate contrasts only if not already existing
-
-if ~isempty(model)
-    indContrastsCreate      = find(~indContrasts);
-    namesContrastsCreate    = namesPhysContrasts(indContrastsCreate);
-    matlabbatch             = tapas_physio_check_prepare_job_contrasts(fileSpm, ...
-        model, SPM, indContrastsCreate, pathPhysIO, ...
-        namesContrastsCreate);
-    if ~isempty(matlabbatch{1}.spm.stats.con.consess)
-        spm_jobman('run', matlabbatch);
-        load(fileSpm);
-    end
-    
-end
-
-%% report contrasts
-pathBeforeReport = pwd;
-for c = 1:nContrasts
-    iC = indReportPhysContrasts(c);
-    indContrasts(c) = tapas_physio_check_get_xcon_index(SPM, ...
-        namesPhysContrasts{iC});
-    
-    % if contrast exists
-    if indContrasts(c) ~= 0
-        load(fullfile(pathPhysIO, 'tapas_physio_check_job_report'));
-        matlabbatch{1}.spm.stats.results.spmmat = cellstr(fileSpm);
-        matlabbatch{1}.spm.stats.results.conspec.titlestr = [titleGraphicsWindow ' - ' namesPhysContrasts{iC}];
-        matlabbatch{1}.spm.stats.results.conspec.contrasts = indContrasts(c);
-        
-        % contrast report correction
-        matlabbatch{1}.spm.stats.results.conspec.thresh = reportContrastThreshold;
-        matlabbatch{1}.spm.stats.results.conspec.threshdesc = reportContrastCorrection;
-        
-        spm_jobman('run', matlabbatch);                     % report result
-        %                     spm_print(fileReport)
-        xSPM = evalin('base', 'xSPM');
-        hReg = evalin('base', 'hReg');
-        
-        spm_sections(xSPM,hReg, fileStructural);                % overlay structural
-        
-        % voxel, not world space
-        if doPlotSliceParallel
-            spm_orthviews('Space',1)
-        end
-        
-        spm_orthviews('Zoom', fovMillimeter); % zoom to FOV*2 view
-        spm_orthviews('Interp', 0); % next neighbour interpolation plot
-        
-        if isequal(reportContrastPosition, 'max');
-            spm_mip_ui('Jump',spm_mip_ui('FindMIPax'),'glmax'); % goto global max
-        else
-            spm_mip_ui('SetCoords', reportContrastPosition, ...
-                spm_mip_ui('FindMIPax')); % goto global max
-        end
-        
-        % to be able to turn off the blue Crosshir
-        if ~ drawCrosshair
-            spm_orthviews('Xhairs','off');
-            
-        end
-        
-        %         spm_orthviews - spm.st.blobs.cbar
-        
-        
-        % spm_print always prepend current directory to print-file
-        % name :-(
-        [pathReport, filenameReport] = fileparts(fileReport);
-        if isempty(pathReport)
-            pathReport = pwd;
-        end
-        pathTmp = pwd;
-        
-        cd(pathReport);
-        spm_print(filenameReport);
-        cd(pathTmp);
-    end
-end
-cd(pathBeforeReport);
-
-titstr = [titleGraphicsWindow, ' - SPM.xX.X'];
-title(regexprep(titstr,'_','\\_'));
-set(gcf,'Name', titstr);
-
-set(0, 'DefaultFigureWindowStyle', tmpWindowStyle);
+% TODO: harmonize option labels in both functions
+tapas_physio_overlay_contrasts( ...
+    'idxContrasts', idxContrasts, ...
+    'titleGraphicsWindow', titleGraphicsWindow, ...
+    'fileReport', fileReport, ...
+    'fileSpm', fileSpm, ...
+    'fileStructural', fileStructural, ...
+    'threshold', reportContrastThreshold, ...
+    'correction', reportContrastCorrection, ...
+    'doPlotSliceParallel', doPlotSliceParallel, ...
+    'fovMillimeter', fovMillimeter, ...
+    'position', reportContrastPosition, ...
+    'drawCrosshair', drawCrosshair, ...
+    'colorbarMax', reportContrastMax, ...
+    'saveTable', saveTable);
 
 if nargout
     varargout{1} = args;

@@ -1,0 +1,111 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>msmornhulen :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="msmlinmfrac.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="multinom.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">msmornhulen</h1>
+        <p>Generates a Ornstein-Uhlenbeck Multistable Motion </p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>MSM = msmornhulen(N,ALPHA,LAMBDA,M,m)<br>
+                MSM = msmornhulen(...,SEED)    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>MSM = msmornhulen(N,ALPHA,LAMBDA,M,m)</tt> Generates the Ornstein-Uhlenbeck multistable motion, <tt>MSM</tt>, using a sample size,
+            <tt>N</tt>, and a stability function, <tt>ALPHA</tt>, an Ornstein-Uhlenbeck parameter, <tt>LAMBDA</tt>, a kernel cut-off parameter,
+            <tt>M</tt> and a number of discretization steps, <tt>m</tt>. The parameters <tt>N, M and m</tt> are positive integers and this triplet 
+            should be chosen so that the value <tt>m*(N+M)</tt> is a power of 2. <tt>LAMBDA</tt> is a  positive real and <tt>ALPHA</tt> is in (0,2).
+            This allows to model a process whose index of stability varies in time.
+        </p>
+                
+        <p><tt>MSM = msmornhulen(...,SEED)</tt> Generates the Ornstein-Uhlenbeck multistable motion, <tt>MSM</tt>, with a specific random seed, <tt>SEED</tt>.
+            This is useful to generate the same path several times or to compare the paths of different <tt>MSMs</tt>.
+        </p>
+                
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of a Ornstein-Uhlenbeck Multistable Motion with a specific alpha function</h3>
+            <p class="synopsis">
+                <tt>N = 1000; L = 0.02; M = 24; m = 32;
+                    t = linspace(0,1,N); alphat = eval('1.5+0.3*sin(2*pi*t)');<br>
+                    msm = msmornhulen(N,alphat,L,M,m);<br>
+                    figure; plot(t,msm);<br>
+                    title('Ornstein-Uhlenbeck Multistable Motion with alphat'); xlabel('time')
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/msmornhulen_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Comparison of different Ornstein-Uhlenbeck Multistable Motion processes using a specific random seed</h3>
+            <p class="synopsis">
+                <tt>N = 2000; L = 0.01; M = 48; m = 32; t = linspace(0,1,N);<br>
+                    alphat1 = eval('1.5+0.3*sin(2*pi*t)');
+                    alphat2 = eval('1.5+0.3*sin(4*pi*t)');<br>
+                    msm1 = msmornhulen(N,alphat1,L,M,m,1000);<br>
+                    msm2 = msmornhulen(N,alphat2,L,M,m,1000);<br>    
+                    figure; plot(msm1,'k'); hold on; plot(msm2,'r');<br> 
+                    legend('msm1: alphat1 = 1.5+0.3*sin(2*pi*t)','msm2: alphat2 = 1.5+0.3*sin(4*pi*t)','Location','SouthWest');<br>
+                    title('Ornstein-Uhlenbeck Multistable Motion with different alpha functions');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/msmornhulen_ex2.png" height="420" width="561" alt=""></p>
+            
+            <p class="synopsis">
+                <tt>N = 2000; L1 = 0.01; L2 = 0.1; M = 48; m = 32; t = linspace(0,1,N);<br>
+                    alphat = eval('1.5+0.3*sin(2*pi*t)');<br>
+                    msm1 = msmornhulen(N,alphat,L1,M,m,1000);<br>
+                    msm2 = msmornhulen(N,alphat,L2,M,m,1000);<br>    
+                    figure; plot(msm1,'k'); hold on; plot(msm2,'r');<br> 
+                    legend('msm1: L1 = 0.01','msm2: L2 = 0.05','Location','NorthWest');<br>
+                    title('Ornstein-Uhlenbeck Multistable Motion with different Ornstein-Uhlenbeck parameters');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/msmornhulen_ex3.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p>  
+            <a href="msmlevy.html"><tt>msmlevy</tt></a><tt>,</tt>
+            <a href="msmlinmfrac.html"><tt>msmlinmfrac</tt></a><tt>,</tt>
+            <a href="asmornhulen.html"><tt>asmornhulen</tt></a>
+        </p>
+        
+        <h2>References</h2>
+        <p>
+            [1] K. Falconer, J. L&eacute;vy V&eacute;hel 
+            <a href="http://www.springerlink.com/content/d8710vk157221t16/"> "Multifractional, multistable, and other processes with prescribed local form"</a>, 
+            Journal of Theoretical Probability, Vol. 22 (2009) 375-401<br><br>
+            
+            [2] R. Le Gu&eacute;vel, J. L&eacute;vy V&eacute;hel "A Ferguson-Class-LePage series representation of multistable multifractional processes and related processes"
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="msmlinmfrac.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">msmlinmfrac</td><td>&nbsp;</td><td align="right">multinom</td>
+                <td align="right" width="20"><a href="multinom.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

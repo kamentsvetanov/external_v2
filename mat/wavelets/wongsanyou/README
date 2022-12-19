@@ -1,0 +1,14 @@
+-----------------------------------------------------
+long-memory
+-----------------------------------------------------
+
+Author : Wonsang You (you@ovgu.de)
+Date : 10 Feb 2012
+
+Description :
+It is a MATLAB toolbox for the analysis of long memory processes 
+such as fractionally integrated process, ARFIMA, and fractional Brownian motion.
+
+Copyright (C) 2011-2012, Wonsang You
+The software lmfilter by Wonsang You is licensed under a Creative 
+Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.

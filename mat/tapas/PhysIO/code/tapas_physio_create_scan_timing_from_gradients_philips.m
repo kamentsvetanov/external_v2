@@ -49,7 +49,6 @@ function [VOLLOCS, LOCS, verbose] = ...
 %
 %       sqpar                   - sequence timing parameters
 %           .Nslices        - number of slices per volume in fMRI scan
-%           .NslicesPerBeat - usually equals Nslices, unless you trigger with the heart beat
 %           .TR             - repetition time in seconds
 %           .Ndummies       - number of dummy volumes
 %           .Nscans         - number of full volumes saved (volumes in nifti file,
@@ -88,7 +87,7 @@ function [VOLLOCS, LOCS, verbose] = ...
 % (either version 3 or, at your option, any later version). For further details, see the file
 % COPYING or <http://www.gnu.org/licenses/>.
 %
-% $Id: tapas_physio_create_scan_timing_from_gradients_philips.m 756 2015-07-08 16:17:15Z kasperla $
+% $Id$
 
 sqpar   = scan_timing.sqpar;
 sync    = scan_timing.sync;
@@ -129,7 +128,6 @@ end
 
 Nscans          = sqpar.Nscans;
 Ndummies        = sqpar.Ndummies;
-NslicesPerBeat  = sqpar.NslicesPerBeat;
 Nslices         = sqpar.Nslices;
 
 
@@ -169,7 +167,7 @@ gradient_choice         = reshape(gradient_choice, [] ,1);
 % For new Ingenia log-files, recorded gradient strength may change after a
 % certain time and introduce steps that are bad for recording
 
-minStepDistanceSamples = 1.5*ceil(sqpar.TR/dt);
+minStepDistanceSamples = ceil(1.5*sqpar.TR/dt);
 
 % Normalize gradients, if thresholds are smaller than 1, i.e. relative
 doNormalize = max([sync.slice, sync.vol, sync.zero]) < 1;
@@ -184,7 +182,7 @@ doNormalize = max([sync.slice, sync.vol, sync.zero]) < 1;
 % if no gradient timecourse was recorded in the logfile (due to insufficient
 % Philips software keys), return nominal timing instead
 if ~any(gradient_choice) % all values zero
-    [VOLLOCS, LOCS] = tapas_physio_create_nominal_scan_timing(t, sqpar);
+    [VOLLOCS, LOCS] = tapas_physio_create_scan_timing_nominal(t, sqpar);
     verbose = tapas_physio_log('No gradient timecourse was logged in the logfile. Using nominal timing from sqpar instead', ...
         verbose, 1);
     return
@@ -261,15 +259,15 @@ if verbose.level>=1
     xlabel('t(s)');
     
     % Plot gradient thresholding for slice timing determination
-    
-    
     if ~isempty(VOLLOCS)
-        hp(end+1) = stem(t(VOLLOCS), 1.25*ones(size(VOLLOCS))); hold all
+        heightStem = median(gradient_choice(VOLLOCS));
+        hp(end+1) = stem(t(VOLLOCS), 1.25*heightStem*ones(size(VOLLOCS))); hold all
         lg{end+1} = sprintf('Found volume events (N = %d)', numel(VOLLOCS));
     end
     
     if ~isempty(LOCS)
-        hp(end+1) = stem(t(LOCS), ones(size(LOCS))); hold all
+        heightStem = median(gradient_choice(LOCS));
+        hp(end+1) = stem(t(LOCS), heightStem*ones(size(LOCS))); hold all
         lg{end+1} = sprintf('Found slice events (N = %d)', numel(LOCS));
         
         dLocsSecs = diff(LOCS)*dt*1000;
@@ -295,7 +293,7 @@ end
 if isempty(VOLLOCS) || isempty(LOCS)
     verbose = tapas_physio_log('No volume start events found, Decrease sync.vol or sync.slice after considering the Thresholding figure', ...
         verbose, 2);
-elseif length(LOCS) < NslicesPerBeat
+elseif length(LOCS) < Nslices
     verbose = tapas_physio_log('Too few slice start events found. Decrease sync.slice after considering the Thresholding figure', ...
         verbose, 2);
 end

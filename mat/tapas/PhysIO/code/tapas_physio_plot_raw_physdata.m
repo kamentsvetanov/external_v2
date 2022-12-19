@@ -26,14 +26,13 @@ function verbose = tapas_physio_plot_raw_physdata(ons_secs, verbose)
 % Licence (GPL), version 3. You can redistribute it and/or modify it under the terms of the GPL
 % (either version 3 or, at your option, any later version). For further details, see the file
 % COPYING or <http://www.gnu.org/licenses/>.
-%
-% $Id: tapas_physio_plot_raw_physdata.m 756 2015-07-08 16:17:15Z kasperla $
 
 if verbose.level >= 2
     
     fh = tapas_physio_get_default_fig_params();
     set(fh, 'Name', 'Raw Physiological Logfile Data');
-    
+    has_cardiac_triggers = isfield(ons_secs, 'cpulse') && ~isempty(ons_secs.cpulse);
+    has_scan_triggers = isfield(ons_secs, 'acq_codes') && ~isempty(ons_secs.acq_codes);
     has_cardiac = isfield(ons_secs, 'c') && ~isempty(ons_secs.c);
     has_respiration = isfield(ons_secs, 'r') && ~isempty(ons_secs.r);
     lg = cell(0,1);
@@ -48,11 +47,20 @@ if verbose.level >= 2
         end
     end
     
-    if isfield(ons_secs, 'cpulse') && ~isempty(ons_secs.cpulse)
+    
+if has_scan_triggers
+        plot(ons_secs.t, amp*ons_secs.acq_codes/max(ons_secs.acq_codes), 'c'); hold all;
+        lg{end+1} = 'Scan trigger events';
+    else
+        verbose = tapas_physio_log('No scan trigger events provided', verbose, 0);
+end
+    
+
+    if has_cardiac_triggers
         stem(ons_secs.cpulse,amp*ones(size(ons_secs.cpulse)), 'm'); hold all;
         lg{end+1} = 'Cardiac R-peak (heartbeat) events';
     else
-        tapas_physio_log('No cardiac R-peak (heartbeat) events provided', verbose, 1);
+        verbose = tapas_physio_log('No cardiac R-peak (heartbeat) events provided', verbose, 0);
     end
     
     
@@ -60,20 +68,20 @@ if verbose.level >= 2
         plot(ons_secs.t, ons_secs.c, 'r'); hold all;
         lg{end+1} = 'Cardiac time course';
     else
-        tapas_physio_log('No cardiac time series provided', verbose, 1);
+        verbose = tapas_physio_log('No cardiac time series provided', verbose, 1);
     end
     
     if has_respiration
         plot(ons_secs.t, ons_secs.r, 'g'); hold all;
         lg{end+1} = 'Respiratory time course';
     else
-        tapas_physio_log('No respiratory time series provided', verbose, 1);
+        verbose = tapas_physio_log('No respiratory time series provided', verbose, 1);
     end
     
     if ~isempty(lg), legend(lg); end;
     
     title('Raw Physiological Logfile Data');
-    xlabel('t (s)');
+    xlabel(sprintf('t (s) (relative to t_{start} = %.2f s)', ons_secs.t_start));
     
     verbose.fig_handles(end+1) = fh;
     

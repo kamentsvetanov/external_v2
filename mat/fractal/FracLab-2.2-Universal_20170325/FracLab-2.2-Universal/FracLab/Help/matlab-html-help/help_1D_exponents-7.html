@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The 1D Exponents Estimation pop-up menu: Homework</TITLE>
+ <LINK HREF="help_1D_exponents-8.html" REL=next>
+ <LINK HREF="help_1D_exponents-6.html" REL=previous>
+ <LINK HREF="help_1D_exponents.html#toc7" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_1D_exponents-8.html">Next</A>
+<A HREF="help_1D_exponents-6.html">Previous</A>
+<A HREF="help_1D_exponents.html#toc7">Contents</A>
+<HR>
+<H2><A NAME="s7">7. Homework</A></H2>
+
+<P>
+<P>We have already used some of the routines of the estimation menu in
+the homework section of the <B>Overview and main functionalities</B> of
+this help.
+<P>We will here compare the various methods for estimating the local and
+pointwise exponent <EM>functions</EM> (i.e. the exponents at all points of
+the signal) on a test signal, namely a generalized Weierstrass
+function with linearly increasing regularity. In that view, first
+synthesize this signal: Go to
+<B>Synthesis</B>/<B>Functions</B>/<B>Deterministic</B>/<B>Generalized
+Weierstrass</B>. Choose <B>h(t)=t</B> as a <B>Hölder Function</B>. Set the
+<B>Sample size</B> to 1024, leave <B>lambda</B> unchanged, and set the
+<B>Sum Order</B> to 30. Hit <B>Compute</B> to obtain the signal
+<EM>Gwei0</EM>. <B>View</B> it in the usual way, and notice how the
+regularity visibly increases from left to right.
+<P>The signal <EM>GWei0</EM> has, at all point t in (0,1), both local and
+pointwise exponent equal to t. We shall see that estimating the
+regularity exponents is not an easy task in general, and that some
+methods give an acceptable result on this particular signal. We shall
+first test the CWT method: Go to <B>1D Exponents
+Estimation</B>/<B>Pointwise Holder Exponent</B>/<B>CWT based estimation</B>.
+In the window that appears, click on <B>Advanced compute</B>. Now
+compute the CWT of <EM>GWei0</EM> as explained above: Check first that the
+<B>Input Signal</B> is indeed <EM>GWei0</EM>, otherwise <B>Refresh</B> it in
+the usual way. Keep the default parameters for <B>fmin</B>, <B>fmax</B>,
+<B>Voices</B>, <B>Mirror</B>, <B>Size</B> and <B>Type</B> of the analyzing
+wavelet. Hit <B>Compute WT</B>. The wavelet transform <EM>cwt_Wei00</EM>
+should appear in the <B>Input CWT</B> box. Uncheck the box <B>Single
+Time Exponent</B>, so that it becomes <B>Hölder Function</B>. Leave the
+other parameters unchanged and hit <B>Compute</B>. After a short while,
+you'll get a new signal <EM>GWei0_Ht0</EM>, that contains the estimated
+pointwise exponent.  <B>View</B> this signal. As you'll see, this is
+very far from being the expected y=x line. In order to understand why
+we are so much off, we shall now try and estimate the exponent at a
+single point. In that view, click on <B>Hölder Function</B> which now
+turns to <B>Single Time Exponent</B>. In the <B>Time instant</B> box,
+enter, e.g., 300. Leave the other parameters unchanged, and hit
+<B>Compute</B>. A graphic window appears: On its left part you can see
+the points in the scale/space plane that were selected as local
+maxima.  On the right part is displayed a log-log plot of the
+magnitude of the wavelet coefficients at these points with respect to
+scale. The slope, currently indicated by the red line, is supposed to
+give the Hölder exponent. With the cross that appears when you point
+to this window, select a regression range (by default, this is the
+whole available range). Selecting the range between points 4 and 7,
+you'll get an estimated exponent of around 18. Between points 2 and 4,
+you'll get something like -1. As a matter of fact, you can obtain
+almost any exponent by clicking in an adequate region. The problem here
+is that the exponent is governed by the extremal values of the wavelet
+coefficients. A robust method should then compute the regression only
+considering those extremal values. Unfortunately, it is not easy to
+detect which values are indeed extremal. 
+<P>Once you're finished with testing various regression ranges, hit
+<B>return</B> on your keyboard and close this window. We shall now try
+the GIFS based estimation. In the <B>Variables</B> list of the main
+window, select <EM>GWei0</EM>, and go to <B>1D Exponents
+Estimation</B>/<B>Pointwise Holder Exponent</B>/<B>GIFS based estimation</B>.
+Verify that the <B>Input</B> is what you want, and hit <B>Compute</B> with
+the default parameters. The estimation, called <EM>alphagifs_GWei00</EM>,
+quickly appears in the <B>Variables</B> list. On viewing it, you'll see
+that the general trend is what we were expecting, with a number of
+small oscillations around it. The slope is somewhat smaller than 1,
+but we do get the impression of a signal with steadily increasing
+regularity.
+<P>Our third method is the oscillation based one. Again, select
+<EM>GWei0</EM> in the <B>Variables</B> list, and go to <B>1D Exponents
+Estimation</B>/<B>Pointwise Holder Exponent</B>/<B>oscillation based
+method</B>. Check your <B>Input data</B>, and hit <B>Compute</B> with the
+default parameters. You get the estimation in the signal called
+<EM>pht_GWei00</EM>: We obtain again a roughly correct general trend, with
+more oscillations than in the GIFS based estimation, but with a better
+slope (you can verify this by viewing both <EM>pht_GWei00</EM> and
+<EM>alphagifs_GWei00</EM> on the same graph, using the <B>hold</B> facility
+in the <B>View</B> menu). You can reduce a bit the oscillations by
+choosing <B>Nmin</B>= 4 and <B>Nmax</B>= 64
+<P>In the fourth experiment, we shall compute the local exponent: select
+<EM>GWei0</EM> in the <B>Variables</B> list, and go to <B>1D Exponents
+Estimation</B>/<B>Local Holder Exponent</B>/<B>oscillation based method</B>.
+Check your <B>Input data</B>. Hit <B>Compute</B> with the default
+parameters. The output is called <EM>pht_GWei01</EM>. The same remark as
+above applies, i.e. we get a lot of oscillations with a roughly
+correct slope. Again, you can minimize the oscillations by choosing
+<B>Nmin</B>= 4 and <B>Nmax</B>= 64. It is interesting to check that the
+local estimation is, at (almost...) all points, a lower bound to the
+pointwise one, as predicted by the theory.
+<P>Finally, we'll see what happens when using a more advanced method based
+on 2-microlocal analysis. Select <EM>GWei0</EM> in the <B>Variables</B>
+list, and go to <B>1D Exponents Estimation</B>/<B>2-microlocal
+Exponent</B>/<B>Oscillation based (1)</B>. In the window that appears, hit
+<B>Refresh</B> so that the <B>name</B> of the Input data becomes
+<EM>GWei0</EM>. Choose a <B>window</B> size of 100 instead of the default
+1024. Since the computations are a bit long with this method, we'll
+perform the estimation only every tenth point. Thus, we set the
+<B>step</B> parameter to 10. Finally, click on <B>frontier</B> and select
+<B>local</B> instead. Hit <B>Compute</B>. You will probably wait for less
+than a couple of minutes until the outputs, called <EM>lenlocd_GWei00</EM>
+and <EM>Gloc_GWei00</EM> appear. The estimated local exponent is
+<EM>Gloc_GWei00</EM> and this is the one we shall view. As above, we get a
+curve that increases in the mean between 0 and 0.8, although this time
+there is a larger number of points where the local exponent is grossly
+underestimated. We shall also estimate the pointwise exponent with
+this method: click again on <B>local</B> and this time select
+<B>pointwise</B> instead. Hit <B>Compute</B>. View the output called
+<EM>Gpt_GWei00</EM>. This estimate is a little bit better that the local
+one, with fewer underestimated values. Recall however that, in both
+cases here, the fact that we estimate only every tenth exponent make
+the underestimated areas look more important. If you are very patient,
+you may check this by launching the estimation with a <B>step</B> of 1
+instead of 10.
+<P>
+<P>
+<P>
+<HR>
+<A HREF="help_1D_exponents-8.html">Next</A>
+<A HREF="help_1D_exponents-6.html">Previous</A>
+<A HREF="help_1D_exponents.html#toc7">Contents</A>
+</BODY>
+</HTML>

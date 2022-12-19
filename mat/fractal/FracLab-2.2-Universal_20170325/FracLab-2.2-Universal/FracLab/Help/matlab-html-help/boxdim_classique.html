@@ -1,0 +1,139 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>boxdim_classique :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="boxdim_binaire.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="boxdim_listepoints.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+    
+        <h1 class="reftitle">boxdim_classique</h1>
+        <p>Box dimension of the graph of a function from R^N to R computed using the box-method.</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>[boxdim,Nboxes,handlefig]=boxdim_binaire(Signal, Size, Ratio, Axes, Waitbar ,reg, lrstr, optvarargin)</tt>
+        </p>
+        
+        <h3>Inputs</h3>
+        <p><b><tt>Signal :</tt></b><br>
+            Usually, Signal is a 1-D array (values of a function), but it can also be a matrix 2-D array (Grayscale image, white pixels considered as peaks and dark pixels as valleys) 
+            or an N dimensional array with any N, where the function goes from R^N to R
+        </p>
+        
+        <p><b><tt>Size, Ratio :</tt></b><br>
+            Ratio defines the lengths of the sides of a reference box. The length among the k-th axis of this reference box is Ratio(k)
+            The successive boxes will be deduced from this first box by homotheties with ration Size(i). More precisely, 
+            the box at the i - th iteration will have a length along the k - th axis equal to Ratio(k)*Size(i)
+        </p>
+        
+        <p><b><tt>Axes :</tt></b><br>
+        Domain of definition of the signal. For example, if f goes from [0,1]x[0,1] to R, then Axes=[0,1;0,1].<br>
+        For a graphical explanation of Size, Ratio and Axes, see <a href="#example1">Example 1</a>
+        </p>
+        
+        
+        <p><b><tt>Waitbar :</tt></b><br> 1 if you want a waitbar to appear during the calculation, else 0</p>
+        
+        <p><b><tt>reg :</tt></b><br> The way you choose the bounds. See the help on fl_regression for more information.</p>
+        
+        <p><b><tt>lrstr,optvarargin :</tt></b><br> Regression parameters. They define the regression type. Type " help monolr" for more information</p>
+        
+        <h3>Outputs</h3>
+        <p><b><tt>boxdim :</tt></b><br> The estimated box dimension</p>
+        
+        <p><b><tt>Nboxes :</tt></b><br> 
+            Nboxes is a vector. Nboxes(i) is the number of non-empty boxes at the i - th iteration. 
+            A non-empty box is a box that contains at least one point of the graph of the function.
+        </p>
+        
+        <p><b><tt>handlefig :</tt></b><br> If reg~=0, a window appears to help you choosing the linearity bounds. handlefig is the handle of this figure.</p>
+        
+        <p><b><tt>bounds :</tt></b><br> Bounds of linearity of log2(Nboxes) in function of log2(Size). Interesting if reg==1.</p>
+        
+        <h3>Optional arguments</h3>
+        <p>All arguments except Signal are optional. For example, the syntax : boxdim_classique(Signal) is correct.
+            If you don't want to precise an argument, you can also type []. The missing arguments take their default values:
+        </p>
+        <p class="synopsis">
+            <tt>Size=[1 1/2 1/4 ... 1/2048 1/4096]<br>Ratio =[1 1 ...]<br>Axes=[0 1;0 1 ; ...]<br>
+                Waitbar = 0<br>reg=0<br>lrstr='ls'
+            </tt>
+        </p>
+        <p>These default values are not always relevant, especially Size, so when you don't know how to define Size, try to use reg ~= 0 in order to precise 
+            manually the correct box sizes.
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1</h3>
+            <p>This drawing may help you to understand the roles of Size, Ratio, and Axes.</p>
+            
+            <p><center><img src="expl_boxdim_classique.png"></center>It corresponds to the following intructions :</p>
+            
+            <p class="synopsis">
+                <tt>Signal=GeneWei(4096,0.6)+2;<br>
+                    Size=[1/2,1/4];<br>
+                    Ratio=[1,4];<br>
+                    Axes=[0,0.999] % Use 0.999 instead of 1 just to avoid side effects.<br>
+                    [boxdim,Nboxes,handlefig]=boxdim_classique(Signal, Size, Ratio, Axes)<br>
+                </tt>
+            </p>
+            
+            <p>These instructions will return Nboxes=[4,10]. It is consistent with the drawing. 
+               The computed dimension isn't meaningfull, because of the low number of iterations. The goal of this example is just to show how the boxes are defined.
+            </p>
+            
+            <h3>Example 2</h3>
+            <p>Computes the box dimension of a Weierstrass function.</p>
+            
+            <p class="synopsis">
+                <tt>% Computes a Weierstrass function with h=0.5<br>
+                    % Theorically, the box dimension of its graph is 2-0.5 = 1.5<br>
+                    Wei=GeneWei(4096,'0.5');<br>
+                    t=linspace(0,1,4096);<br>
+                    % Plot the graph<br>
+                    figure;plot(t,Wei);pause;<br>
+                    % Compute its box dimension<br>
+                    reg=1;Waitbar=1;<br>
+                    [boxdim,Ntailles,handlefig,bounds]=boxdim_classique(Wei,[],[],[],Waitbar,reg);<br>
+                    boxdim<br>bounds<br>
+                    % You should find bounds = -4 0. This means that<br>
+                    % the progression is linear when log2(size) is in the range [-4 0]. You may keep these<br>
+                    % bounds, take more points and try another regression type.<br>
+                    reg=0;Size=2.^[-4 : 0.1 : 0];<br>
+                    boxdim=boxdim_classique(Wei,Size,[],[],Waitbar,reg,'pls',30);<br>
+                    boxdim<br>
+                </tt>
+            </p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p>
+            <a href="boxdim_binaire.html"><tt>boxdim_binaire</tt></a><tt>,</tt> 
+            <a href="boxdim_listepoints.html"><tt>boxdim_listepoints</tt></a><tt>,</tt> 
+            <a href="fl_regression.html"><tt>fl_regression</tt></a>
+        </p>
+    
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="boxdim_binaire.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">boxdim_binaire</td><td>&nbsp;</td><td align="right">boxdim_listepoints</td>
+                <td align="right" width="20"><a href="boxdim_listepoints.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

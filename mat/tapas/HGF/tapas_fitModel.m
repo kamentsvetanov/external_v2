@@ -115,7 +115,7 @@ function r = tapas_fitModel(responses, inputs, varargin)
 %     tapas_fit_plotCorr(est)
 %
 % --------------------------------------------------------------------------------------------------
-% Copyright (C) 2012-2013 Christoph Mathys, TNU, UZH & ETHZ
+% Copyright (C) 2012-2015 Christoph Mathys, TNU, UZH & ETHZ
 %
 % This file is part of the HGF toolbox, which is released under the terms of the GNU General Public
 % Licence (GPL), version 3. You can redistribute it and/or modify it under the terms of the GPL
@@ -129,33 +129,18 @@ r = dataPrep(responses, inputs);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% CONFIGURE THESE AS DESCRIBED ABOVE:
+% THE DEFAULTS DEFINED HERE WILL BE OVERWRITTEN BY ANY ARGUMENTS GIVEN WHEN CALLING tapas_fitModel.m
 %
-% Perceptual model
-% ~~~~~~~~~~~~~~~~
-% Choices are: 
-% - tapas_hgf_binary_config
-% - tapas_hgf_binary3l_config
-% - tapas_rw_binary_config
-% - tapas_hgf_config
-% - tapas_hgf_ar1_config
+% Default perceptual model
+% ~~~~~~~~~~~~~~~~~~~~~~~~
 r.c_prc = tapas_hgf_binary_config;
 
-% Observation model
-% ~~~~~~~~~~~~~~~~~
-% Choices are:
-% - tapas_unitsq_sgm_config                 (compatible with *_binary_config)
-% - tapas_softmax_binary_config             (compatible with *_binary_config)
-% - tapas_bayes_optimal_binary_config       (compatible with *_binary_config)
-% - tapas_gaussian_obs_config               (compatible with tapas_hgf_config)
-% - tapas_bayes_optimal_config              (compatible with tapas_hgf_config)
-% - tapas_squared_pe_config                 (compatible with tapas_hgf_config)
+% Default observation model
+% ~~~~~~~~~~~~~~~~~~~~~~~~~
 r.c_obs = tapas_unitsq_sgm_config;
 
-% Optimization algorithm
-% ~~~~~~~~~~~~~~~~~~~~~~
-% Choices are:
-% - tapas_quasinewton_optim_config
+% Default optimization algorithm
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 r.c_opt = tapas_quasinewton_optim_config;
 
 % END OF CONFIGURATION
@@ -163,7 +148,7 @@ r.c_opt = tapas_quasinewton_optim_config;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Overridden settings from the command line
+% Override default settings with arguments from the command line
 if nargin > 2 && ~isempty(varargin{1})
     r.c_prc = eval(varargin{1});
 end
@@ -185,6 +170,9 @@ r.c_prc.priorsas(r.c_prc.priorsas==99992) = r.plh.p99992;
 
 r.c_prc.priormus(r.c_prc.priormus==99993) = r.plh.p99993;
 r.c_prc.priorsas(r.c_prc.priorsas==99993) = r.plh.p99993;
+
+r.c_prc.priormus(r.c_prc.priormus==-99993) = -r.plh.p99993;
+r.c_prc.priorsas(r.c_prc.priorsas==-99993) = -r.plh.p99993;
 
 r.c_prc.priormus(r.c_prc.priormus==99994) = r.plh.p99994;
 r.c_prc.priorsas(r.c_prc.priorsas==99994) = r.plh.p99994;
@@ -209,8 +197,14 @@ r.p_obs.p      = r.c_obs.transp_obs_fun(r, ptrans_obs);
 r.p_prc.ptrans = ptrans_prc;
 r.p_obs.ptrans = ptrans_obs;
 
-% Store representations at MAP estimate
-r.traj = r.c_prc.prc_fun(r, r.p_prc.ptrans, 'trans');
+% Store representations at MAP estimate, response predictions, and residuals
+[r.traj, infStates] = r.c_prc.prc_fun(r, r.p_prc.ptrans, 'trans');
+[dummy, r.optim.yhat, r.optim.res] = r.c_obs.obs_fun(r, infStates, r.p_obs.ptrans);
+
+% Calculate autocorrelation of residuals
+res = r.optim.res;
+res(isnan(res)) = 0; % Set residuals of irregular trials to zero
+r.optim.resAC = tapas_autocorr(res);
 
 % Print results
 ftbrm = {'p', 'ptrans'};
@@ -385,7 +379,9 @@ H = tapas_riddershessian(obj_fun, r.optim.argMin, options);
 if any(isinf(H(:))) || any(isnan(H(:))) || any(eig(H)<=0)
     if isfield(r.optim, 'T')
         % Hessian of the negative log-joint at the MAP estimate
-        H     = inv(r.optim.T);
+        % (avoid asymmetry caused by rounding errors)
+        H = inv(r.optim.T);
+        H = (H' + H)./2;
         % Parameter covariance 
         Sigma = r.optim.T;
         % Parameter correlation
@@ -396,8 +392,10 @@ if any(isinf(H(:))) || any(isnan(H(:))) || any(eig(H)<=0)
         disp('Warning: Cannot calculate Sigma and LME because the Hessian is not positive definite.')
     end
 else
-    % Parameter covariance
+    % Calculate parameter covariance (and avoid asymmetry caused by
+    % rounding errors)
     Sigma = inv(H);
+    Sigma = (Sigma' + Sigma)./2;
     % Parameter correlation
     Corr = tapas_Cov2Corr(Sigma);
     % Log-model evidence ~ negative variational free energy
@@ -450,7 +448,7 @@ end
 % Calculate the log-likelihood of observed responses given the perceptual trajectories,
 % under the observation model
 trialLogLls = obs_fun(r, infStates, ptrans_obs);
-logLl = nansum(trialLogLls);
+logLl = sum(trialLogLls, 'omitnan');
 negLogLl = -logLl;
 
 % Calculate the log-prior of the perceptual parameters.

@@ -20,23 +20,32 @@ function [rpulset, pulset] = tapas_physio_filter_respiratory(...
 % (either version 3 or, at your option, any later version). For further details, see the file
 % COPYING or <http://www.gnu.org/licenses/>.
 %
-% $Id: tapas_physio_filter_respiratory.m 780 2015-07-22 12:36:47Z kasperla $
+% $Id$
 if isempty(rpulset)
     rpulset = [];
     return;
 end
 
+% @SB: Can we not just replace all NaNs by 0s and take 0 as the offset, if it is first in time series?
+% if rpulset has nans, subtraction and filtering will render whole time
+% series to nan, so we replace them with zeros
+% first, get value of first non-nan sample to correct offset
+rpulsetFirst = find(~isnan(rpulset), 1, 'first');
+rpulsetOffset = rpulset(rpulsetFirst);
+% now, replace all nans with zeros
+rpulsetNans = isnan(rpulset);
+rpulset(rpulsetNans) = 0;
+
 if nargin < 3
     doNormalize = true;
 end
 
-rpulset=rpulset-rpulset(1);
+rpulset=rpulset-rpulsetOffset;
 
 % bandpass filter
 sampfreq    = 1/rsampint; % Hz
 
 % Vlad: 0.09 0.7, 4th order butterworth, filtfilt for phase mod?
-
 cutofflow   = 0.1; %10 seconds/rsampint units
 cutoffhigh  = 5; %Hz
 forder = 2;

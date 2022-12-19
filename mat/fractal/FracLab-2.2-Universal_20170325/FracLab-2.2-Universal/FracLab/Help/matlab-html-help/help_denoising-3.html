@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The Denoising pop-up menu: The Multifractal Denoising (L2 norm) sub-menu</TITLE>
+ <LINK HREF="help_denoising-4.html" REL=next>
+ <LINK HREF="help_denoising-2.html" REL=previous>
+ <LINK HREF="help_denoising.html#toc3" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_denoising-4.html">Next</A>
+<A HREF="help_denoising-2.html">Previous</A>
+<A HREF="help_denoising.html#toc3">Contents</A>
+<HR>
+<H2><A NAME="s3">3. The <B>Multifractal Denoising (L2 norm)</B> sub-menu</A></H2>
+
+<P>
+<P>In this menu, one makes the hypothesis that B is an additive white
+Gaussian noise. Then, we seek Z that minimizes the risk subject to the
+constraint that its regularity is that of Y plus a shift. 
+One can show that this yields an asymptotically minimax estimator.
+<P>First specify your <B>Analyzed signal</B>, and the desired <B>Hölder
+exponent shift</B>. The algorithm needs to know the standard deviation of
+the noise. It is often a good idea to experiment with different
+values. To do this, check the <B>Specify</B> button, and enter a value
+of your choice for <B>Standard Deviation</B>. Alternatively, you may let
+the system estimate the power of the noise for you: Uncheck
+<B>Specify</B> so that <B>Automatic</B> appears instead. A new box called
+<B>Estimated Standard Deviation</B> pops up, in which the estimated
+value will be displayed when you hit <B>Compute</B>. The output signal
+is called <EM>mden_signal#</EM>. Typical values for the shift in this case are
+around 2.
+<P>
+<P>
+<HR>
+<A HREF="help_denoising-4.html">Next</A>
+<A HREF="help_denoising-2.html">Previous</A>
+<A HREF="help_denoising.html#toc3">Contents</A>
+</BODY>
+</HTML>

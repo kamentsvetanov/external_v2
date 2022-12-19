@@ -1,0 +1,125 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>multinomstoc :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="multinom2d.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="multinomstoc2d.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">multinomstoc</h1>
+        <p>Generates a pre-multifractal stochastic measure related to Multinomial Measure</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>MES = multinomstoc(BASE,S)<br>
+                MES = multinomstoc(...,'Method')<br>
+                [MES,fs] = multinomstoc(...,'spec')
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>MES = multinomstoc(BASE,S)</tt> Generates the pre-multifractal stochastic measure, <tt>MES</tt>, using a base of the multinomial, <tt>BASE</tt>, 
+            and a number of scales, <tt>S</tt>. The parameters <tt>BASE</tt> and <tt>S</tt> are positive integers not smaller than 2.
+            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p>The sample size, <tt>N</tt>, of the generated signal is defined by the base value and the number of scales : <tt>N = BASE^S</tt></p>
+                </td></tr></table>
+            </ul>              
+        </p>
+        
+        <p><tt>MES = multinomstoc(...,'Method')</tt> Generates the pre-multifractal stochastic measure, <tt>MES</tt>, using a specific method.
+            The supported Methods can be choosen from the list below :
+            <ul><h3>Method Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Method Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'unifmeas'</tt></td><td bgcolor="#F2F2F2"><p>Synthesize a multinomial measure with uniformly distributed weights (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'lognmeas'</tt></td><td bgcolor="#F2F2F2"><p>Synthesize a multinomial measure with log normaly distributed weights using a standard deviation, <tt>s</tt>.<br>
+                            The paramater <tt>s</tt> is a positive real</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'shufmeas'</tt></td><td bgcolor="#F2F2F2"><p>Synthesize a shuffled multinomial measure using a vector <tt>VP</tt> containing the weight coefficients.<br>
+                            The elements in the parameter <tt>VP</tt> are reals in(0,1)</p>
+                            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                                <td>
+                                    <p>The number of weight coefficients in <tt>VP</tt> must be equal to the base value, <tt>BASE</tt>.<br>The sum of the coefficients must be equal to 1.</p>
+                                </td></tr></table>
+                            </ul>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'pertmeas'</tt></td><td bgcolor="#F2F2F2"><p>Synthesize a perturbated multinomial measure using a vector <tt>VP</tt> containing the weight coefficients and a perturbation parameter, <tt>e</tt>.<br>
+                            The elements in the parameter <tt>VP</tt> are reals in(0,1)</p>
+                            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                                <td>
+                                    <p>The number of weight coefficients in <tt>VP</tt> must be equal to the base value, <tt>BASE</tt>.<br>The sum of the coefficients must be equal to 1.<br></p>
+                                </td></tr></table>
+                            </ul><br>
+                            The paramater <tt>e</tt> is a positive real lower than the smallest weigth coefficient 
+                        </td></tr>    
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>[MES,fs] = multinomstoc(...)</tt> Generates the pre-multifractal stochastic measure, <tt>MES</tt>, and computes the associated theoretical multifractal spectrum, <tt>fs</tt>.
+            The output <tt>fs</tt> is a structure that contains the exponents, <tt>fs.exp</tt> and the spectrum, <tt>fs.spec</tt>.
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of a pre-multifractal stochastic measure</h3>
+            <p class="synopsis">
+                <tt>B = 2; S = 10;  N = B^S; t = linspace(0,1,N);<br>
+                    x = multinomstoc(B,S);<br>
+                    figure; plot(t,x);<br>
+                    title('Pre-multifractal measure with uniform law'); xlabel('time')
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/multinomstoc_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Synthesis of a perturbated multinomial measure</h3>
+            <p class="synopsis">
+                <tt>B = 2; S = 10;  N = B^S; t = linspace(0,1,N);<br>
+                    x = multinomstoc(B,S,'pertmeas',{[0.35;0.65] 0.2});<br>
+                    figure; plot(t,x);<br>
+                    title('Perturbated pre-multifractal measure'); xlabel('time')
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/multinomstoc_ex2.png" height="420" width="561" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p>  
+            <a href="multinom.html"><tt>multinom</tt></a>
+        </p>
+        
+        <h2>References</h2>
+        <p>
+            [1] Carl J. G. Evertsz and Benoit B. MandelBrot, "Multifractal Measures", Chaos and Fractals, New Frontiers of Science, Appendix B, 
+                Peitgen, Juergens and Saupe, Springer Verlag, Springer Verlag (1992) 921-953.<br>
+            [2] Benoit B. MandelBrot, "A class of Multinomial Multifractal Measures with negative (latent) values for the 'Dimension' f(alpha)",
+                Fractals' Physical Origins and Properties, Proceeding of the Eric Meeting, 1988, L. Pietronero, Plenum Press, New York (1989) 3-29. <br>
+            [3] Benoit B. MandelBrot, "Limit Lognormal Multifractal Measures", Frontiers of Physics, Landau Memorial Conference, Proceeding of Tel-Aviv Meeting, 1988
+                Errol Asher Gotsman, Yuval Ne'eman and Alexander Voronoi, New York Pergamon (1990) 309-340.
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="multinom2d.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">multinom2d</td><td>&nbsp;</td><td align="right">multinomstoc2d</td>
+                <td align="right" width="20"><a href="multinomstoc2d.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Revision: 1.4.4.4 $  $Date: 2004/04/28 01:44:28 $ -->
+<demos>
+   <name>FracLab</name>
+   <type>toolbox</type>
+   <icon>$toolbox/matlab/icons/matlabicon.gif</icon>
+   <description isCdata="no">
+	<p>
+	Fraclab is a general purpose signal and image processing toolbox
+	based on fractal and multifractal methods.
+	Fraclab can be approached from two different perspectives :
+	</p>
+	<ul>
+	<li>Fractal analysis :</li>
+		A large number of procedures allow to compute various fractal
+		quantities associated with 1D or 2D signals, such as
+		dimensions, Hölder exponents or multifractal spectra.
+	<li>Signal processing :</li>
+		Alternatively, one can use Fraclab directly to perform many 
+		basic tasks in signal processing, including estimation,
+		detection, denoising, modelling, segmentation,classification,
+		and synthesis.
+	</ul>
+	<p>
+	Note that Fraclab is not intended to process "fractal" signals 
+	(whatever meaning is given to this word), but rather to apply 
+	fractal tools to the study of irregular but otherwise arbitrary signals.
+	A graphical interface makes Fraclab easy to use and intuitive.
+	In addition, various wavelet-related tools are available in Fraclab.
+	</p>
+   </description>
+   
+   
+ 	 <demosection>
+	 <label>FracLab 1.0</label>
+	   <demoitem>
+	     	<label>Financial Data analysis</label>
+	     	<callback>playshow nikkei</callback>
+	   </demoitem>
+	   <demoitem>
+	     	<label>Synthetic Aperture Radar image denoising</label>
+	     	<callback>playshow SARdenoising</callback>
+	   </demoitem>
+	  </demosection>
+		<demosection> 
+	  <label>FracLab 2.0</label>
+	    <description>
+   		<p>Available soon</p>
+   	</description>
+   </demosection>
+</demos>
+
+
+
+

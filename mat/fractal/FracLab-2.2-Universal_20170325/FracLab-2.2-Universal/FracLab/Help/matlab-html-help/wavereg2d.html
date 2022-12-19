@@ -1,0 +1,109 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>wavereg2d :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="wavereg1d.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="waveshrink1d.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">wavereg2d</h1>
+        <p>Performs the Multifractal Regularization of a 2D signal using a Multifractal pumping method and multiplying
+            the wavelets coefficients by a number Xj in (0,1) constant by scales</p>  
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>REGX = wavereg2d(x,QMF)<br>
+                REGX = wavereg2d(...,'Norm')<br>
+                REGX = wavereg2d(...,'Propertyname',Propertyvalue)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>REGX = wavereg2d(x,QMF)</tt> Performs the regularization, <tt>REGX</tt>, of the input signal <tt>x</tt>
+            using a specific quadrature mirror filter, <tt>QMF</tt>.
+        </p>
+        
+        <p><tt>REGX = wavereg2d(...,'Thresholding')</tt> Performs the regularization, <tt>REGX</tt>, using a specific normalization method. 
+            The supported Norms can be choosen from the list below :
+            <ul><h3>Method Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Norm Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'L2'</tt></td><td bgcolor="#F2F2F2"><p>L2 normalization (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'kullback'</tt></td><td bgcolor="#F2F2F2"><p>Kullback normalization</p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>H = wavereg2d(...,'Propertyname',Propertyvalue)</tt> Computes the denoised signal, <tt>REGX</tt>, 
+            applying the specified property settings. The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'increase'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>REGX</tt> is computed with a specific regularity increase, <tt>R</tt>. The parameter <tt>R</tt>
+                                    is a real number. If <tt>R</tt> is negative the signal is actually "noised".<br> 
+                                    If <tt>'increase'</tt> is not specified, the default value is <tt>R = 0.5</tt>.<br><br>
+                                    <b>Note:</b> With Kullback normalization the regularity increase, <tt>R</tt> is in <tt>(-1,1)</tt>.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'level'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <tt>REGX</tt> is computed with a specific start level, <tt>L</tt>. The parameter <tt>L</tt> is a positive
+                                    integer in <tt>(1+log2(max(size(x)))/2,log2(max(size(x))))</tt> that defines the start level where the computation begins.<br> 
+                                    If <tt>'level'</tt> is not specified, the default value is <tt>L = 1+log2(max(size(x)))/2</tt>.<br><br>
+                                    <b>Note:</b> With Kullback normalization the level parameter, <tt>L</tt> is on <tt>(1,log2(max(size(x))-1))</tt>.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Regularization of a 2D signal</h3>
+            <p class="synopsis">
+                <tt>images_loc = which('wavereg2d.html');<br>
+                    x = imread(fullfile(fileparts(images_loc),'images_examples','Denoising','door.tif'));<br>
+                    x = ima2mat(x); b = randn(size(x)); xb = x + b/20;<br>
+                    QMF = MakeQMF('daubechies',14);<br>
+                    y = wavereg2d(xb,QMF,'increase',0.5,'level',7);<br>
+                    figure; subplot(1,2,1); imagesc(x); title('Input image'); axis image;<br>
+                    subplot(1,2,2); imagesc(xb); title('Noised image'); axis image;<br>
+                    colormap(gray);<br>    
+                    figure; subplot(1,2,1); imagesc(x); title('Input image'); axis image;<br>
+                    subplot(1,2,2); imagesc(y); title('Denoised image'); axis image;<br>    
+                    colormap(gray);
+                </tt>
+            </p>
+        </ul>
+        <p><img src="images_examples/Denoising/wavereg2d_ex1.png" height="363" width="875" alt=""></p>
+        <p><img src="images_examples/Denoising/wavereg2d_ex2.png" height="363" width="875" alt=""></p>
+        
+        <h2>See Also</h2>
+        <p><a href="mfdnorm2d.html"><tt>mfdnorm2d</tt></a></p>
+                
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="wavereg1d.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">wavereg1d</td><td>&nbsp;</td><td align="right">waveshrink1d</td>
+                <td align="right" width="20"><a href="waveshrink1d.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

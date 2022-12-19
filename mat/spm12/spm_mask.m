@@ -85,7 +85,6 @@ dim = VO(1).dim(1:3);
 spm_progress_bar('Init',VO(1).dim(3),'Masking','planes completed');
 
 for j=1:dim(3)
-
     msk = true(dim(1:2));
     Mi  = spm_matrix([0 0 j]);
 

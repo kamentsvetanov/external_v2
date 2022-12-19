@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>asmornhulen :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="asmlinfrac.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="boxdim_binaire.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">asmornhulen</h1>
+        <p>Generates an Alpha-Stable Ornstein-Uhlenbeck Process </p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>ASM = asmornhulen(N,ALPHA,LAMBDA,M,m)<br>
+                ASM = asmornhulen(...,SEED)    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>ASM = asmornhulen(N,ALPHA,LAMBDA,M,m)</tt> Generates the alpha-stable Ornstein-Uhlenbeck process, <tt>ASM</tt>, using a sample size,
+            <tt>N</tt>, a stability parameter, <tt>ALPHA</tt>, an Ornstein-Uhlenbeck parameter, <tt>LAMBDA</tt>, a kernel cut-off parameter, <tt>M</tt>
+            and a number of discretization steps, <tt>m</tt>. The parameters <tt>N,M and m</tt> are positive integers and this triplet should be
+            chosen so that the value <tt>m*(N+M)</tt> is a power of 2. <tt>ALPHA</tt> is a real in (0,2) and <tt>LAMBDA</tt> is a positive real.
+        </p>
+                
+        <p><tt>ASM = asmornhulen(...,SEED)</tt> Generates the alpha-stable Ornstein-Uhlenbeck process, <tt>ASM</tt>, with a specific random seed, <tt>SEED</tt>.
+            This is useful to generate the same path several times or to compare the paths of different <tt>ASMs</tt>.
+        </p>
+                
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Synthesis of an Ornstein-Uhlenbeck process with a specific alpha parameter</h3>
+            <p class="synopsis">
+                <tt>N = 1000; A = 1.5; L = 0.05; M = 24; m = 32; t = linspace(0,1,N);<br>
+                    asm = asmornhulen(N,A,L,M,m);<br>
+                    figure; plot(t,asm);<br>
+                    title('Ornstein-Uhlenbeck process with alpha = 1.5 and lambda = 0.05'); xlabel('time')
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/asmornhulen_ex1.png" height="420" width="561" alt=""></p>
+            
+            <h3>Example 2 : Comparison of different Ornstein-Uhlenbeck processes using a specific random seed</h3>
+            <p class="synopsis">
+                <tt>N = 2000; A1 = 1.5; A2 = 1.8; L = 0.01; M = 48; m = 32;<br>
+                    asm1 = asmornhulen(N,A1,L,M,m,150);<br>
+                    asm2 = asmornhulen(N,A2,L,M,m,150);<br>    
+                    figure; plot(asm1,'k'); hold on; plot(asm2,'r');<br> 
+                    legend('asm1: alpha = 1.5','asm2: alpha = 1.8','Location','NorthEast');<br>
+                    title('Ornstein-Uhlenbeck process with different values of alpha parameter');<br>
+                    xlabel('number of points');xlim([0 N])
+                </tt>
+            </p>
+            <p><img src="images_examples/Synthesis/asmornhulen_ex2.png" height="420" width="561" alt=""></p>         
+        </ul>
+        
+        <h2>See Also</h2>
+        <p>  
+            <a href="asmlevy.html"><tt>asmlevy</tt></a><tt>,</tt>
+            <a href="asmlinfrac.html"><tt>asmlinfrac</tt></a><tt>,</tt>
+            <a href="msmornhulen.html"><tt>msmornhulen</tt></a>
+        </p>
+
+        <h2>References</h2>
+        <p>
+            [1] K. Falconer, R. Le Gu&eacute;vel, J. L&eacute;vy V&eacute;hel <a href="http://hal.archives-ouvertes.fr/hal-00293375/fr/"> "Localisable moving average stable and multistable processes"</a>, Stochastic Models.  
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="asmlinfrac.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">asmlinfrac</td><td>&nbsp;</td><td align="right">boxdim_binaire</td>
+                <td align="right" width="20"><a href="boxdim_binaire.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The Segmentation pop-up menu: Homework</TITLE>
+ <LINK HREF="help_segmentation-5.html" REL=next>
+ <LINK HREF="help_segmentation-3.html" REL=previous>
+ <LINK HREF="help_segmentation.html#toc4" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_segmentation-5.html">Next</A>
+<A HREF="help_segmentation-3.html">Previous</A>
+<A HREF="help_segmentation.html#toc4">Contents</A>
+<HR>
+<H2><A NAME="s4">4. Homework</A></H2>
+
+<P>
+<P>An example of the use of the <B>Image multifractal segmentation</B> menu
+has been presented in the general help <B>Overview and main
+functionalities of Fraclab</B>, so we'll concentrate here on the use of
+WSA functions as a modeling device. We'll see that this tool is
+versatile enough to adapt to a large variety of signals, as long as
+they have significant variability and irregularity. As a warm-up, we
+consider first the modeling/segmentation of synthetic signals. Of
+course, since WSA functions are generalizations of IFS, it would be
+cheating to try the algorithm on IFS, GIFS or SGIFS. Instead, let us
+see what happens for stable motions. Synthesize thus a stable motion
+with <B>Characteristic Exponent</B> equal to 1.3, and the default values
+for the remaining parameters, except that you fix the sample size to
+2048 points (recall that in the current version of <B>Fraclab</B>, the
+WSA-based segmentation tool will clip signals to their closest lower
+power of 2). Since the selected signal after synthesis is the
+increments process <EM>stable_increments#</EM>, recall to click on
+<EM>stable_process#</EM> in the <B>Variables</B> list to make it the current
+signal. Then launch the WSA-based segmentation window, and hit
+<B>Compute</B> again with the default values. Since your input signal is
+random, I cannot predict exactly what will happen, but chances are
+that you'll obtain a reasonably correct modeling of your stable
+process. Typically, you'll get that approximately two thirds of the
+coefficients have been processed, with a segmentation into four parts
+(i.e. you'll see 5 red crosses on the graph). In addition, the WSA
+model (the green curve) will be close to the original signal (in blue)
+at most points, except in general for a couple of regions where you'll
+observe a high discrepancy. Now let us refine our segmentation. In
+that view, choose a smaller <B>threshold</B>, say 1 instead of the
+default 10, and hit <B>Compute</B> again. Probably the same proportion
+of coefficients have been processed, but you have now typically 8
+segments with a close agreement except maybe in one zone.  You can
+diminish the threshold again or play with the other parameters to see
+how they affect the modeling.
+<P>To perform a more interesting test, we shall try the WSA modeling tool
+on the file <EM>satdrum.dat</EM>, that you will find in the DATA directory
+that comes with <B>Fraclab</B>. This is a small excerpt of a recording
+of a highly saturated drum part. An interesting feature of this kind
+of numerical effects is that they add a lot of energy in the high
+frequencies. As a result, the data have a power spectral density that
+decay very slowly. This is reminiscent of what happens for "fractal
+signals", and, indeed, pure IFS have power spectral density that decay
+approximately linearly in log-log coordinates. To check this,
+synthesize an IFS
+(<B>Synthesis</B>/<B>Functions</B>/<B>Deterministic</B>/<B>IFS</B>) with the
+default values, except that you require that, e.g., 4096 sample points
+are generated, just to ease the computation of the FFT. This will
+generate <EM>ifs_ord_0</EM>. Then type <EM>spectrum(ifs_ord_0)</EM> in the
+matlab window. Check on the figure that you have the expected
+behaviour, i.e. an approximately linear behaviour (recall that the
+axes are bi-logarithmic, and that the two external curves are the 0.95
+confidence interval). We shall now compute the spectrum of our drum
+part: First load it into <B>Fraclab</B> in the usual way: Hit <B>Load</B>
+in the main window, then locate the signal called
+<EM>satdrum.dat</EM>. Click on it so that its name appears in the
+<B>Name</B> box. This is a text file, so you need to select <B>ASCII</B>
+in front of <B>Load as</B>. Hit <B>Load</B> and <B>Close</B> this window.
+You get a signal called <EM>fsatdrum</EM> in your <B>Variables</B> list. To
+obtain the spectral density, type <EM>spectrum(fsatdrum)</EM> in the
+matlab window.  Notice how the power spectral density is roughly
+linear in log-log coordinates.
+<P>To model <EM>fsatdrum</EM> with a WSA function, open the <B>Segmentation</B>
+pop-up menu, and choose <B>1D signals WSA based segmentation</B>. In the
+window that appears, check that the <B>Input Signal</B> is
+<EM>fsatdrum</EM>, otherwise select it in the <B>Variables</B> window and
+hit <B>Refresh</B>.  Select <B>Daubechies 4</B> as an <B>Analyzing
+Wavelet</B>, 5 as the <B>Analyzing depth</B>, and set the <B>threshold</B> to
+2 (this is not crucial in this experiment). Finally, choose <B>cmin =
+0.1</B> and <B>cmax = 1</B>. Hit <B>Compute</B>. You should get that
+approximately two thirds of the coefficients are processed, which
+indicates that the WSA modeling is meaningful. Check in the graphic
+window that appears that the approximating WSA function, wsamod_synt0,
+is indeed close to the original signal.  Of course, in such a
+situation, the real test is not visual resemblance but auditive
+fidelity. We will thus listen to the two signals. In that view, type
+<EM>wavplay(fsatdrum,44100); pause(1); wavplay(wsamod_synt0)</EM> if you
+are operating under Windows. If you are running Unix/Linux, replace
+the command <EM>wavplay</EM> by <EM>soundsc</EM>. This should play the two signals at
+their correct rate of 44100 Hz, provided your computer have sound
+capabilities. If all went well, you will not hear any obvious
+difference between the original and the model. You may also compute
+the spectrum of <EM>wsamod_synt0</EM>, and check that it indeed looks very
+much like the one of <EM>fsatdrum</EM>.
+<P>As a final test, you should try to model <EM>fsatdrum</EM> with a "classical"
+method, e.g. using a spline interpolation or any other method you like. To
+make a fair comparison, the classical model should contain a number of
+parameters of the order of one third of the number of samples in
+<EM>fsatdrum</EM>, since this is basically what the WSA model needed (more
+precisely : one third of the number of samples + 2*log(two thirds of the
+number of samples)). You'll see that, although you can get a visually good
+agreement, you can not match easily the spectral content of <EM>fsatdrum</EM> in
+the high frequencies, nor obtain a faithful auditive reproduction. Using
+spline interpolation, for instance, you can get a roughly equivalent L2
+error with <EM>fsatdrum</EM> as the one achieved by <EM>wsamod_synt0</EM>, but the
+power spectral density falls off much more rapidly at high frequencies.
+Also, the sound of the spline interpolation is much softer, loosing quite a
+lot of the saturation effect. As expected, WSA modeling is thus useful when
+there is relevant information in the high frequencies.
+<P>
+<P>
+<P>
+<HR>
+<A HREF="help_segmentation-5.html">Next</A>
+<A HREF="help_segmentation-3.html">Previous</A>
+<A HREF="help_segmentation.html#toc4">Contents</A>
+</BODY>
+</HTML>

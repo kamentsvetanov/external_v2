@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!-- $Revision: 1.1.6.1 $ $Date: 2004/04/20 22:13:25 $ -->
+
+<toc version="1.0">
+<tocitem target="fraclab_product_page.html" image="$toolbox/matlab/icons/bookicon.gif">Fraclab Toolbox
+	<tocitem target="fl_getting_started.html" image="$toolbox/matlab/icons/greencircleicon.gif">Getting Started with the Fraclab Toolbox
+	</tocitem>
+    <tocitem target="fraclab_demos.html" image="$toolbox/matlab/icons/demoicon.gif">Fraclab Toolbox Demos
+        <tocitem target="fraclab_demos.html">Getting Started
+			<tocitem target="tuto_install_setup.html">Install FracLab using the setup file (Win32/Win64)</tocitem>
+			<tocitem target="tuto_install_zip.html">Install FracLab using the zip file (Win/Mac/Linux)</tocitem>
+			<tocitem target="tuto_overview.html">FracLab's Toolbox overview</tocitem>
+            <tocitem target="tuto_workspace_button.html">Import data from Workspace's matlab</tocitem>
+            <tocitem target="tuto_load_button.html">Import data from specific directories</tocitem>
+		</tocitem>
+		<tocitem target="fraclab_demos.html">Fraclab functions
+			<tocitem target="tuto_synthesis.html">How to use the Synthesis tab</tocitem>
+			<tocitem target="tuto_dimension.html">How to use the Dimension tab</tocitem>
+			<tocitem target="tuto_estimation.html">How to use the Estimation tab</tocitem>
+            <tocitem target="tuto_segmentation.html">How to use the Segmentation tab</tocitem>
+            <tocitem target="tuto_denoising.html">How to use the Denoising tab</tocitem>
+            <tocitem target="tuto_denoising.html">How to use the Interpolation tab</tocitem>
+            <tocitem target="tuto_tfts.html">How to use the TF/TS tab</tocitem>
+		</tocitem>
+    </tocitem>
+	<tocitem target="help_aidegen.html" image="$toolbox/matlab/icons/pagesicon.gif">Main functionalities
+		<tocitem target="help_aidegen-1.html">Overview of the Fraclab Toolbox</tocitem>
+		<tocitem target="help_aidegen-2.html">Fraclab functionalities
+			<tocitem target="help_aidegen-2.html#ss2.1">Introduction</tocitem>
+			<tocitem target="help_aidegen-2.html#ss2.2">Main window</tocitem>
+			<tocitem target="help_aidegen-2.html#ss2.3">Pop-up menus</tocitem>
+		</tocitem>
+		<tocitem target="help_aidegen-3.html">The view menu
+			<tocitem target="help_aidegen-3.html#ss3.1">The figure sub-window</tocitem>
+			<tocitem target="help_aidegen-3.html#ss3.2">The image mode sub-window</tocitem>
+			<tocitem target="help_aidegen-3.html#ss3.3">The tools sub-window</tocitem>
+		</tocitem>
+		<tocitem target="help_aidegen-4.html">General conventions and remarks</tocitem>
+		<tocitem target="help_aidegen-5.html">Known bugs</tocitem>
+		<tocitem target="help_aidegen-6.html">Homework</tocitem>
+		<tocitem target="help_aidegen-7.html">Conclusion</tocitem>
+		<tocitem target="help_aidegen-8.html">References</tocitem>
+	</tocitem>
+	<tocitem target="help_synthesis.html" image="$toolbox/matlab/icons/pagesicon.gif">Synthesis
+		<tocitem target="help_synthesis-1.html">Overview</tocitem>
+		<tocitem target="help_synthesis-2.html">Functions
+            <tocitem target="help_synthesis-2.html#fBm">Fractional Brownian Motion
+                <tocitem target="fbmwoodchan.html">fbmwoodchan</tocitem>
+                <tocitem target="fbmlevinson.html">fbmlevinson</tocitem>
+                <tocitem target="synth2.html">synth2</tocitem>
+            </tocitem>
+            <tocitem target="help_synthesis-2.html#mBm">Multifractional Brownian Motion
+                <tocitem target="mBmQuantifKrigeage.html">mBmQuantifKrigeage</tocitem>
+                <tocitem target="mbmlevinson.html">mbmlevinson</tocitem>
+                <tocitem target="mBm2DQuantifKrigeage.html">mBm2DQuantifKrigeage</tocitem>
+            </tocitem>
+            <tocitem target="help_synthesis-2.html#SelfReg">Self Regulating Multifractional Process
+                <tocitem target="srmpfbm.html">srmpfbm</tocitem>
+                <tocitem target="srmpmidpoint.html">srmpmidpoint</tocitem>
+                <tocitem target="srmpfbm2d.html">srmpfbm2d</tocitem>
+            </tocitem>
+            <tocitem target="help_synthesis-2.html#Stable_motion">Alpha-Stable Process
+                <tocitem target="asmlevy.html">asmlevy</tocitem>
+                <tocitem target="asmlinfrac.html">asmlinfrac</tocitem>
+                <tocitem target="asmornhulen.html">asmornhulen</tocitem>
+            </tocitem>
+            <tocitem target="help_synthesis-2.html#Stable_motion">Multistable Process
+                <tocitem target="msmlevy.html">msmlevy</tocitem>
+                <tocitem target="msmlinmfrac.html">msmlinmfrac</tocitem>
+                <tocitem target="msmornhulen.html">msmornhulen</tocitem>
+            </tocitem>
+            <tocitem target="ebpsimulate.html">Embedded Branching Process</tocitem>
+            <tocitem target="help_synthesis-2.html#Wavelet_based">Wavelet-Based Process
+                <tocitem target="wave1f.html">wave1f</tocitem>
+                <tocitem target="lacunary.html">lacunary</tocitem>
+            </tocitem>
+            <tocitem target="help_synthesis-2.html#Weierstrass">Weierstrass Function
+                <tocitem target="genewei.html">genewei</tocitem>
+                <tocitem target="genegwei.html">genegwei</tocitem>
+            </tocitem>
+            <tocitem target="help_synthesis-2.html#SGIFS">IFS-Based Function
+				<tocitem target="ifstfif.html">ifstfif</tocitem>
+			</tocitem>	
+            <tocitem target="help_synthesis-2.html#ss2.2.1">IFS-Based Function (Deterministic)
+				<tocitem target="ifsfif.html">ifsfif</tocitem>
+				<tocitem target="ifsgfif.html">ifsgfif</tocitem>
+			</tocitem>
+            <tocitem target="help_synthesis-2.html#ss2.2.3">Weierstrass Function (Deterministic)
+                <tocitem target="genewei.html">genewei</tocitem>
+                <tocitem target="genegwei.html">genegwei</tocitem>
+            </tocitem>
+        </tocitem>
+		<tocitem target="help_synthesis-3.html">Measures
+            <tocitem target="help_synthesis-3.html">Multinomial Measures
+				<tocitem target="multinom.html">multinom</tocitem>
+                <tocitem target="multinom2d.html">multinom2d</tocitem>
+				<tocitem target="multinomstoc.html">multinomstoc</tocitem>
+                <tocitem target="multinomstoc2d.html">multinomstoc2d</tocitem>
+			</tocitem>
+        </tocitem>
+        <tocitem target="dla.html">Diffusion-Limited Aggregation</tocitem>
+        <tocitem target="percolation.html">Percolation</tocitem>
+		<tocitem target="help_synthesis-4.html">Homework</tocitem>
+		<tocitem target="help_synthesis-5.html">References</tocitem>
+	</tocitem>
+	<tocitem target="help_fdim.html" image="$toolbox/matlab/icons/pagesicon.gif">Dimensions
+		<tocitem target="help_fdim-1.html">Overview </tocitem>
+		<tocitem target="help_fdim-2.html">Regularization dimension
+            <tocitem target="regdim1d.html">regdim1d</tocitem>
+            <tocitem target="regdim2d.html">regdim2d</tocitem>
+        </tocitem>
+		<tocitem target="help_fdim-3.html">Box dimension: Box method
+			<tocitem target="Box_Dimension_Box_Method_graphic.html">Interface</tocitem>
+			<tocitem target="help_fdim-3.html">Command Line
+				<tocitem target="boxdim_classique.html">Signal or grayscale image</tocitem>
+				<tocitem target="boxdim_binaire.html">Binary data</tocitem>
+				<tocitem target="boxdim_listepoints.html">List of points</tocitem>
+			</tocitem>
+		</tocitem>
+        <tocitem target="help_fdim-1.html">Box dimension: Variation method</tocitem>
+        <tocitem target="lacunarity.html">Lacunarity</tocitem>
+		<tocitem target="help_fdim-4.html">Homework</tocitem>
+		<tocitem target="help_fdim-5.html">References</tocitem>
+	</tocitem>
+	<tocitem target="help_1D_exponents.html" image="$toolbox/matlab/icons/pagesicon.gif">Exponents
+		<tocitem target="help_1D_exponents-1.html">Overview </tocitem>
+		<tocitem target="help_1D_exponents-2.html">Pointwise Holder exponent
+            <tocitem target="help_1D_exponents-2.html#ss2.1">GQV Based Estimation
+                <tocitem target="estimGQV1DH.html">estimGQV1DH</tocitem>
+                <tocitem target="estimGQV2DH.html">estimGQV2DH</tocitem>
+            </tocitem>
+            <tocitem target="help_1D_exponents-2.html#ss2.4">Oscillation Based Estimation
+                <tocitem target="estimOSC1DH.html">estimOSC1DH</tocitem>
+                <tocitem target="estimOSC2DH.html">estimOSC2DH</tocitem>
+            </tocitem>
+			<tocitem target="help_1D_exponents-2.html#ss2.2">CWT Based Estimation</tocitem>
+            <tocitem target="help_1D_exponents-2.html#ss2.2">DWT Based Estimation</tocitem>
+			<tocitem target="help_1D_exponents-2.html#ss2.3">GIFS Based Estimation</tocitem>
+		</tocitem>
+		<tocitem target="help_1D_exponents-3.html">Local Holder Exponent</tocitem>
+        <tocitem target="help_1D_exponents-1.html">Global Scaling Exponent
+            <tocitem target="estimirs.html">Increment Ration Statistic</tocitem>
+            <tocitem target="help_1D_exponents-2.html#ss2.2">CWT Based Estimation</tocitem>
+            <tocitem target="help_1D_exponents-2.html#ss2.2">Crossing Tree</tocitem>
+        </tocitem>
+		<tocitem target="help_1D_exponents-5.html">Stable Process
+			<tocitem target="help_1D_exponents-5.html#ss5.1">Mc Mulloch Method</tocitem>
+			<tocitem target="help_1D_exponents-5.html#ss5.2">Koutrouvelis Method</tocitem>
+            <tocitem target="help_1D_exponents-5.html#ss5.1">Test of Stability</tocitem>
+        </tocitem>
+		<tocitem target="help_1D_exponents-6.html">2-Microlocal Frontier
+            <tocitem target="help_1D_exponents-6.html#ss6.1">Oscillation-Based (1)</tocitem>
+            <tocitem target="help_1D_exponents-6.html#ss6.3">One point Estimation</tocitem>
+            <tocitem target="help_1D_exponents-6.html#ss6.4">Interval Estimation</tocitem>
+		</tocitem>
+        <tocitem target="help_1D_exponents-1.html">Besov Norms</tocitem>
+        <tocitem target="help_1D_exponents-1.html">Self Regulating Function
+            <tocitem target="empiric_g.html">empiric_g</tocitem>
+            <tocitem target="parametric_g.html">parametric_g</tocitem>
+        </tocitem>
+		<tocitem target="help_1D_exponents-7.html">Homework</tocitem>
+		<tocitem target="help_1D_exponents-8.html">References</tocitem>
+	</tocitem>
+	<tocitem target="help_1D_spectra.html" image="$toolbox/matlab/icons/pagesicon.gif"> Multifractal Spectra
+		<tocitem target="help_1D_spectra-1.html">Overview</tocitem>
+		<tocitem target="help_1D_spectra-2.html">Functions
+			<tocitem target="help_1D_spectra-2.html#ss2.1">Legendre Spectrum
+				<tocitem target="help_1D_spectra-2.html#ss2.1.1">DWT Based</tocitem>
+				<tocitem target="help_1D_spectra-2.html#ss2.1.2">CWT Based</tocitem>
+				<tocitem target="help_1D_spectra-2.html#ss2.1.3">Box Method</tocitem>
+			</tocitem>
+			<tocitem target="help_1D_spectra-2.html#ss2.2">Continous Large Deviation Spectrum</tocitem>
+            <tocitem target="help_1D_spectra-2.html#ss2.3">Lim Sup Dimension Spectrum</tocitem>
+		</tocitem>
+		<tocitem target="help_1D_spectra-3.html">Measures
+			<tocitem target="help_1D_spectra-3.html#ss3.1">Legendre Spectrum</tocitem>
+			<tocitem target="help_1D_spectra-3.html#ss3.2">Continous Large Deviation Spectrum</tocitem>
+			<tocitem target="help_1D_spectra-3.html#ss3.5">Lim Sup Dimension Spectrum</tocitem>
+		</tocitem>
+		<tocitem target="help_1D_spectra-4.html">Concluding remarks</tocitem>
+		<tocitem target="help_1D_spectra-5.html">Homework</tocitem>
+		<tocitem target="help_1D_spectra-6.html">References</tocitem>
+	</tocitem>
+	<tocitem target="help_segmentation.html" image="$toolbox/matlab/icons/pagesicon.gif">Segmentation
+		<tocitem target="help_segmentation-1.html">Overview</tocitem>
+		<tocitem target="help_segmentation-2.html">1D Signals WSA-Based Segmentation
+            <tocitem target="wsamod.html">wsamod</tocitem>
+        </tocitem>
+		<tocitem target="help_segmentation-3.html">Image Multifractal Segmentation</tocitem>
+        <tocitem target="help_segmentation-6.html">Small Objects Detection
+            <tocitem target="alphaimage.html">alphaimage</tocitem>
+            <tocitem target="falphaimage.html">falphaimage</tocitem>
+            <tocitem target="spotted.html">spotted</tocitem>
+        </tocitem>
+		<tocitem target="help_segmentation-4.html">Homework</tocitem>
+		<tocitem target="help_segmentation-5.html">References</tocitem>
+	</tocitem>
+    <tocitem target="help_denoising.html" image="$toolbox/matlab/icons/pagesicon.gif">Denoising
+		<tocitem target="help_denoising-1.html">Overview</tocitem>
+		<tocitem target="help_denoising-2.html">Multifractal Pumping
+            <tocitem target="mfdpumping1d.html">mfdpumping1d</tocitem>
+            <tocitem target="mfdpumping2d.html">mfdpumping2d</tocitem>
+        </tocitem>
+        <tocitem target="help_denoising-1.html">Multifractal Bayesian Denoising
+            <tocitem target="mfdbayesian1d.html">mfdbayesian1d</tocitem>
+            <tocitem target="mfdbayesian2d.html">mfdbayesian2d</tocitem>
+        </tocitem>
+        <tocitem target="help_denoising-4.html">Multifractal Regularization
+            <tocitem target="wavereg1d.html">wavereg1d</tocitem>
+            <tocitem target="wavereg2d.html">wavereg2d</tocitem>
+        </tocitem>
+		<tocitem target="help_denoising-2.html">Non Linear Multifractal Pumping
+           <tocitem target="mfdnolinear1d.html">mfdnolinear1d</tocitem> 
+           <tocitem target="mfdnolinear2d.html">mfdnolinear2d</tocitem>
+        </tocitem>
+		<tocitem target="help_denoising-3.html">Multifractal Denoising
+            <tocitem target="mfdnorm1d.html">mfdnorm1d</tocitem>
+            <tocitem target="mfdnorm2d.html">mfdnorm2d</tocitem>
+        </tocitem>
+        <tocitem target="help_denoising-6.html">Wavelet Shrinkage
+            <tocitem target="waveshrink1d.html">waveshrink1d</tocitem>
+            <tocitem target="waveshrink2d.html">waveshrink2d</tocitem>
+        </tocitem>
+        <tocitem target="help_denoising-1.html">Insteractive Evolutionary Multifractal Bayesian Denoising</tocitem>
+        <tocitem target="help_denoising-7.html">Homework</tocitem>
+		<tocitem target="help_denoising-8.html">References</tocitem>
+	</tocitem>
+	<tocitem target="help_TFTS.html" image="$toolbox/matlab/icons/pagesicon.gif">TF/TS
+		<tocitem target="help_TFTS-1.html">Overview</tocitem>
+		<tocitem target="help_TFTS-2.html">Continuous WT
+            <tocitem target="contwt.html">contwt</tocitem>
+        </tocitem>
+		<tocitem target="help_TFTS-3.html">Discrete WT
+            <tocitem target="FWT.html">FWT</tocitem>
+            <tocitem target="FWT2D.html">FWT2D</tocitem>
+        </tocitem>
+		<tocitem target="help_TFTS-4.html">Pseudo-Affine Wigner
+            <tocitem target="pseudoaw.html">pseudoaw</tocitem>
+        </tocitem>
+	</tocitem>
+    <tocitem target="help_aidegen-1.html" image="$toolbox/matlab/icons/pagesicon.gif">Interpolation
+        <tocitem target="fracinterp1d.html">fracinterp1d</tocitem>
+        <tocitem target="fracinterp2d.html">fracinterp2d</tocitem>
+    </tocitem>
+	<tocitem target="help_misc.html" image="$toolbox/matlab/icons/pagesicon.gif">Miscellaneous
+		<tocitem target="help_misc-1.html">Overview</tocitem>
+		<tocitem target="help_misc-2.html">Create CWT</tocitem>
+		<tocitem target="help_misc-3.html">Create DWT</tocitem>
+		<tocitem target="help_misc-4.html">Create Graph</tocitem>
+		<tocitem target="help_misc-5.html">Create Matrix</tocitem>
+		<tocitem target="help_misc-6.html">Extract Matrix</tocitem>
+		<tocitem target="help_misc-7.html">Matrix Computation</tocitem>
+	</tocitem>
+	<tocitem target="fralphabeticlab.html" image="$toolbox/matlab/icons/reficon.gif">Functions -- Alphabetical List</tocitem>
+</tocitem>
+</toc>

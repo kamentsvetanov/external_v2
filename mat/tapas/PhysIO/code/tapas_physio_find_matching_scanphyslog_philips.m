@@ -8,6 +8,8 @@ function fnPhysLogArray = tapas_physio_find_matching_scanphyslog_philips(...
 %
 % IN
 %       fnImageArray    cell of image files, e.g. os_20062014_0904060_10_1_wipepitrig1mmtra150dynV42_typ0 
+%                       to be conveniently retrieved from scan id via 
+%                       tapas_physio_get_filename_from_id_philips
 %       pathLogFiles    path with SCANPHYSLOG*.log
 % 
 % OUT
@@ -16,7 +18,7 @@ function fnPhysLogArray = tapas_physio_find_matching_scanphyslog_philips(...
 % EXAMPLE
 %   tapas_physio_find_matching_scanphyslog_philips
 %
-%   See also
+%   See also tapas_physio_get_filename_from_id_philips
 %
 % Author: Lars Kasper
 % Created: 2014-06-19
@@ -47,7 +49,11 @@ end
 fnPhysLogArray = cell(nFiles,1);
 
 for d = 1:nFiles
-    tFun(d) = str2num(fnImageArray{d}(13:18));
+    
+    % Philips par/rec files always have a ddmmyyyy_HHMMSST_ formatting part, from
+    % which we extract the time
+    tFunString = regexp(fnImageArray{d}, '_\d{8}_(\d{6})\d_', 'tokens');
+    tFun(d) = str2num(tFunString{1}{1});
     [tmp, iFun] = min(abs(tPhys-tFun(d)));
     fnPhysLogArray{d} = x(iFun).name;
     fprintf(1,'matched %s \n \t --> %s\n\n', fnImageArray{d}, ...

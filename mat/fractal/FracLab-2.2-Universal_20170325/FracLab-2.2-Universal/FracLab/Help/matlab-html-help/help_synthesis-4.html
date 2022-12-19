@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE> The Synthesis pop-up menu: Homework</TITLE>
+ <LINK HREF="help_synthesis-5.html" REL=next>
+ <LINK HREF="help_synthesis-3.html" REL=previous>
+ <LINK HREF="help_synthesis.html#toc4" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_synthesis-5.html">Next</A>
+<A HREF="help_synthesis-3.html">Previous</A>
+<A HREF="help_synthesis.html#toc4">Contents</A>
+<HR>
+<H2><A NAME="s4">4. Homework</A></H2>
+
+<P>
+<P>There is not much of a homework for this section of the help. You may
+just play around and synthesize the various signals, testing how the
+parameters will affect the outputs. Here are however some combinations
+worth trying:
+<P>
+<P><EM>Weierstrass function</EM>
+<P>If you have not done so already, try the test mentioned in the
+description of the <B>Weierstrass</B> sub-menu. This experiment
+highlights some specific difficulties one meets when dealing with
+fractal signals. These are due to the fact that such signals are by
+definition not band-limited. The classical sampling theory specifies
+that the signals should then be low-pass filtered before processing. This
+is not always relevant or even possible in our case. As a matter of
+fact, a whole new sampling theory is needed for the kind of signals of
+interest in multifractal analysis. Indeed, the basic assumption is
+that (a part of) the pertinent information in the signal lies in its
+regularity structure, e.g. its Hölder function. Low-pass filtering the
+signal will transform it into an infinitely smooth one, thus loosing
+essential features. It is beyond our scope here to discuss
+further this important matter, and we will content ourselves with a
+simple experiment: Generate two deterministic Weierstrass functions
+with exponent H = 0.2, 256 points, a time support of 1, and a large
+lambda, e.g. 25, with both the default sum order and a sum order of
+20. Visualize and compare the two synthesized signals and notice that
+the first one (let's call it <EM>Wei0</EM>) looks very smooth. This is
+clear, since the highest frequency allowed in <EM>Wei0</EM> will be such
+that only one term will be included in the summation: <EM>Wei0</EM> is
+thus simply a sine function, and as a consequence it has no fractal
+features. For instance,it would not make sense to try and estimate a
+fractional dimension of <EM>Wei0</EM>. On the other hand, the signal
+generated without caring about the sampling theorem does look
+irregular. This simple experiment shows that new rules are needed when
+one processes "fractal" signals.
+<P>
+<P>
+<P>
+<P><EM>mBm and generalized Weierstrass function</EM>
+<P>
+<P>If your machine is sufficiently powerful, try synthesizing some mBm-s
+with 512 samples and various Hölder functions. This will help you
+understand what exactly the Hölder exponent controls. If synthesizing
+512 samples traces of mBm takes ages, do not worry: You can perform
+the same kind of experiments using Generalized Weierstrass functions,
+either deterministic or stochastic. Try first the default Hölder
+functions <B>h(t) = t</B>. Observe the smooth evolution of the pointwise
+regularity along the graph, and get a feeling of what it means to have
+regularity <EM>t</EM> at each point <EM>t</EM>. Enter then your own functions
+and make additional tests.
+<P>
+<P>
+<P>
+<P>
+<P>
+<P>
+<HR>
+<A HREF="help_synthesis-5.html">Next</A>
+<A HREF="help_synthesis-3.html">Previous</A>
+<A HREF="help_synthesis.html#toc4">Contents</A>
+</BODY>
+</HTML>

@@ -1,0 +1,168 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>estimOSC2DH :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="estimOSC1DH.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="flvariaIR.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">estimOSC2DH</h1>
+        <p>Computes the Pointwise Holder exponent based on a method that uses oscillations for a 2D signal (an image)</p>
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>H = estimOSC1DH(x,base,alpha,beta)<br>
+                H = estimOSC2DH(...,'Regression type')<br>
+                H = estimOSC2DH(...,'Propertyname',Propertyvalue)
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>H = estimOSC2DH(x,base,alpha,beta)</tt> Estimates the Holder function, <tt>H</tt>
+            of the input signal <tt>x</tt>, using a least square regression. The parameters <tt>alpha</tt> and <tt>beta</tt>
+            are real values in (0:1) which characterize the neighborhood of each point where the exponent is computed.
+            For each point the Holder exponent is estimated using a neighborhood of points. 
+            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p><b>The neighborhood of points are included in <tt>[base^rhomin:base^rhomax]</tt></b><br><br>
+                        If <tt>(N1,N2)</tt> is the size of the signal <tt>x</tt>, thus N=min(N1,N2), <tt>rhomin = N^alpha</tt> and <tt>rhomax = N^beta</tt>.
+                    </p>
+                </td></tr></table>
+            </ul>               
+        </p>
+        
+        <p><tt>H = estimOSC2DH(...,'Regression type')</tt> Estimates the Holder function, <tt>H</tt>,
+            using a specific type of regression. The Regression Type can be choosen from the list below :
+            <ul><h3>Regression Type Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Regression Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'ls'</tt></td><td bgcolor="#F2F2F2"><p>Least Square (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'linf'</tt></td><td bgcolor="#F2F2F2"><p>Lower Limit</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'lsup'</tt></td><td bgcolor="#F2F2F2"><p>Upper Limit</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'ml'</tt></td><td bgcolor="#F2F2F2"><p>Maximum Likelihood</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'lapls'</tt></td><td bgcolor="#F2F2F2"><p>Lepskii Adaptive</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'wls'</tt></td><td bgcolor="#F2F2F2"><p>Weighted Least Square</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'pls'</tt></td><td bgcolor="#F2F2F2"><p>Penalized Least Square</p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>H = estimOSC2DH(...,'Propertyname',Propertyvalue)</tt> returns 
+            the estimator <tt>H</tt> applying the specified property settings.
+            The Property setting can be choosen from the list below:
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'timeinstant'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <b>Single Time Exponent</b> estimation is computed for a specific time instant. A graphic window
+                                    is displayed showing in abscissa the log-scale, and in ordinate the log of the oscillations.
+                                    This allows to check whether the points on this graph are well aligned.
+                                    The regression line is displayed in blue and the value of the estimated exponent is display at the top.
+                                    The <tt>timeinstant</tt> value must be included in the interval <tt>[1:length(x),1:length(y)]</tt><br><br>
+                                    <b>NOTE:</b> This Property can not be used when the <tt>'subsampling' Property</tt> is used.    
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'average'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <b>Averaging</b> estimation uses a specific number of neighbors to compute an average of oscillations.
+                                   Averaging allows to get more robust results, but as the number of points increases the estimation becomes smoother.<br>
+                                   In the average, the parameters <tt>gamma</tt> and <tt>delta</tt> are real values in (0:1) which characterize
+                                   the neighborhood of each point used to compute the average.<br>    
+                                    <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                                        <td>
+                                        <p><b>The size of the neighborhood is defined by <tt>2*M+1</tt></b><br><br>
+                                            If <tt>(N1,N2)</tt> is the size of the signal <tt>x</tt>, <tt>N = N1</tt> or <tt>N2</tt> and
+                                            the neighborhood is defined by the set of points <tt>V</tt> as:<br>
+                                            <tt>V(i) = {0 < P(i) < N-2 and | t(i)-P(i)/N^delta | < N^-gamma}</tt><br>
+                                            Thus <tt>P1 = N^delta(t(i) - N^-gamma)</tt> and <tt>P2 = N^delta(t(i) + N^-gamma)</tt><br><br>
+                                            To define <tt>M1</tt> and <tt>M2</tt>, <tt>i = (N1/2,N2/2)</tt><br> 
+                                            <tt>M1 = 0.5*(|P1-N1/2|+|P2-N1/2|)</tt> and <tt>M2 = 0.5*(|P1-N2/2|+|P2-N2/2|)</tt>.<br>
+                                            For each point the average is computed over <tt>[x(i)-x(M1):x(i)+x(M1),y(i)-y(M2):y(i)+y(M2)]</tt>.
+                                        </p>
+                                        </td></tr></table>
+                                    </ul><br>             
+                                    <b>NOTE:</b> This Property can not be used when the <tt>'subsampling' Property</tt> is used.    
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'zones'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <b>Segmentation</b> in a specific number of zones is realized on the esimation obtained by
+                                    regression. Then, the Holder estimation is aligned on the trend of the mean values of the segmented signal.
+                                    If <tt>'zones'</tt> is not specified, the default value is <tt>zones = 7</tt>.<br><br>
+                                    <b>NOTE:</b> This Property can not be used when the <tt>'timeinstant' Property</tt> is used.
+                                </p>
+                        </td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'subsampling'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The <b>Sub-sampling</b> allows to speed up the computation by processing only certain points: the computation 
+                                    is done every (2*nstep - 1) points. The cost of this increase in speed is of course a lower accuracy of the estimation.<br><br>
+                                    <b>NOTE:</b> This Property can not be used when the <tt>'timeinstant' or 'average' Properties</tt> are used.
+                                </p>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1 : Estimate the Holder exponent function for an image</h3>
+            <b>(Note: Performing the synthesis of the 2D signal and computing the estimations takes 1 hour)</b>
+            <p class="synopsis">
+                <tt><ul><li>Generate a 2D multifractional Brownian motion,<tt>x</tt>, from a bilinear Holder function,<tt>Hxy</tt><br><br>
+                        N = 512; tx = linspace(0,1,N); ty = linspace(0,1,N); [X,Y]=meshgrid(tx,ty); <br>
+                        f = inline('0.5+0.2*sin(2*pi*tx).*cos(3/2*pi*ty)','tx','ty'); Hxy = f(X,Y);<br>
+                        x = mBm2DQuantifKrigeage(N,Hxy,25);<br>
+                        figure; subplot(1,2,1); imagesc(Hxy);<br>
+                        colorbar('northoutside'); xlabel('number of points'); hold on;<br>
+                        subplot(1,2,2); imagesc(x); colorbar('northoutside'); xlabel('number of points');
+                </ul></tt>               
+            <p><img src="images_examples/Exponent_estimation/estimOSC2DH_ex1.png" height="473" width="650" alt=""></p>
+               <tt><ul><li>Compute an estimation of the Holder exponent of <tt>x</tt> with/whithout averaging<br><br>
+                        H = estimOSC2DH(x,2.1,0.1,0.3);<br>
+                        Hm = estimOSC2DH(x,2.1,0.1,0.3,'average',[0.5,1]);<br>
+                        figure; subplot(1,2,1); imagesc(H);<br>
+                        colorbar('northoutside'); xlabel('number of points'); hold on;<br>
+                        subplot(1,2,2); imagesc(Hm); colorbar('northoutside'); xlabel('number of points');
+                </ul></tt>
+            </p>
+            <p><img src="images_examples/Exponent_estimation/estimOSC2DH_ex2.png" height="473" width="650" alt=""></p>
+            <h3>Example 2 : Single Time Exponent at the Time instant = [50,150]</h3>
+            <p class="synopsis">
+                <tt>Hst = estimOSC2DH(x,2.1,0.1,0.3,'timeinstant',[50,150]);<br></tt>
+            </p>
+            <p><img src="images_examples/Exponent_estimation/estimOSC2DH_ex3.png" height="499" width="648" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p><a href="estimGQV2DH.html"><tt>estimGQV2DH</tt></a></p>
+        
+        <h2>References</h2>
+        <p>
+            [1] C. Tricot, "Curves and Fractal Dimension" Springer-Verlag (1995).<br><br>  
+            [2] O. Barri&egrave;re, "Synth&egrave;se et estimation de mouvements Browniens multifractionnaires et 
+                autres processus &agrave; r&eacute;gularit&eacute; prescrite. D&eacute;finition du processus autor&eacute;gul&eacute; multifractionnaire et applications", PhD Thesis (2007).
+        </p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="estimOSC1DH.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">estimOSC1DH</td><td>&nbsp;</td><td align="right">flvariaIR</td>
+                <td align="right" width="20"><a href="flvariaIR.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,124 @@
+	  CHANGELOG FOR FRACLAB
+https://project.inria.fr/fraclab/
+=======================================
+
+
+FracLab 2.2
+-----------------------
+- Nov, 30 2016        -
+-----------------------
+
+Compatibility with MATLAB 2016 improved. Almost all the routines were updated.
+
+
+@ updated 
+ - Waitbar handles are not numeric as of R2014b (Handle Graphics 2,
+hg2); this caused crashes
+
+@ updated 
+- Figure handles are not numeric as of R2014b; this caused crashes
+
+@ updated 
+- Full crosshairs pointer does not exist as of R2014b; this caused
+warnings
+
+@ updated 
+- Using of narginchk, nargoutchk
+
+@ updated 
+- There is no longer a root property PointerWindow as of R2014b
+
+@ updated 
+- CGMY_Principal was calling interp1() with 'cubic', which warns;
+in a forthcoming release, 'cubic' will mean something different.
+the replacement is 'pchip'.
+
+Menu Multifractal Spectra
+---------------------------
+ - Deleted in the GUI menu : Multif Spectra/Measures/Continuous Large Deviation spectrum
+   (mcfg1d is not compatible with Matlab 2016)
+
+Menu Segmentation
+---------------------------
+ - Deleted in the GUI menu : WSA segmentation 
+   (wav2gifs is not compatible with Matlab 2016)
+ - Deleted in the GUI menu : Image multifractal segmentation/ Large Deviations 
+   (mcfg2d is not compatible with Matlab 2016)
+
+
+
+FracLab 2.1
+-----------------------
+- Nov, 19 2012        -
+-----------------------
+
+Menu Synthesis
+---------------------------
++ Added: Synthesis of tempered alpha-stable process [CGMY_Principal.m]
++ Added: Synthesis of tempered multistable process [mst_processes.m]
+
+Menu Dimensions
+---------------------------
+@ Updated : New graphical interfaces for 1D and 2D Regularization Dimension
+  - Deleted : [gui_fl_dimR.m], [fl_dimR_compute.m], [fl_dimR_init.m]
+  + Added   : [gui_fl_regdim1d.m], [gui_fl_regdim2d.m], [fl_regdim1d_compute.m], [fl_regdim2d_compute.m]
+
+Menu Exponents
+---------------------------
++ Added : Increment ratio statistic method for computation of pointwise exponent [flvariaIR.m]
++ Added : Estimation of the self regulating function [empiric_g.m] and [parametric_g.m]
++ Added : Estimation of tempered alpha-stable parameters [CGMY_Calcul_Param.m]
+@ Updated : Advance windows for CWT and DWT based estimations 
+  @ Updated : [fl_track_compute.m], [fl_adv_track_compute.m], [gui_fl_adv_track.m]
+  @ Updated : [fl_adv_DWTestim_compute.m], [gui_fl_adv_DWTestim.m]
+
+Menu Multifractal spectra
+---------------------------
++ Added : Continuous large deviation multifractal spectrum estimation (functions and measures)
+ [contmultspecf.m] and [contmultspecm.m]
+
+Menu Segmentation
+---------------------------
+@ Updated : New graphical interfaces for 1D WSA Segmentation
+  @ Updated : [gui_fl_wsamod.m] and [fl_wsamod_compute.m]
+
+Menu Denoising
+---------------------------
+@ Updated : New graphical interfaces for 1D and 2D Pumping Denoising
+  - Deleted : [gui_fl_multden.m], [gui_fl_multden2.m], [fl_multden_compute.m], [fl_multden2_compute.m]
+  + Added   : [gui_fl_mfdpumping1d.m], [gui_fl_mfdpumping2d.m], [fl_mfdpumping1d_compute.m], [fl_mfdpumping2d_compute.m]
+@ Updated : New graphical interfaces for 1D and 2D Bayesian Denoising
+  - Deleted : [gui_fl_bayes.m], [fl_bayes_compute.m]
+  + Added   : [gui_fl_mfdbayesian1d.m], [gui_fl_mfdbayesian2d.m], [fl_mfdbayesian1d_compute.m], [fl_mfdbayesian2d_compute.m]
+@ Updated : New graphical interfaces for 1D and 2D Regularization
+  - Deleted : [gui_fl_reg.m], [gui_fl_reglog.m], [fl_reg_compute.m], [fl_reglog_compute.m]
+  + Added   : [gui_fl_wavereg1d.m], [gui_fl_wavereg2d.m], [fl_wavereg1d_compute.m], [fl_wavereg2d_compute.m]
+@ Updated : New graphical interfaces for 1D and 2D Non Linear Denoising
+  - Deleted : [gui_fl_multden3.m], [fl_multden3_compute.m]
+  + Added   : [gui_fl_mfdnolinear1d.m], [gui_fl_mfdnolinear2d.m], [fl_mfdnolinear1d_compute.m], [fl_mfdnolinear2d_compute.m]
+@ Updated : New graphical interfaces for 1D and 2D With Multiplication Denoising
+  - Deleted : [gui_fl_dreg.m], [fl_dreg_compute.m]
+  + Added   : [gui_fl_mfdnorm1d.m], [gui_fl_mfdnorm2d.m], [fl_mfdnorm1d_compute.m], [fl_mfdnorm2d_compute.m]
+@ Updated : New graphical interfaces for 1D and 2D Shrinkage Denoising
+  - Deleted : [gui_fl_shrinkden2.m], [fl_shrinkden2_compute.m]
+  + Added   : [gui_fl_waveshrink1d.m], [gui_fl_waveshrink2d.m], [fl_waveshrink1d_compute.m], [fl_waveshrink2d_compute.m]
+
+Menu Interpolation
+---------------------------
+@ Updated : New graphical interfaces for 1D and 2D Holder Interpolation
+  - Deleted : [gui_fl_interp.m], [fl_interp_compute.m]
+  + Added   : [gui_fl_fracinterp1d.m], [gui_fl_fracinterp2d.m], [fl_fracinterp1d_compute.m], [fl_fracinterp2d_compute.m]
+
+Menu TF/TS
+---------------------------
+@ Updated : New graphical interfaces for 1D Pseudo Affine Winger
+  @ Updated : [gui_fl_pseudoaw.m], [fl_pseudoaw_compute.m]
+
+Menu Miscellaneous
+---------------------------
+@ Updated : New graphical interfaces for 1D Continuous Wavelet Transform
+  - Deleted : [gui_fl_cwt.m], [fl_cwt_compute.m]
+  + Added   : [gui_fl_contwt.m], [fl_contwt_compute.m]
+@ Updated : New graphical interfaces for 1D and 2D Discrete Wavelet Transform
+  - Deleted : [gui_fl_dwt.m], [fl_dwt_compute.m]
+  + Added   : [gui_fl_dwt1d.m], [gui_fl_dwt2d.m], [fl_dwt1d_compute.m], [fl_dwt2d_compute.m]

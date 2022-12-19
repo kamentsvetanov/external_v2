@@ -1,0 +1,111 @@
+How to configure the IEA
+========================
+
+See the comments in the config files (preset_default.txt,preset_new01.txt) 
+or have a look at this sample:
+
+// ---> Definition of some colors in the interface:
+button_red_on=[1 0.35 0.35] 		// Red RGB Button, State 'on'
+button_red_off=[1 0.65 0.65]		// Red RGB Button, State 'off'
+button_green_on=[0.23 1 0.23]		// Green RGB Button, State 'on'
+button_green_off=[0.65 1 0.65]	// Green RGB Button, State 'off'
+button_blue_on=[0.23 0.5 1]		// Blue RGB Button, State 'on'
+button_blue_off=[0.65 0.65 1]		// Blue RGB Button, State 'off'
+population_statistics_panel_color=0		// Color of image statistics panel background
+population_statistics_text_color='k'	// Color of image statistics text
+population_statistics_text_background_color='w' // Color of image statistics text background
+
+// --> Slider Colors (sliders to evaluate the images):
+slider_color_red=		[1 0.9 	0.8 0.75 	0.7 0.65 	0.5 	0.4 	0.3 0.2 	0.1 0 	0]	// slider colors (-6..+6), red channel
+slider_color_green=	[0 0 		0.1 0.2 	0.3 0.4 	0.5 	0.65 	0.7 0.75  	0.8 0.9 	1]	// slider colors (-6..+6), green channel
+slider_color_blue=	[0 0 		0.1 0.2 	0.3 0.4 	1 	0.4 	0.3 0.2 	0.1 0 	0]	// slider colors (-6..+6), blue channel
+
+// --> Multifractal spectrum plot:
+frac_spectrum_max_coeff=3.5 // maximum coefficient size
+frac_spectrum_values=400 // maximum number of coefficient
+
+// --> Output of statistics:
+write_statistics_2_file=1 			// enable statistics output
+statistics_filename='statistics02.txt' 	// file name
+
+// parameters for genetic engine:
+
+evol_disable_fitnessmap = 0 // use fitness map
+
+evol_amin_min=0		// minimum amin
+evol_amin_max=0.5		// maximum amin
+evol_gmin_min=0		// minimum gmin
+evol_gmin_max=1		// maximum gmin
+evol_amax_min=0.01	// minimum amax
+evol_amax_max=20		// maximum amax
+evol_gmax_min=0.2		// minimum gmax
+evol_gmax_max=1		// maximum gmax
+evol_anod_min=0.0001	// minimum anod
+evol_anod_max=2		// maximum anod
+evol_sigma_min=0.1	// minimum sigma
+evol_sigma_max=100	// maximum sigma
+evol_filters=[1 2 3 4 5 6 7 9]	// index of available filters, see MakeFilter.m
+user_prefered_regions=[0 0 0.01 0.2 0.0001 0.1 1; 0.5 1 20 1 2 100 9] // default user prefered areas in pairs of 2 (lower border, upper border)
+evol_amin_mutation=0.2	// maximum mutation for amin (relative to its range)
+evol_gmin_mutation=0.2	// maximum mutation for gmin (relative to its range)
+evol_anod_mutation=0.2	// maximum mutation for anod (relative to its range)
+evol_amax_mutation=0.2	// maximum mutation for amax (relative to its range)
+evol_gmax_mutation=0.2	// maximum mutation for gmax (relative to its range)
+evol_sigma_mutation=0.2	// maximum mutation for sigma (relative to its range)
+evol_filter_mutation=0.2	// maximum mutation for filter (relative to its range)
+
+evol_population_size=64 // population size
+image_count=6	// number of images (dont change)
+evol_generation_gap=0.9	// although it says 'generation gap' it means offspring size, relative to population size
+evol_fitness_method='nearest' // method to guess fitness values ['nearest' | 'interpolate']
+evol_do_mutation=1 // propability for mutation
+evol_do_random_mutation=2 // propability for gaussian mutation (relative to the other mutation operators)
+evol_do_prefered_area_directed_mutation=0 // propability for prefered area mutation (relative to the other mutation operators)
+evol_do_prefered_area_directed_mutation_plus_random_mutation=0 // propability for both mutations at a single time (relative to the other mutation operators)
+evol_do_crossover=1 // propability for crossover
+evol_do_random_crossover=6	//propability for random crossover
+evol_do_swapping_crossover=0 //propability for gene swapping crossover
+evol_do_factory_crossover=1 //propability for factory crossover
+
+evol_rank_selection_pressure = 1.1; // selection pressure in ranking selection
+
+evol_parent_selection_method='rank' 		// selection method for parent selection ['rank' | 'roulette' | 'fittest' | 'cycle']
+evol_offspring_selection_method='fittest'		// selection method for offspring selection ['rank' | 'roulette' | 'fittest' | 'cycle']
+evol_offspring_fill_selection_method='fittest'	// selection method for (generations size - offspring size) individuals ['rank' | 'roulette' | 'fittest' | 'cycle']
+evol_image_selection_method='fittest'		// selection method for image selection ['rank' | 'roulette' | 'fittest' | 'cycle']
+
+evol_offspring_selection_weighted_fitness=0 // do hard selection during offspring selection
+evol_cycle_best_individuals=3	// number of individuals in cycle selection
+
+evol_parent_distinct_individuals=0 			// distinct selection of individuals in parent selection
+evol_offspring_fill_distinct_individuals=1 	// distinct selection of individuals in population filling selection
+evol_image_distinct_individuals=1 			// distinct selection of individuals in image selection
+evol_offspring_distinct_individuals=1 		// distinct selection of individuals in offspring selection
+
+evol_parent_selection_sharing=0 		// do sharing in parent selection
+evol_offspring_selection_sharing=0		// do sharing in offspring selection
+evol_image_selection_sharing=0		// do sharing in image selection
+evol_offspring_fill_selection_sharing=0	// do sharing in population fill selection
+
+evol_mutate_offspring_fill = 0 // mutate the (generations size - offspring size) individuals
+
+evol_parent_selection_sharing_weight=1/10000			// sharing pressure in parent selection
+evol_offspring_selection_sharing_weight=1/1000			// sharing pressure in offspring selection
+evol_offspring_fill_selection_sharing_weight=1/1000		// sharing pressure in population fill selection
+evol_image_selection_sharing_weight=1/1000						// sharing pressure in image selection
+
+allow_superindividuals = 1 // allow toggling of super individuals
+
+save_CData_for_fitnessmap = 0 // save images to fitnessmap (beside genotypes), this speeds up browsing in the fitness map
+
+history_statistics_size=60 // maximum size of the history function
+
+// statistics for 1st image statistics panel (['Name','Function Name'])* :
+population_statistics_1=cell2struct({'Truecolor Variance','image_variance';'Gray Variance','image_gray_variance';'Gray Deviation,Shift,%','image_gray_deviation';'Gray Mean','image_gray_mean';'Gray Correlation','image_gray_correlation';'Spec.[Max&Shift,Weight&Shift])','image_spectral_measure';'Amount of Labels','image_label_number';'Area of Objects','image_objects_area';'Euler Number','image_euler_number';'Image difference','image_difference'},{'name','function'},2)
+population_statistics_heading_1='Phenotype:' // heading for the 1st panel
+
+
+// statistics for 2nd image statistics panel (['Name','Function Name'])*
+population_statistics_2=cell2struct({'Distance To Population','geno_distance'},{'name','function'},2)
+population_statistics_heading_2='Genotype:' // heading for the 2nd panel
+

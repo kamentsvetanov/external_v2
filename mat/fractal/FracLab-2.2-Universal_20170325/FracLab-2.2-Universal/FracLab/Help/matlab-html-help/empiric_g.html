@@ -1,0 +1,117 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>empiric_g :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="ebpsimulate.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="estimirs.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">empiric_g</h1>
+        <p>Computes the function g linking the value of a 1D or 2D process to its exponent.</p>
+        <p>To check that the hypothesis that the signal is auto-regulated, it is crucial that you check
+            that the estimated standard deviations are small with respect to the values of the function g. 
+            Otherwise the computed function is meaningless.</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>ESTIM = empiric_g(SIGNAL,EXPONENT)<br>
+                ESTIM = empiric_g(SIGNAL,EXPONENT,VALUES)<br>
+                [ESTIM,STDEV] = empiric_g(SIGNAL,EXPONENT,VALUES)    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>ESTIM = empiric_g(SIGNAL,EXPONENT)</tt> Computes the empirical function <tt>g</tt> such that
+            <tt>EXPONENT = g(SIGNAL)</tt> at 10 values equally spaced between <tt>min(SIGNAL)</tt> and <tt>max(SIGNAL)</tt>.
+            <tt>SIGNAL</tt> and <tt>EXPONENT</tt> must be the same size. <tt>ESTIM</tt> is a 10x1 vector.</p>
+        
+        <p><tt>ESTIM = empiric_g(SIGNAL,EXPONENT,VALUES)</tt> Computes the empirical function <tt>g</tt> such that
+            <tt>EXPONENT = g(SIGNAL)</tt> at the points contained in the vector <tt>VALUES</tt>.
+            <tt>SIGNAL</tt> and <tt>EXPONENT</tt> must be the same size. <tt>VALUES</tt> is a Nx1 vector and <tt>ESTIM</tt> a Nx1 vector. 
+        </p>
+        
+        <p><tt>[ESTIM,STDEV] = empiric_g(SIGNAL,EXPONENT,VALUES)</tt> also returns a vector <tt>STDEV</tt> containing the standard deviation
+            of the estimated exponents, <tt>ESTIM</tt>. The higher <tt>STDEV</tt>, the more uncertain the value of <tt>ESTIM</tt>. <tt>STDEV</tt> is a Nx1 vector.</p>
+        
+		<h2> Theory</h2>
+		<p> The estimation of the Self Regulating Function is usefull for finding a function g such that the pointwise H&#246;lder exponent is a function of the value of the signal.
+		<p> This function does not exist for every signal. The signals for which there exists such a function are called "self-regulating multifractal processes". 
+		<p> In mathematical terms, they verify the following property: there exists a function g such that, for almost every realization X of the signal and for every t:
+		<center>&#945;<sub>p</sub>(X,t)=g(X(t))</center>
+		<p> where &#945;<sub>p</sub>(X,t)=g(X(t)) is the pointwise H&#246;lder exponent of X at point t.
+		
+		<p> When you have to deal with a given signal, you may ask yourself the following questions:
+		<ul> 
+			<li> How to compute the pointwise H&#246;lder exponent of the signal?
+			<li> Is my signal self-regulating?
+			<li> How to compute the function g?
+		</ul>
+		Fraclab toolbox may help you to answer these questions.
+		<h2> Generation of an example signal </h2>
+		Let's perform this task on a simple example. The signals in this example are random signals. If you want to reproduce exactly these signals, you can initialize the random number generator by typing : <code>randn('seed',1000)</code> in Matlab command window.
+		<p> Compute a multi-fractal self-regulating signal: Go to Synthesis/Functions/Stochastic/Self Regulating Multifractal Process/1D
+		<center><img src="images_examples\Synthesis\Simulate_SRMP_menu.png"></center></p>
+		<p> Ask for a 4096 points self-regulating process. Don't change the other options.</p>
+		<center><img src="images_examples\Synthesis\Simulate_SRMP_window.png"></center></p>
+		<p> Click "Compute". The process is generated. The computation may take a few seconds.
+		<p> You can see the definition of the function g of this process in the window: g(z)=1/(1-5z^2).
+		<h2> Computation of its pointwise H&#246;lder exponent</h2>
+		<p>Go to : Estimation/Pointwise H&#246;lder Exponent/GQV Based Estimation/1D
+		<center><img src="images_examples\Exponent_estimation\estimGQV1DH_menu.png"></center></p>
+		<p> Click "Compute" in the window that appears.
+		<p> The pointwise H&#246;lder exponent is the variable : estim_H_srmpfBm00
+		<h2> Visual look of a self regulating multifractal process</h2>
+		<p> You may plot it in the same window as the process. In the Matlab window, type: 
+		<p><code> figure;hold on;plot(srmpfbm0);plot(estim_H_srmpfbm00,'r');legend('SRMP','Exponent')</code>
+				<center><img src="images_examples\Exponent_estimation\PARM_and_exponent.png"></center>
+		<p> It can be seen on this figure that there exist a relashionship between the process and the computed exponent:
+        when the process takes small values, it is more regular, and the regularity exponent is larger; 
+        when the process takes large values, it is more irregular, and the regularity exponent is smaller.
+		<h2> Computation of the function g </h2>
+		To compute the function g, go to "Exponents/Self Regulating Function".
+		This window appears:
+		<center><img src="images_examples\Exponent_estimation\g_estimation_window.png"></center>
+		<p>You need to fill the first two fields.
+		<p>The first one is your signal: click on "srmpfbm0" in the FracLab window, then click "Refresh".
+		<p> The second one is the H&#246;lder exponent: click on "estim_H_srmpfBm00", then click "Refresh". Your window should now look like this:
+		<center><img src="images_examples\Exponent_estimation\g_estimation_window2.png"></center>
+		<p>Now click "Compute". Two new variables are computed:
+		<ul> 
+			<li> <code>empiric_abscissa_0</code> : contains the values at which the function g has been computed 
+			<li> <code>empiric_g_0</code> : contains the value of g.
+		</ul>
+		<p> A picture appears with the estimation of the function (produced by <code>plot(empiric_abscissa_0,empiric_g_0)</code>) and the 96% confidence interval.
+		<p> In the toy example that we have used, you can verify that the real function g is indeed in this interval by clicking on this figure and then typing:
+		<p><code> plot(empiric_abscissa_0,1./(1+empiric_abscissa_0.^2));<code>
+		<center><img src="images_examples\Exponent_estimation\g_estimation_results.png"></center>
+		
+        <h2> Recapitulation</h2>
+			<p>Input signal must contain a process that you suspect to be self-regulating.
+            <p>Exponent must contain its H&#246;lder exponent, computed for example with one of the algorithms proposed in FracLab.</p>
+        
+        <h2>See Also</h2>
+        <p><a href="parametric_g.html"><tt>parametric_g</tt></a></p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="ebpsimulate.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">ebpsimulate</td><td>&nbsp;</td><td align="right">estimirs</td>
+                <td align="right" width="20"><a href="estimirs.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

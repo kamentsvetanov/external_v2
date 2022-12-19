@@ -1,5 +1,6 @@
 function physio = tapas_physio_prepend_absolute_paths(physio)
-%prepend absolute paths for file names, in particular save_dir
+%prepend absolute paths for file names, in particular save_dir; creates
+% save_dir, if necessary
 %
 %   physio = tapas_physio_prepend_absolute_paths(physio)
 %
@@ -25,6 +26,10 @@ function physio = tapas_physio_prepend_absolute_paths(physio)
 
 save_dir = physio.save_dir;
 
+if ~exist(save_dir, 'dir') && ~isempty(save_dir)
+    [~,~] = mkdir(save_dir);
+end
+
 if ~isequal(save_dir, fileparts(physio.verbose.fig_output_file))
     physio.verbose.fig_output_file = fullfile(save_dir, ...
         physio.verbose.fig_output_file);
@@ -35,10 +40,11 @@ if ~isequal(save_dir, fileparts(physio.model.output_multiple_regressors))
         physio.model.output_multiple_regressors);
 end
 
-if ~isequal(save_dir, fileparts(physio.model.output_physio))
-    physio.model.output_physio = fullfile(save_dir, ...
-        physio.model.output_physio);
-end
+% Commented out by kat, since we do our own save
+% if ~isequal(save_dir, fileparts(physio.model.output_physio))
+%     physio.model.output_physio = fullfile(save_dir, ...
+%         physio.model.output_physio);
+% end
 
 if ~isequal(save_dir, fileparts(physio.preproc.cardiac.initial_cpulse_select.file))
     physio.preproc.cardiac.initial_cpulse_select.file = fullfile(save_dir, ...

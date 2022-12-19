@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Overview and main functionalities of Fraclab: General conventions and remarks</TITLE>
+ <LINK HREF="help_aidegen-5.html" REL=next>
+ <LINK HREF="help_aidegen-3.html" REL=previous>
+ <LINK HREF="help_aidegen.html#toc4" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="help_aidegen-5.html">Next</A>
+<A HREF="help_aidegen-3.html">Previous</A>
+<A HREF="help_aidegen.html#toc4">Contents</A>
+<HR>
+<H2><A NAME="s4">4. General conventions and remarks</A></H2>
+
+<P>
+<P>We gather in this section a number of basic facts about the general
+behaviour of <B>Fraclab</B>.
+<P>In many instances, you will have to choose the <EM>size</EM> of the signal you
+want to generate or process. Most of the time, you can either use 
+predefined values (often, these will be powers of 2), or simply type
+any positive integer in the appropriate zone.
+<P>When you process the signal called <EM>sig</EM> with routine <EM>rout</EM>,
+the output signal (if any) will be called <EM>rout_sig#</EM>, where # is a
+number initially set to 0 and that increments each time you launch the
+same procedure on the same input signal.
+<P>Most windows at the final level (i.e. the ones that will actually
+launch computations) display three buttons in their lower part :
+<B>Compute</B> will launch the requested computation, <B>Help</B> will
+open a window displaying the technical help associated with the
+<B>Fraclab</B> routine involved, and <B>Close</B>.
+<P>When you choose a sub-menu that will take a signal or structure as an
+input, <B>Fraclab</B> assumes most of the times that the signal you want
+to process is the one that is highlighted when you call the sub-menu
+window. Thus, sometimes you will get an error if you have not been
+careful and checked that the current signal is in the right format for
+the routine. Assume for instance that you synthesize a Weierstrass
+function.  You will get two outputs: <EM>Wei#</EM> is a 1D signal, while
+<EM>GraphWei#</EM> is a graph, i.e. a structure composed of 5
+elements. However, when the synthesis is completed, the current
+variable is <EM>GraphWei#</EM>. Thus, if you launch for instance <B>GIFS
+based estimation</B> in the <B>Pointwise Hölder Exponent</B> sub-menu of
+the <B>1D Exponents Estimation</B>, you'll get a beep and an error
+message. This is because <B>GIFS based estimation</B> only knows how to
+process 1D signals and cannot deal with complicated structures like
+<EM>GraphWei#</EM>. Thus, you should select in the <B>Variables</B> list
+<EM>Wei#</EM> before you launch <B>GIFS based estimation</B>. In any case,
+it is always a good idea to check the <B>Message</B> zone of the main
+window if you suspect something fishy happened or if you don't get
+what you expected. Do not forget to <B>Erase</B> a message once you have
+read it.
+<P>Finally, note that in this help file, <B>Fraclab</B> commands,
+sub-windows names and parameters appear in <B>boldface</B>, while output
+signals are <EM>italicized</EM>.
+<P>
+<P>
+<P>
+<HR>
+<A HREF="help_aidegen-5.html">Next</A>
+<A HREF="help_aidegen-3.html">Previous</A>
+<A HREF="help_aidegen.html#toc4">Contents</A>
+</BODY>
+</HTML>

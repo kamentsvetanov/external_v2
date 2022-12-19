@@ -32,7 +32,7 @@ function [outliersHigh, outliersLow, verbose] = ...
 % (either version 3 or, at your option, any later version). For further details, see the file
 % COPYING or <http://www.gnu.org/licenses/>.
 %
-% $Id: tapas_physio_cardiac_detect_outliers.m 786 2015-07-31 13:28:34Z kasperla $
+% $Id$
 
 dt = diff(tCardiac);
 
@@ -49,7 +49,7 @@ if isVerbose
         set(fh, 'Name','Diagnostics raw phys time series');
     else
         fh = get(ah, 'Parent');
-%         figure(fh);
+        figure(fh);
         set(fh, 'CurrentAxes', ah);
     end
     
@@ -66,13 +66,9 @@ else
 end
 
 if ~isempty(percentile) && ~isempty(deviationPercentUp) && ~isempty(deviationPercentDown)
-
     
     nBins = length(dt)/10;
     [dtSort,dtInd]=sort(dt);
-    if isempty(dtSort)
-        fprintf('dtSort: %s',verbose.fig_output_file);
-    end
     percentile=percentile/100;
     upperThresh=(1+deviationPercentUp/100)*dtSort(ceil(percentile*length(dtSort)));
     lowerThresh=(1-deviationPercentDown/100)*dtSort(ceil((1-percentile)*length(dtSort)));

@@ -1,0 +1,134 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>pseudoaw :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="percolation.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="regdim1d.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">pseudoaw</h1>
+        <p>Computes the Pseudo Affine Wigner distribution of a 1D signal</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>WIG = pseudoaw(x,bounds,voices)<br>
+                WIG = pseudoaw(...,'Wavelet type') or pseudoaw(...,'Wavelet type',wave)<br>
+                WIG = pseudoaw(...,'Propertyname',Propertyvalue)<br>
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>WIG = pseudoaw(x,bounds,voices)</tt> Computes the pseudo affine Wigner distribution <tt>WIG</tt> of the input signal <tt>x</tt>,
+            using the Mexican Hat wavelet and the pseudo Bertrand distribution. 
+            The parameter <tt>bounds</tt> is a 2 elements vector, <tt>[fmin,fmax]</tt>, <tt>fmin</tt> and <tt>fmax</tt> are
+            real values in <tt>(0:0.5)</tt> which represent the lower and upper bound frequencies where the analyzis is performed.
+            The parameter <tt>voices</tt> is a positive integer which represents the number of scales computed between 
+            <tt>fmin</tt> and <tt>fmax</tt> frequencies.
+            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p><b>The output structure</b><br><br>
+                        The ouput signal <tt>WIG</tt> is a structure that contains the type of data <tt>WIG.type</tt> which is a cwt and
+                        the data corresponding to the pseudo affine Wigner distribution, <tt>WIG.coeff</tt>.</p>
+                </td></tr></table>
+            </ul>
+        </p>
+        
+        <p><tt>WIG = pseudoaw(...,'Wavelet type')</tt> or <tt>WIG = pseudoaw(...,'Wavelet type',wave)</tt> Computes the pseudo affine
+            Wigner distribution <tt>WIG</tt> using a specific type of wavelet. 
+            The Wavelet Type can be choosen from the list below :
+            <ul><h3>Wavelet Type Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Wavelet Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'mexican'</tt></td><td bgcolor="#F2F2F2"><p>Mexican Hat (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'morletr'</tt></td><td bgcolor="#F2F2F2"><p>Real Morlet<br>
+                            When this wavelet type is used a wave size parameter, <tt>wave</tt>, must be defined.<br>
+                            The parameter <tt>wave</tt> is a positive integer</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'morleta'</tt></td><td bgcolor="#F2F2F2"><p>Analytic Morlet<br>
+                            When this wavelet type is used a wave size parameter, <tt>wave</tt>, must be defined.<br>
+                            The parameter <tt>wave</tt> is a positive integer that is convert into an imaginary value</p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+                
+        <p><tt>WIG = pseudoaw(...,'Propertyname',Propertyvalue)</tt> Computes the pseudo affine Wigner distribution <tt>WIG</tt> applying
+            the specified property settings. The property setting can be choosen from the list below :
+            <ul><h3>Property Settings Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="15%"><col width="85%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Property</th><th bgcolor="#B2B2B2"><p>Purpose</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'pseudo'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The pseudo affine Wigner distribution is computed using a specific distribution parameter, <tt>K</tt>. 
+                                    The most common values for <tt>K</tt> are:
+                                    <ul><tt>K = -1  :</tt> pseudo Unterberger<br>
+                                        <tt>K =  0   :</tt> pseudo Bertrand<br>    
+                                        <tt>K =  0.5 :</tt> pseudo D-Flandrin<br>
+                                        <tt>K =  2   :</tt> pseudo Wigner-Ville<br>
+                                    </ul><br>    
+                                    If <tt>'pseudo'</tt> is not specified, the default value is <tt>K = 0</tt>.
+                                </p>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'smooth'</tt></td><td align="justify" bgcolor="#F2F2F2">
+                                <p>The pseudo affine Wigner distribution is computed using a specific time-smoothing parameter, <tt>SM</tt>.  
+                                    The parameter <tt>SM</tt> is a positive integer that represents the half length of the time smoothing window.
+                                    If <tt>'smooth'</tt> is not specified, the default value is <tt>SM = 0</tt>.
+                                </p>        
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1: Computation of the Pseudo Affine Wigner distribution</h3>
+            <p class="synopsis">
+                <tt>x = Frac_morlet(0.35,32) + Frac_morlet(0.1,32); <br>
+                    pawx = pseudoaw(x,[0.01,0.5],128,'morleta',12,'pseudo',-1);<br>
+                    figure; subplot(2,1,1);<br> 
+                    plot(x); xlim([0 length(x)]); title('input signal');<br>
+                    subplot(2,1,2);<br>
+                    pcolor(pawx.coeff); shading 'flat';<br>
+                    title('pseudo affine Wigner distribution');
+                </tt>
+            </p>
+            <p><img src="images_examples/TFTS/pseudoaw_ex1.png" height="641" width="853" alt=""></p>
+            <h3>Example 2: Computation of the Pseudo Affine Wigner distribution</h3>
+            <p class="synopsis">
+                <tt>x = fbmwoodchan(1024,0.5);<br>
+                    pawx = pseudoaw(x,[0.015625,0.5],128,'morleta',8);<br>
+                    figure; subplot(2,1,1);<br> 
+                    plot(x); xlim([0 length(x)]); title('input signal');<br>
+                    subplot(2,1,2);<br>
+                    pcolor(pawx.coeff); shading 'flat';<br>
+                    title('pseudo affine Wigner distribution');    
+                </tt>
+            </p>
+            <p><img src="images_examples/TFTS/pseudoaw_ex2.png" height="641" width="853" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p><a href="contwt.html"><tt>contwt</tt></a></p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="percolation.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">percolation</td><td>&nbsp;</td><td align="right">regdim1d</td>
+                <td align="right" width="20"><a href="regdim1d.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>

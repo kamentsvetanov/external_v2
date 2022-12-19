@@ -1,12 +1,14 @@
 function [VOLLOCS, LOCS, verbose] = ...
-    tapas_physio_create_scan_timing_from_tics_siemens(t, log_files, verbose)
+    tapas_physio_create_scan_timing_from_tics_siemens(t, t_start, log_files, verbose)
 % Creates locations of scan volume and slice events in physiological time series vector from Siemens Tics-file
 % (<date>_<time>_AcquisitionInfo*.log)
 %
-%   [VOLLOCS, LOCS] = tapas_physio_create_nominal_scan_timing(t, log_files);
+% [VOLLOCS, LOCS, verbose] = ...
+%    tapas_physio_create_scan_timing_from_tics_siemens(t, log_files, verbose)
 %
 % IN
 %   t           - timing vector of physiological logfiles
+%   t_start       offset to t indicating start of phys log file
 %   log_files   - structure holding log-files, here:
 %                 .scan_timing - <date>_<time>_AcquisitionInfo*.log
 %                                Siemens Acquisition info logfile, e.g.
@@ -24,7 +26,7 @@ function [VOLLOCS, LOCS, verbose] = ...
 %           LOCS            - locations in time vector, when slice or volume scan
 %                             events started
 % EXAMPLE
-%   [VOLLOCS, LOCS] = tapas_physio_create_nominal_scan_timing(t, sqpar);
+%   [VOLLOCS, LOCS] = tapas_physio_create_scan_timing_from_tics_siemens(t, sqpar);
 %
 %   See also
 %
@@ -36,28 +38,58 @@ function [VOLLOCS, LOCS, verbose] = ...
 % Licence (GPL), version 3. You can redistribute it and/or modify it under the terms of the GPL
 % (either version 3 or, at your option, any later version). For further details, see the file
 % COPYING or <http://www.gnu.org/licenses/>.
-%
-% $Id: tapas_physio_create_scan_timing_from_tics_siemens.m 763 2015-07-14 11:28:57Z kasperla $
+
 DEBUG = verbose.level >=3;
+iSelectedEcho = 1; % extract data from first echo only
 
-fid = fopen(log_files.scan_timing);
+%% Extract relevant columns slices/volumes/tic timing/echoes
 
-C = textscan(fid, '%d %d %d', 'HeaderLines', 1);
+[C, columnNames] = tapas_physio_read_files_siemens_tics(log_files.scan_timing, 'INFO');
 
 dtTicSeconds = 2.5e-3;
 
 idVolumes       = C{1};
 idSlices        = C{2};
+ticsAcq         = double(C{3}); % for later computations in seconds, make double
 
-% HACK: take care of interleaved acquisition:
-ticsAcq         = sort(double(C{3}));
-tAcqSeconds     = ticsAcq*dtTicSeconds;
+%% check for multiple echoes and only extract time stamp for first one for now
+iColumnEcho = tapas_physio_find_string(columnNames, 'ECHO');
+
+% get echo labels or create all-zero, if non-existing
+if isempty(iColumnEcho)
+    idEchoes = zeros(size(idVolumes));
+else
+    idEchoes = C{iColumnEcho};
+end
+
+idVolumes   = idVolumes(idEchoes == (iSelectedEcho-1)); % echoes count from 0
+idSlices    = idSlices(idEchoes == (iSelectedEcho-1));
+ticsAcq     = ticsAcq(idEchoes == (iSelectedEcho-1));
+
+
+%% Convert times into seconds and search next neighbour for closest 
+% slice/vol time stamp match to time vector
+
+% HACK: take care of interleaved acquisition; multiband?
+ticsAcq         = sort(ticsAcq);
+tAcqSeconds     = ticsAcq*dtTicSeconds - t_start; % relative timing to start of phys logfile
 
 % find time in physiological log time closest to time stamp of acquisition
 % for each time
-LOCS = zeros(size(idSlices));
-for iLoc = 1:numel(LOCS)
-    [tmp, LOCS(iLoc)] = min(abs(t - tAcqSeconds(iLoc)));
+if exist('knnsearch', 'file')
+    LOCS = knnsearch(t, tAcqSeconds); % Matlab stats toolbox next neighbor search
+else
+    % slower linear search, without the need for knnsearch
+    LOCS = zeros(size(idSlices));
+    iSearchStart = 1;
+    for iLoc = 1:numel(LOCS)
+        if ~mod(iLoc,1000), fprintf('%d/%d\n',iLoc,numel(LOCS));end
+        [~, iClosestTime] = min(abs(t(iSearchStart:end) - tAcqSeconds(iLoc)));
+        
+        % only works for ascendingly sorted ticsAcq!
+        LOCS(iLoc) = iSearchStart - 1 + iClosestTime;
+        iSearchStart = LOCS(iLoc);
+    end
 end
 
 % extract start times of volume by detecting index change volume id

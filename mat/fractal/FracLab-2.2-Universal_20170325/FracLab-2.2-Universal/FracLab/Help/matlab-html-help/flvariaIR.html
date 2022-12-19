@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>flvariaIR :: Functions(FracLab)</TITLE>
+    <link rel="stylesheet" href="docstyle.css" type="text/css">
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.4.1  (Win32)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="Jacques ">
+	<META NAME="CHANGED" CONTENT="20121119;375412">
+	<META NAME="chunktype" CONTENT="refpage">
+	<SCRIPT LANGUAGE="JavaScript" SRC="docscripts.js"></SCRIPT>
+	<!--
+		P { color: #000000 }
+		TD P { color: #000000 }
+		H1 { color: #000000 }
+		H1.reftitle { color: #990000; font-weight: normal }
+		H2 { color: #990000 }
+		H2.cjk { font-family: "SimSun" }
+		H2.ctl { font-family: "Mangal" }
+		H3 { color: #990000 }
+		H3.cjk { font-family: "SimSun" }
+		H3.ctl { font-family: "Mangal" }
+		P.synopsis { margin-left: 0.85cm }
+		A:link { color: #0000ff }
+		TT.cjk { font-family: "NSimSun", monospace }
+	-->
+	</STYLE>
+</HEAD>
+<BODY>
+<a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="estimOSC2DH.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="estimirs.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+<H1 CLASS="reftitle">flvariaIR</H1>
+<P>Computes a Increments Ratio Statistics based estimation of the
+Holder exponent for a 1D signal</P>
+<H2 CLASS="western">Syntax</H2>
+<P CLASS="synopsis"><TT CLASS="western">[HIR]=flVariaIR(sig,winsize) </TT>
+</P>
+<H2 CLASS="western">Description</H2>
+<P><TT CLASS="western">[HIR]=flVariaIR(sig,winsize)</TT>Estimates the
+Holder function <TT CLASS="western">H</TT> of the input signal <TT CLASS="western">sig</TT>
+using increments ratio statistics. The paramater winsize
+characterizes the neighborhood of each point used for the
+computation. 
+</P>
+<DL>
+	<DD>
+	<TABLE BORDER=1 CELLPADDING=5 CELLSPACING=0>
+		<TR>
+			<TD>
+				<P LANG="en-US"><B>The size of this neighborhood is equal to
+				$n^{1-winsize}$,  where n is the number of points in the signal.
+				The neighborhood is centered around the current point.</B></P>
+			</TD>
+		</TR>
+	</TABLE>
+</DL>
+<P><BR><BR>
+</P>
+<H2 CLASS="western">Examples</H2>
+<UL>
+	<P CLASS="synopsis"><TT CLASS="western">N = 2048; t =
+	linspace(0,1,N); Ht=eval('0.5+0.3*sin(4*pi*t)');<BR>x =
+	mBmQuantifKrigeage(N,Ht,10);<BR>Hir = flVariaIR(x,0.35);<BR>figure;
+	plot(Hir,'k')<BR>xlabel('number of points');ylabel('Holder
+	Exponent');</TT></P>
+</UL>
+<IMG SRC="flvariaIR_html_1fece2fb.png" NAME="images4" ALIGN=LEFT WIDTH=561 HEIGHT=420 BORDER=0><BR CLEAR=LEFT>
+<P CLASS="synopsis"><BR><BR>
+</P>
+<UL>
+	<P></P>
+</UL>
+<H2 CLASS="western">See Also</H2>
+<P><TT CLASS="western"><A HREF="estimOSC1DH.html">estimOSC1DH</A></TT></P>
+<H2 CLASS="western">References</H2>
+<P>[1]  J.M. Bardet, D. Surgailis, &quot;Nonparametric estimation of
+the local Hurst function of multifractional Gaussian processes&quot;,
+SPA, to appear.<BR> 
+</P>
+<table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="estimOSC2DH.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">estimOSC2DH</td><td>&nbsp;</td><td align="right">estimirs</td>
+                <td align="right" width="20"><a href="estimirs.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+</BODY>
+</HTML>

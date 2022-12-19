@@ -1,0 +1,137 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>contwt :: Functions(FracLab)</title><link rel="stylesheet" href="docstyle.css" type="text/css">
+        <meta name="generator" content="DocBook XSL Stylesheets V1.52.2">
+        <meta name="chunktype" content="refpage">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script language="JavaScript" src="docscripts.js"></script>
+    </head>
+    
+    <body>
+        <a name="top_of_page"></a><p style="font-size:1px;">&nbsp;</p>
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="baseline"><b>FRACLAB Functions</b></td>
+                <td valign="baseline" align="right">
+                    <a href="boxdim_listepoints.html"><img src="b_prev.gif" border="0"></a>&nbsp;&nbsp;
+                    <a href="cropormask.html"><img src="b_next.gif" border="0"></a>
+                </td>
+            </tr>
+        </table>
+        
+        <h1 class="reftitle">contwt</h1>
+        <p>Computes the Continous Wavelet Transform of a 1D signal</p>
+        
+        <h2>Syntax</h2>
+        <p class="synopsis">
+            <tt>WT = contwt(x,bounds,voices)<br>
+                WT = contwt(...,'Wavelet type') or contwt(...,'Wavelet type',wave)<br>
+                WT = contwt(...,'Mirroring')<br>
+                WT = contwt(...,'Norm')    
+            </tt>
+        </p>
+        
+        <h2>Description</h2>
+        <p><tt>WT = contwt(x,bounds,voices)</tt> Computes the continous wavelet transform, <tt>WT</tt> of the input signal <tt>x</tt>,
+            using the Mexican Hat wavelet. The parameter <tt>bounds</tt> is a 2 elements vector, <tt>[fmin,fmax]</tt>, <tt>fmin</tt> and <tt>fmax</tt> 
+            are real values in <tt>(0:0.5)</tt> which represent the lower and upper bound frequencies where the analyzis is performed.
+            The parameter <tt>voices</tt> is a positive integer which represents the number of scales computed between <tt>fmin</tt> and <tt>fmax</tt>
+            frequencies.
+            <ul><table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1"><tr width="90%">
+                <td>
+                    <p><b>The output structure</b><br><br>
+                        The ouput signal <tt>WT</tt> is a structure that contains the type of data <tt>WT.type</tt> which is a cwt and
+                        the continous wavelet transform, <tt>WT.coeff</tt>.<br><br>
+                        For arbitrary analyzing wavelets, numerical approximation is achieved using a Fast Mellin Transform.</p>
+                </td></tr></table>
+            </ul>
+        </p>
+        
+        <p><tt>WT = contwt(...,'Wavelet type')</tt> or <tt>WT = contwt(...,'Wavelet type',wave)</tt> Computes the continous wavelet transform,
+            <tt>WT</tt>, using a specific type of wavelet. 
+            The Wavelet Type can be choosen from the list below :
+            <ul><h3>Wavelet Type Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Wavelet Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'mexican'</tt></td><td bgcolor="#F2F2F2"><p>Mexican Hat (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'morletr'</tt></td><td bgcolor="#F2F2F2"><p>Real Morlet<br>
+                            When this wavelet type is used a wave size parameter, <tt>wave</tt>, must be defined.<br>
+                            The parameter <tt>wave</tt> is a positive integer</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'morleta'</tt></td><td bgcolor="#F2F2F2"><p>Analytic Morlet<br>
+                            When this wavelet type is used a wave size parameter, <tt>wave</tt>, must be defined.<br>
+                            The parameter <tt>wave</tt> is a positive integer that is convert into an imaginary value</p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+                
+        <p><tt>WT = contwt(...,'Mirroring')</tt> Computes the continous wavelet transform, <tt>WT</tt>, using a specific mirroring option.
+            The supported options can be choosen from the list below :
+            <ul><h3>Mirroring Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Mirroring Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'nomirror'</tt></td><td bgcolor="#F2F2F2"><p>Compute <tt>WT</tt> without mirroring the input signal (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'mirror'</tt></td><td bgcolor="#F2F2F2"><p>Compute <tt>WT</tt> mirroring the input signal<br><br>
+                            <b>Note:</b> the Mirroring can not be applied when the <tt>L1 Normalization</tt> is used  </p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <p><tt>WT = contwt(...,'Norm')</tt> Computes the continous wavelet transform, <tt>WT</tt>, using a specific normalization.
+            The supported Norms can be choosen from the list below :
+            <ul><h3>Norm Specifiers</h3>
+                <table cellspacing="0" class="body" cellpadding="4" border="2"><colgroup><col width="30%"><col width="70%"></colgroup>
+                    <thead><tr valign="top"><th bgcolor="#B2B2B2">Specifier</th><th bgcolor="#B2B2B2"><p>Normalization Type</p></th></tr></thead>
+                    <tbody>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'L2'</tt></td><td bgcolor="#F2F2F2"><p>Compute <tt>WT</tt> with an L2 normalization (default)</p></td></tr>
+                        <tr valign="top"><td bgcolor="#F2F2F2"><tt>'L1'</tt></td><td bgcolor="#F2F2F2"><p>Compute <tt>WT</tt> with an L1 normalization<br><br>
+                            <b>Note:</b> the L1 Normalization can not be applied when the <tt>Mirroring</tt> is used  </p></td></tr>
+                    </tbody>
+                </table>
+            </ul>
+        </p>
+        
+        <h2>Examples</h2>
+        <ul>
+            <h3>Example 1: Computation of the Continous Wavelet Transform</h3>
+            <p class="synopsis">
+                <tt>x = Frac_morlet(0.1,128); <br>
+                    wtx = contwt(x,[0.01,0.5],128,'morleta',8);<br>
+                    figure; subplot(2,1,1);<br> 
+                    plot(x); xlim([0 length(x)]); title('input signal');<br>
+                    subplot(2,1,2);<br>
+                    pcolor(abs(wtx.coeff)); shading 'flat';<br>
+                    title('continous wavelet transform');
+                </tt>
+            </p>
+            <p><img src="images_examples/TFTS/contwt_ex1.png" height="641" width="853" alt=""></p>
+            <h3>Example 2: Computation of the Continous Wavelet Transform with mirroring</h3>
+            <p class="synopsis">
+                <tt>x = ones(1,128); x(64) = 0;<br>
+                    wtx = contwt(x,[2^(-6),0.5],128,'morleta',8,'mirror');<br>
+                    figure; subplot(2,1,1);<br> 
+                    plot(x); xlim([0 length(x)]); title('input signal');<br>
+                    subplot(2,1,2);<br>
+                    pcolor(abs(wtx.coeff)); shading 'flat';<br>
+                    title('continous wavelet transform');    
+                </tt>
+            </p>
+            <p><img src="images_examples/TFTS/contwt_ex2.png" height="641" width="853" alt=""></p>
+        </ul>
+        
+        <h2>See Also</h2>
+        <p><a href="pseudoaw.html"><tt>pseudoaw</tt></a></p>
+        
+        <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td align="left" width="20"><a href="boxdim_listepoints.html"><img src="b_prev.gif" border="0"></a>&nbsp;</td>
+                <td align="left">boxdim_listepoints</td><td>&nbsp;</td><td align="right">cropormask</td>
+                <td align="right" width="20"><a href="cropormask.html"><img src="b_next.gif" border="0"></a></td>
+            </tr>
+        </table>
+    </body>
+</html>
