@@ -1,0 +1,17 @@
+# r/
+#
+# workbench/
+#
+# dcm2niix-master/
+#
+# 
+
+
+###############################
+# Ignore all directories and subdirectory
+/**
+
+###############################
+# Un-ignore the affected subdirectory
+!/.gitignore
+!/mat
