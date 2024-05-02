@@ -20,6 +20,7 @@ end
 if size(x,1) < size(x,2)
 
   u=x*x';  if isa(u,'double')==0, u=double(u); end    % convert to double if necessary, for sake of eigs
+  u(isnan(u))=0;  u(isinf(u))=0;
   if n < size(x,1)
     [u,d] = eigs(u,n);
   else
@@ -31,6 +32,7 @@ if size(x,1) < size(x,2)
 else
 
   v=x'*x;  if isa(v,'double')==0, v=double(v); end
+  v(isnan(v))=0;  v(isinf(v))=0;
   if n < size(x,2)
     [v,d] = eigs(v,n);
   else

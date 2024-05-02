@@ -1,11 +1,12 @@
 %
 % nets_cellfind - find a string in an array of cells
-% Steve Smith 2015
+% Steve Smith 2015-2019
 %
 % cellindex = nets_cellfind(cellarray,string); 
+% cellindex = nets_cellfind(cellarray,string,1); % turn on "wild" (any match anywhere) searching
 %
 
-function [cellindex] = nets_cellfind(cellarray,string);
+function [cellindex] = nets_cellfind(cellarray,string,varargin);
 
 cellindex=[]; % default return if nothing found
 
@@ -25,8 +26,8 @@ if isempty(cellindex)
   end
 end
 
-% then check for *any* match within items in cellarray match
-if isempty(cellindex)
+%%% then check for *any* match within items in cellarray match (if this option turned on)
+if nargin==3 & isempty(cellindex)
   for i=1:length(cellarray)
     if ~isempty(strfind(cellarray{i},string))
       cellindex=[cellindex i];

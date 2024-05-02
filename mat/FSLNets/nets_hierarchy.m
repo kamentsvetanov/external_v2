@@ -2,6 +2,8 @@
 % nets_hierarchy - create hierarchical clustering figure
 % Steve Smith, 2012-2014
 %
+% [hier_order,linkages] = nets_hierarchy(netmat)
+% [hier_order,linkages] = nets_hierarchy(netmatL,netmatH)
 % [hier_order,linkages] = nets_hierarchy(netmatL,netmatH,DD,sumpics)
 % [hier_order,linkages] = nets_hierarchy(netmatL,netmatH,DD,sumpics,colour_threshold)
 %
@@ -14,11 +16,26 @@
 %   colour_threshold (default 0.75) specifies at what level the dendrogram colouring stops
 %
 
-function [dpRSN,yyRSN] = nets_hierarchy(netmatL,netmatH,DD,sumpics,varargin);    %%%% hierarchical clustering figure
+function [dpRSN,yyRSN] = nets_hierarchy(netmatL,varargin);    %%%% hierarchical clustering figure
+
+netmatH=netmatL;
+if nargin>1
+  netmatH=varargin{1};
+end
+
+DD=[];
+if nargin>2
+  DD=varargin{2};
+end
+
+sumpics='';
+if nargin>3
+  sumpics=varargin{3};
+end
 
 colour_threshold=0.75;
 if nargin>4
-  colour_threshold=varargin{1};
+  colour_threshold=varargin{4};
 end
  
 %grot=prctile(abs(netmatL(:)),99); sprintf('99th%% abs value below diagonal is %f',grot)
@@ -26,8 +43,8 @@ end
 %grot=prctile(abs(netmatH(:)),99); sprintf('99th%% abs value above diagonal is %f',grot)
 %netmatH=netmatH/grot;
 
-grot1=prctile(abs(netmatL(:)),99); sprintf('99th%% abs value below diagonal is %f',grot1)
-grot2=prctile(abs(netmatH(:)),99); sprintf('99th%% abs value above diagonal is %f',grot2)
+grot1=prctile(abs(netmatL(triu(ones(size(netmatL)),1)>0)),99); sprintf('99th%% abs value below diagonal is %f',grot1)
+grot2=prctile(abs(netmatH(triu(ones(size(netmatH)),1)>0)),99); sprintf('99th%% abs value above diagonal is %f',grot2)
 grot=grot1;
 netmatL=netmatL/grot;
 netmatH=netmatH/grot;
@@ -35,9 +52,10 @@ netmatH=netmatH/grot;
 usenet=netmatL;
 usenet(usenet<0)=0;   % zero negative entries.....seems to give nicer hierarchies
 
-H1=0.73; H2=0.8;    % sub-image sizes for default of 1-slice summary pics
+H1=0.76; H2=0.8;    % sub-image sizes for case of no summary pics
 [grotA,grotB,grotC]=fileparts(sumpics); if size(grotA,1)==0, grotA='.'; end; sumpics=sprintf('%s/%s.sum',grotA,grotB);
 if exist(sumpics) > 0
+  H1=0.73; H2=0.8;    % sub-image sizes for default of 1-slice summary pics
   grot=imread(sprintf('%s/0000.png',sumpics));  % read the first summary image to find out how many slices are in each
   if abs((size(grot,1)/size(grot,2)-1))>0.5
     H1=0.6; H2=0.8;   % sub-image sizes for 3-slice summary pics
@@ -61,7 +79,9 @@ subplot('position',[gap 0 1-2*gap H1-0.01]); i=dpRSN;
   colormap('jet');
   grotc=colormap;  grotc(end,:)=[.8 .8 .8];  colormap(grotc);  imagesc(grot,[-1 1]); axis off; daspect('auto');
 grott=sprintf('%s.png',tempname);
-  system(sprintf('slices_summary %s %s %s',sumpics,grott,num2str(DD(dpRSN)-1)));
+  if length(DD)>0
+    system(sprintf('slices_summary %s %s %s',sumpics,grott,num2str(DD(dpRSN)-1)));
+  end
   if exist(grott) == 2
     grot=imread(grott);  subplot('position',[gap H1 1-2*gap H2-H1-0.035]); imagesc(grot); axis off; system(sprintf('/bin/rm %s*',grott)); daspect('auto');
   end;

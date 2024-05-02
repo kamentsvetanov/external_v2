@@ -1,7 +1,8 @@
 function [impute_replace,impute_noreplace,pcaU,pcaS,pcaV]=nets_impute(impute_input,Npca)
 
 % nets_impute(impute_input,Npca) 
-% inpute missing data in matrix impute_input based on a soft-shrunk PCA data recon with Npca dimensions
+% impute missing data in matrix impute_input based on a soft-shrunk PCA data recon with Npca dimensions
+
 % impute_replace is output where estimated data is replaced with (non-missing) input data
 % impute_noreplace is output where estimated data is not replaced with input data (ie output is directly from PCA)
 
@@ -22,7 +23,7 @@ else
     [pcaU,pcaS,pcaV]=nets_svds(impute_replace,Npca);
     pcaSmin=min(diag(pcaS));
     impute_noreplace = pcaU * (pcaS-diag(((0:(size(pcaS,1)-1))/(size(pcaS,1)-1)).^4*pcaSmin)) *pcaV' ;
-    impute_corr=corr(impute_replace(nanmask),impute_noreplace(nanmask));
+    impute_corr=corr(impute_replace(nanmask),impute_noreplace(nanmask))
   end
 
 end

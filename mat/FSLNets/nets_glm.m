@@ -14,12 +14,12 @@
 %   above the diagonal is the same thing, but thresholded at 0.95 i.e. corrected-p < 0.05
 %
 
-function [p_uncorrected,p_corrected] = nets_glm(netmats,des,con,view,varargin); 
+function [p_uncorrected,p_corrected] = nets_glm(netmats,des,con,view,varargin);
 
 nperms=5000;
 if nargin==5
   nperms=varargin{1};
-end 
+end
 
 XXX=size(netmats,2);
 TTT=size(netmats,1);
@@ -27,14 +27,20 @@ Nf=sqrt(XXX);
 N=round(Nf);
 ShowSquare=0;
 if (N==Nf)
-  grot=reshape(mean(netmats),N,N);  
+  grot=reshape(mean(netmats),N,N);
   if sum(sum(abs(grot-grot')))<0.00000001    % is netmat square and symmetric
     ShowSquare=1;
   end
 end
 
 fname=tempname;
-save_avw(reshape(netmats',XXX,1,1,TTT),fname,'f',[1 1 1 1]);
+if N==Nf
+    netmats_nifti = zeros(N,N,TTT);
+    for n = 1:TTT; netmats_nifti(:,:,n) = reshape(netmats(n,:),N,N); end
+else
+    netmats_nifti = netmats';
+end
+save_avw(reshape(netmats_nifti,N,N,1,TTT),fname,'f',[1 1 1 1]);
 system(sprintf('randomise -i %s -o %s -d %s -t %s -x --uncorrp -n %d',fname,fname,des,con,nperms));
 
 % how many contrasts were run?
@@ -42,14 +48,14 @@ system(sprintf('randomise -i %s -o %s -d %s -t %s -x --uncorrp -n %d',fname,fnam
 ncon=str2num(ncon);
 
 if view==1
-  figure('position',[100 100 600*ncon 500]); 
+  figure('position',[100 100 600*ncon 500]);
 end
 
 gap=0.05; cw=0.1;  xw=(1-gap*(ncon+2))/(ncon+0.1);
 
 for i=1:ncon
-  p_uncorrected(i,:)= read_avw(sprintf('%s_vox_p_tstat%d',fname,i));
-  p_corrected(i,:)=   read_avw(sprintf('%s_vox_corrp_tstat%d',fname,i));
+  p_uncorrected(i,:)= reshape(read_avw(sprintf('%s_vox_p_tstat%d',fname,i)), XXX, 1);
+  p_corrected(i,:)= reshape(read_avw(sprintf('%s_vox_corrp_tstat%d',fname,i)), XXX, 1);
   [grot,FDRthresh]=system(sprintf('fdr -i %s_vox_p_tstat%d -q 0.05 --oneminusp | grep -v Probability',fname,i));
   FDRthresh=str2num(FDRthresh);
 
@@ -74,4 +80,3 @@ for i=1:ncon
     title(sprintf('contrast %d',i));
   end
 end
-

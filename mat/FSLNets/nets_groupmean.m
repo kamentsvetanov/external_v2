@@ -45,6 +45,7 @@ Mnet=mean(grot);
 Znet = zeros(size(Tnet));
 Znet(Tnet>0) = -norminv(tcdf(-Tnet(Tnet>0),DoF));
 Znet(Tnet<0) = norminv(tcdf(Tnet(Tnet<0),DoF));
+Znet(isinf(Znet))=Tnet(isinf(Znet));
 
 Znetd=Znet;
 if N==Nf      % is netmat square....
